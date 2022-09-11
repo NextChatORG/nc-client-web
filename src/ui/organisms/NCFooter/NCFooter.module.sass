@@ -1,0 +1,59 @@
+.ncFooter
+  background-color: #F1F1F2
+  padding: 0 24px
+  width: 100%
+
+  &__top, &__bottom
+    display: flex
+    flex-flow: row wrap
+    padding-left: 36px
+    padding-right: 36px
+    width: 100%
+  &__top
+    align-items: flex-start
+    justify-content: space-between
+    padding-bottom: 48px
+    padding-top: 48px
+
+    & > section
+      &:last-child
+        align-items: center
+        display: flex
+        flex-flow: column wrap
+        gap: 16px
+      & > p
+        font:
+          size: 21px
+          weight: 500
+      & > ul
+        display: flex
+        flex-flow: column wrap
+        gap: 12px
+        margin-top: 12px
+
+        & > li
+          & > a
+            font-size: 14px
+
+            &:hover
+              text-decoration: underline
+  &__bottom
+    align-items: center
+    border-top: 1px solid rgba(black, .12)
+    font-size: 12px
+    justify-content: space-between
+    padding-bottom: 12px
+    padding-top: 12px
+
+    & > p
+      font-weight: 500
+    & > ul
+      align-items: center
+      display: flex
+      flex-flow: row wrap
+      gap: 12px
+
+      & > li
+        & > a
+          &:hover
+            text-decoration: underline

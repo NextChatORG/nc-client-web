@@ -1,0 +1,33 @@
+.authTemplate
+  display: flex
+  flex-flow: column wrap
+  justify-content: space-between
+  min-height: 100vh
+
+  &__section
+    align-items: center
+    display: flex
+    flex-flow: row wrap
+    justify-content: space-evenly
+    padding: 36px 60px 72px 60px
+
+    &__form
+      width: 320px
+
+      & > h2
+        font:
+          size: 36px
+          weight: 500
+      & > *:not(:last-child)
+        margin-bottom: 16px
+    &__figure
+      align-items: center
+      display: flex
+      flex-flow: column wrap
+      max-width: 40%
+
+      & > figcaption
+        color: rgba(black, 0.35)
+        font-size: 21px
+        max-width: 80%
+        text-align: center

@@ -1,0 +1,44 @@
+.ncTextField
+  $borderRadius: 24px
+  $self: &
+
+  &--error
+    color: var(--color-error)
+
+    & #{ $self }__field--outlined
+      border-color: var(--color-error)
+    & #{ $self }__helperText
+      color: var(--color-error)
+  &__field
+    align-items: center
+    border-radius: $borderRadius
+    display: flex
+    flex-flow: row wrap
+    overflow: hidden
+
+    &--outlined
+      border:
+        color: rgba(black, .12)
+        style: solid
+        width: 1px
+    &__input
+      border: none
+      border-radius: $borderRadius
+      color: currentColor
+      display: block
+      outline: none
+      padding: 16px
+      width: 100%
+
+      &--withEnd
+        border-radius: $borderRadius 0 0 $borderRadius
+    &__endAdorment
+      padding-right: 6px
+  &__helperText
+    color: rgba(black, .6)
+    display: block
+    font-size: 12px
+    letter-spacing: 0.025em
+    margin:
+      left: 12px
+      top: 2px

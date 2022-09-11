@@ -1,0 +1,116 @@
+@import '@nc-core/styles/common/variables.sass'
+  
+.ncButton
+  $self: &
+
+  align-items: center
+  border: none
+  border-radius: 6em
+  cursor: pointer
+  display: flex
+  flex-flow: row wrap
+  font-weight: 500
+  gap: 1em
+  letter-spacing: 0.05em
+  outline: none
+  overflow: hidden
+  padding: 16px 48px
+  position: relative
+
+  &--colorBlack
+    &#{ $self }--contained
+      background-color: black
+      color: white
+
+      & #{ $self }__rippleEffect
+        background-color: rgba(white, .5)
+    &#{ $self }--inputIcon
+      color: black
+
+      & #{ $self }__rippleEffect
+        background-color: rgba(black, .15)
+  &--colorDefault
+    &#{ $self }--inputIcon
+      color: currentColor
+
+      & #{ $self }__rippleEffect
+        background-color: rgba(black, .15)
+  &--colorPrimary
+    &#{ $self }--contained
+      background-color: var(--color-primary)
+      color: var(--color-on-primary)
+
+      & #{ $self }__rippleEffect
+        background-color: #3f51b5
+    &#{ $self }--inputIcon
+      color: var(--color-primary)
+
+      & #{ $self }__rippleEffect
+        background-color: rgba($primaryColor, .25)
+    &#{ $self }--outlined
+      border-color: silver
+      color: var(--color-primary)
+
+      & #{ $self }__rippleEffect
+        background-color: rgba($primaryColor, .25)
+  &--colorSuccess
+    &#{ $self }--contained
+      background-color: var(--color-success)
+      color: white
+
+      & #{ $self }__rippleEffect
+        background-color: #81c784
+  &--colorWhite
+    &#{ $self }--outlined
+      border-color: rgba(white, .6)
+      color: white
+
+      & #{ $self }__rippleEffect
+        background-color: rgba(white, .25)
+    &#{ $self }--text
+      color: white
+
+      & #{ $self }__rippleEffect
+          background-color: rgba(white, .25)
+  &--inputIcon
+    background-color: transparent
+    padding: .5em
+    line-height: .5
+
+    & #{ $self }__rippleEffect
+      height: 10px
+      width: 10px
+  &--outlined
+    background-color: transparent
+    border:
+      style: solid
+      width: 1px
+  &--text
+    background-color: transparent
+  &__rippleEffect
+    animation: 0.9s ease 1 forwards ncButtonRipple
+    border-radius: 9999px
+    content: ''
+    display: block
+    height: 20px
+    opacity: 1
+    position: absolute
+    width: 20px
+  &__icon, &__text
+    position: relative
+    z-index: 2
+  &__icon
+    line-height: 0.5
+  &__text
+    text-align: left
+
+@keyframes ncButtonRipple
+  0%
+    transform: scale(1)
+    opacity: 1
+  50%
+    transform: scale(10)
+    opacity: 0.375
+  100%
+    transform: scale(35)
+    opacity: 0
