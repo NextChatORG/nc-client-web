@@ -10,6 +10,8 @@
     & #{ $self }__helperText
       color: var(--color-error)
   &__field
+    $field: &
+
     align-items: center
     border-radius: $borderRadius
     display: flex
@@ -21,6 +23,12 @@
         color: rgba(black, .12)
         style: solid
         width: 1px
+      transition: .2s border-color ease-in-out
+
+      &:hover
+        border-color: rgba(black, .25)
+      &#{ $field }--focused
+        border-color: var(--color-primary)
     &__input
       border: none
       border-radius: $borderRadius

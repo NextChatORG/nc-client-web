@@ -26,6 +26,7 @@ export function NCTextField<TForm extends FieldValues>({
 }: NCTextFieldProps<TForm>): JSX.Element {
   const [endAdormentRef, setEndAdormentRef] = useState<HTMLDivElement | null>(null);
   const [inputType, setInputType] = useState<HTMLInputTypeAttribute>(type);
+  const [focused, setFocused] = useState<boolean>(false);
 
   function handleToggleVisibility() {
     setInputType(inputType === 'text' ? 'password' : 'text');
@@ -40,6 +41,15 @@ export function NCTextField<TForm extends FieldValues>({
       defaultValue={defaultValue}
       name={name}
       render={({ field: { onBlur, onChange, value }, fieldState: { error } }) => {
+        function handleOnBlur() {
+          if (focused) setFocused(false);
+          onBlur();
+        }
+
+        function handleOnFocus() {
+          if(!focused) setFocused(true);
+        }
+
         const hasError = Boolean(error);
         const withHelperText = error?.message ?? helperText;
 
@@ -51,7 +61,8 @@ export function NCTextField<TForm extends FieldValues>({
           >
             <div
               className={clsx(classes.ncTextField__field, {
-                [classes['ncTextField__field--outlined']]: variant === 'outlined'
+                [classes['ncTextField__field--outlined']]: variant === 'outlined',
+                [classes['ncTextField__field--focused']]: focused
               })}
               id={id}
             >
@@ -60,7 +71,8 @@ export function NCTextField<TForm extends FieldValues>({
                   [classes['ncTextField__field__input--withEnd']]: hasEndAdorment,
                 })}
                 id={`${id}-field`}
-                onBlur={onBlur}
+                onBlur={handleOnBlur}
+                onFocus={handleOnFocus}
                 onChange={onChange}
                 placeholder={placeholder}
                 style={{
