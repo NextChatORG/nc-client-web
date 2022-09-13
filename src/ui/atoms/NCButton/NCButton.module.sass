@@ -22,6 +22,8 @@
       background-color: black
       color: white
 
+      &:hover
+        background-color: lighten(black, 10)
       & #{ $self }__rippleEffect
         background-color: rgba(white, .5)
     &#{ $self }--inputIcon
@@ -40,6 +42,8 @@
       background-color: var(--color-primary)
       color: var(--color-on-primary)
 
+      &:hover
+        background-color: #303f9f
       & #{ $self }__rippleEffect
         background-color: #3f51b5
     &#{ $self }--inputIcon
@@ -51,6 +55,9 @@
       border-color: silver
       color: var(--color-primary)
 
+      &:hover
+        background-color: rgba($primaryColor, .05)
+        border-color: var(--color-primary)
       & #{ $self }__rippleEffect
         background-color: rgba($primaryColor, .25)
   &--colorSuccess
@@ -58,6 +65,8 @@
       background-color: var(--color-success)
       color: white
 
+      &:hover
+        background-color: #66bb6a
       & #{ $self }__rippleEffect
         background-color: #81c784
   &--colorWhite
@@ -65,13 +74,20 @@
       border-color: rgba(white, .6)
       color: white
 
+      &:hover
+        background-color: rgba(white, .05)
+        border-color: white
       & #{ $self }__rippleEffect
         background-color: rgba(white, .25)
     &#{ $self }--text
       color: white
 
+      &:hover
+        background-color: rgba(white, .05)
       & #{ $self }__rippleEffect
-          background-color: rgba(white, .25)
+        background-color: rgba(white, .25)
+  &--contained
+    transition: .2s background-color ease-in-out
   &--inputIcon
     background-color: transparent
     padding: .5em
@@ -85,8 +101,10 @@
     border:
       style: solid
       width: 1px
+    transition: .2s background-color ease-in-out, .4s border-color ease-in-out
   &--text
     background-color: transparent
+    transition: .2s background-color ease-in-out
   &__rippleEffect
     animation: 0.9s ease 1 forwards ncButtonRipple
     border-radius: 9999px
