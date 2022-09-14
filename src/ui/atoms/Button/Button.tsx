@@ -1,9 +1,9 @@
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import classes from './NCButton.module.sass';
+import classes from './Button.module.sass';
 
-interface NCButtonCommonProps {
+interface ButtonCommonProps {
   color?: 'black' | 'default' | 'primary' | 'success' | 'white';
   disabled?: boolean;
   endIcon?: React.ReactNode;
@@ -12,20 +12,20 @@ interface NCButtonCommonProps {
   variant?: 'contained' | 'input-icon' | 'outlined' | 'text';
 }
 
-interface NCButtonLinkProps extends NCButtonCommonProps {
+interface ButtonLinkProps extends ButtonCommonProps {
   link: true;
   external?: true;
   to: string;
 }
 
-interface NCButtonNormalProps extends NCButtonCommonProps {
+interface ButtonNormalProps extends ButtonCommonProps {
   link?: false;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-export type NCButtonProps = NCButtonLinkProps | NCButtonNormalProps;
+export type ButtonProps = ButtonLinkProps | ButtonNormalProps;
 
-export const NCButton: React.FC<React.PropsWithChildren<NCButtonProps>> = (props) => {
+export function Button(props: React.PropsWithChildren<ButtonProps>): JSX.Element {
   const { color = 'primary', type = 'button', variant = 'contained' } = props;
 
   const [isRippling, setRippling] = useState<boolean>(false);
@@ -59,16 +59,16 @@ export const NCButton: React.FC<React.PropsWithChildren<NCButtonProps>> = (props
 
   return (
     <button
-      className={clsx(classes.ncButton, {
-        [classes['ncButton--colorBlack']]: color === 'black',
-        [classes['ncButton--colorDefault']]: color === 'default',
-        [classes['ncButton--colorPrimary']]: color === 'primary',
-        [classes['ncButton--colorSuccess']]: color === 'success',
-        [classes['ncButton--colorWhite']]: color === 'white',
-        [classes['ncButton--contained']]: variant === 'contained',
-        [classes['ncButton--inputIcon']]: variant === 'input-icon',
-        [classes['ncButton--outlined']]: variant === 'outlined',
-        [classes['ncButton--text']]: variant === 'text'
+      className={clsx(classes.button, {
+        [classes['button--colorBlack']]: color === 'black',
+        [classes['button--colorDefault']]: color === 'default',
+        [classes['button--colorPrimary']]: color === 'primary',
+        [classes['button--colorSuccess']]: color === 'success',
+        [classes['button--colorWhite']]: color === 'white',
+        [classes['button--contained']]: variant === 'contained',
+        [classes['button--inputIcon']]: variant === 'input-icon',
+        [classes['button--outlined']]: variant === 'outlined',
+        [classes['button--text']]: variant === 'text'
       })}
       disabled={props.disabled}
       onClick={handleClick}
@@ -77,20 +77,20 @@ export const NCButton: React.FC<React.PropsWithChildren<NCButtonProps>> = (props
     >
       {isRippling && ripplePos && (
         <div
-          className={classes.ncButton__rippleEffect}
+          className={classes.button__rippleEffect}
           style={{ left: ripplePos[0], top: ripplePos[1] }}
         />
       )}
       {props.startIcon && (
-        <div className={classes.ncButton__icon}>
+        <div className={classes.button__icon}>
           {props.startIcon}
         </div>
       )}
-      <span className={classes.ncButton__text}>
+      <span className={classes.button__text}>
         {props.children}
       </span>
       {props.endIcon && (
-        <div className={classes.ncButton__icon}>
+        <div className={classes.button__icon}>
           {props.endIcon}
         </div>
       )}

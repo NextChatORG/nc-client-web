@@ -1,15 +1,15 @@
 import { Link } from "react-router-dom";
-import { NCButton, NCButtonProps, NCLogo } from "../../atoms";
-import classes from './NCFooter.module.sass';
+import { Button, ButtonProps, Logo } from "../../atoms";
+import classes from './Footer.module.sass';
 
-export interface NCFooterProps {
-  actionButton?: NCButtonProps & { message: string };
+export interface FooterProps {
+  actionButton?: ButtonProps & { message: string };
 }
 
-export const NCFooter: React.FC<NCFooterProps> = ({ actionButton }) => {
+export function Footer({ actionButton }: FooterProps): JSX.Element {
   return (
-    <footer className={classes.ncFooter}>
-      <div className={classes.ncFooter__top}>
+    <footer className={classes.footer}>
+      <div className={classes.footer__top}>
         <section>
           <p>General</p>
           <ul>
@@ -43,15 +43,15 @@ export const NCFooter: React.FC<NCFooterProps> = ({ actionButton }) => {
           </ul>
         </section>
         <section>
-          <NCLogo onlyIcon size="big" />
+          <Logo onlyIcon size="big" />
           {actionButton && (
-            <NCButton {...actionButton}>
+            <Button {...actionButton}>
               {actionButton.message}
-            </NCButton>
+            </Button>
           )}
         </section>
       </div>
-      <div className={classes.ncFooter__bottom}>
+      <div className={classes.footer__bottom}>
         <p>
           &copy; NextChat 2022
         </p>
@@ -62,4 +62,4 @@ export const NCFooter: React.FC<NCFooterProps> = ({ actionButton }) => {
       </div>
     </footer>
   );
-};
+}

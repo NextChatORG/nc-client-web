@@ -6,7 +6,7 @@ import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { AuthTemplate } from "../ui/templates";
 
-export default function Login() {
+export default function Login(): JSX.Element {
   const { control, handleSubmit } = useForm<LogInVariables>();
   const { dispatch } = useContext(UserContext);
 

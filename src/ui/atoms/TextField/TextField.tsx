@@ -1,11 +1,11 @@
 import clsx from "clsx";
-import React, { HTMLInputTypeAttribute, useRef, useState } from "react";
+import React, { HTMLInputTypeAttribute, useState } from "react";
 import { Control, Controller, ControllerProps, FieldValues, Path, PathValue } from "react-hook-form";
 import { VisibilityIcon, VisibilityOffIcon } from "../../../icons/mui";
-import { NCButton } from "../NCButton";
-import classes from './NCTextField.module.sass';
+import { Button } from "../Button";
+import classes from './TextField.module.sass';
 
-export interface NCTextFieldProps<TForm extends FieldValues> {
+export interface TextFieldProps<TForm extends FieldValues> {
   control: Control<TForm>;
   defaultValue?: PathValue<TForm, Path<TForm>>;
   helperText?: string;
@@ -18,7 +18,7 @@ export interface NCTextFieldProps<TForm extends FieldValues> {
   variant?: 'outlined';
 }
 
-export function NCTextField<TForm extends FieldValues>({
+export function TextField<TForm extends FieldValues>({
   control,
   defaultValue,
   helperText,
@@ -29,7 +29,7 @@ export function NCTextField<TForm extends FieldValues>({
   type = 'text',
   validations,
   variant = 'outlined'
-}: NCTextFieldProps<TForm>): JSX.Element {
+}: TextFieldProps<TForm>): JSX.Element {
   const [endAdormentRef, setEndAdormentRef] = useState<HTMLDivElement | null>(null);
   const [inputType, setInputType] = useState<HTMLInputTypeAttribute>(type);
   const [focused, setFocused] = useState<boolean>(false);
@@ -70,20 +70,20 @@ export function NCTextField<TForm extends FieldValues>({
 
         return (
           <div
-            className={clsx(classes.ncTextField, {
-              [classes['ncTextField--error']]: hasError,
+            className={clsx(classes.textField, {
+              [classes['textField--error']]: hasError,
             })}
           >
             <div
-              className={clsx(classes.ncTextField__field, {
-                [classes['ncTextField__field--outlined']]: variant === 'outlined',
-                [classes['ncTextField__field--focused']]: focused
+              className={clsx(classes.textField__field, {
+                [classes['textField__field--outlined']]: variant === 'outlined',
+                [classes['textField__field--focused']]: focused
               })}
               id={id}
             >
               <input
-                className={clsx(classes.ncTextField__field__input, {
-                  [classes['ncTextField__field__input--withEnd']]: hasEndAdorment,
+                className={clsx(classes.textField__field__input, {
+                  [classes['textField__field__input--withEnd']]: hasEndAdorment,
                 })}
                 id={`${id}-field`}
                 onBlur={handleOnBlur}
@@ -98,21 +98,21 @@ export function NCTextField<TForm extends FieldValues>({
               />
               {hasEndAdorment && (
                 <div
-                  className={classes.ncTextField__field__endAdorment}
+                  className={classes.textField__field__endAdorment}
                   id={`${id}-end-adorment`}
                   ref={setEndAdormentRef}
                 >
                   {type === 'password' && (
-                    <NCButton color="default" onClick={handleToggleVisibility} variant="input-icon">
+                    <Button color="default" onClick={handleToggleVisibility} variant="input-icon">
                       {inputType === 'text' ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                    </NCButton>
+                    </Button>
                   )}
                 </div>
               )}
             </div>
             {withHelperText && (
               <span
-                className={classes.ncTextField__helperText}
+                className={classes.textField__helperText}
                 id={`${id}-helper-text`}
               >
                 {withHelperText}

@@ -8,7 +8,7 @@ import { AuthTemplate } from "../ui/templates";
 import Lottie from 'lottie-react';
 import CompleteTasksAnimationData from '@nc-assets/lottie/complete-tasks.json';
 
-export default function SignUp() {
+export default function SignUp(): JSX.Element {
   const { clearErrors, control, handleSubmit, setError, watch } = useForm<SignUpVariables>();
   const { dispatch } = useContext(UserContext);
 

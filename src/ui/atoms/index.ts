@@ -1,3 +1,3 @@
-export * from './NCButton';
-export * from './NCLogo';
-export * from './NCTextField';
+export * from './Button';
+export * from './Logo';
+export * from './TextField';

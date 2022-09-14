@@ -4,7 +4,7 @@ import { useReducer } from "react";
 import { Outlet } from "react-router-dom"
 import { ToastContainer } from "react-toastify";
 
-export default function App() {
+export default function App(): JSX.Element {
   const [state, dispatch] = useReducer(userReducer, userReducerInitialState);
 
   return (
@@ -13,4 +13,4 @@ export default function App() {
       <ToastContainer hideProgressBar position="bottom-center" theme="colored" />
     </UserContext.Provider>
   );
-};
+}
