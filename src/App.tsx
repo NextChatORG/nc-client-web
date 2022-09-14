@@ -1,6 +1,6 @@
 import { UserContext } from '@nc-core/contexts';
 import { userReducer, userReducerInitialState } from '@nc-core/reducers';
-import { useReducer } from 'react';
+import { Suspense, useReducer } from 'react';
 import { Outlet } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
@@ -9,7 +9,9 @@ export default function App(): JSX.Element {
 
   return (
     <UserContext.Provider value={{ dispatch, state }}>
-      <Outlet />
+      <Suspense>
+        <Outlet />
+      </Suspense>
       <ToastContainer
         hideProgressBar
         position="bottom-center"

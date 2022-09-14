@@ -2,19 +2,19 @@ import { useUser } from '@nc-core/hooks';
 import { Navigate } from 'react-router-dom';
 
 export interface AuthRedirectionProps {
-  whenLogged?: JSX.Element;
-  whenNoLogged?: JSX.Element;
+  Logged?: React.LazyExoticComponent<() => JSX.Element>;
+  NoLogged?: React.LazyExoticComponent<() => JSX.Element>;
 }
 
 export function AuthRedirection({
-  whenLogged,
-  whenNoLogged,
+  Logged,
+  NoLogged,
 }: AuthRedirectionProps): JSX.Element | null {
   const { isLogged } = useUser();
 
   if (!isLogged()) {
-    return whenNoLogged ?? <Navigate to="/" />;
+    return NoLogged ? <NoLogged /> : <Navigate to="/" />;
   }
 
-  return whenLogged ?? null;
+  return Logged ? <Logged /> : null;
 }

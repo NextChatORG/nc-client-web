@@ -11,23 +11,9 @@ export default function Router(): JSX.Element {
   return (
     <Routes>
       <Route path="/" element={<App />}>
-        <Route
-          index
-          element={
-            <AuthRedirection
-              whenLogged={<div>Logged</div>}
-              whenNoLogged={<LandingView />}
-            />
-          }
-        />
-        <Route
-          path="login"
-          element={<AuthRedirection whenNoLogged={<LogIn />} />}
-        />
-        <Route
-          path="signup"
-          element={<AuthRedirection whenNoLogged={<SignUp />} />}
-        />
+        <Route index element={<AuthRedirection NoLogged={LandingView} />} />
+        <Route path="login" element={<AuthRedirection NoLogged={LogIn} />} />
+        <Route path="signup" element={<AuthRedirection NoLogged={SignUp} />} />
       </Route>
     </Routes>
   );
