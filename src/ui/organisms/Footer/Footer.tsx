@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Button, ButtonProps, Logo } from '../../atoms';
+import { Button, ButtonProps, Grid, Logo } from '../../atoms';
 import classes from './Footer.module.sass';
 
 export interface FooterProps {
@@ -9,81 +9,111 @@ export interface FooterProps {
 export function Footer({ actionButton }: FooterProps): JSX.Element {
   return (
     <footer className={classes.footer}>
-      <div className={classes.footer__top}>
-        <section>
-          <p>General</p>
-          <ul>
-            <li>
+      <Grid
+        container
+        alignItems="flex-start"
+        className={classes.footer__top}
+        justifyContent="space-between"
+      >
+        <Grid item>
+          <Grid container direction="column">
+            <Grid item>
+              <p className={classes.footer__top__title}>General</p>
+            </Grid>
+            <Grid item>
               <Link to="/download">Descarga</Link>
-            </li>
-            <li>
+            </Grid>
+            <Grid item>
               <Link to="/team">Nuestro equipo</Link>
-            </li>
-            <li>
+            </Grid>
+            <Grid item>
               <Link to="/blog">Blog</Link>
-            </li>
-            <li>
+            </Grid>
+            <Grid item>
               <Link to="/feedback">Opiniones</Link>
-            </li>
-          </ul>
-        </section>
-        <section>
-          <p>Desarrolladores</p>
-          <ul>
-            <li>
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item>
+          <Grid container direction="column">
+            <Grid item>
+              <p className={classes.footer__top__title}>Desarrolladores</p>
+            </Grid>
+            <Grid item>
               <Link to="/dev/docs">Documentación</Link>
-            </li>
-            <li>
+            </Grid>
+            <Grid item>
               <Link to="/dev/api">Referencias del API</Link>
-            </li>
-            <li>
+            </Grid>
+            <Grid item>
               <Link to="/dev/open-source">Código abierto</Link>
-            </li>
-          </ul>
-        </section>
-        <section>
-          <p>Recursos</p>
-          <ul>
-            <li>
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item>
+          <Grid container direction="column">
+            <Grid item>
+              <p className={classes.footer__top__title}>Recursos</p>
+            </Grid>
+            <Grid item>
               <Link to="/faq">Preguntas frecuentes</Link>
-            </li>
-            <li>
+            </Grid>
+            <Grid item>
               <Link to="/support">Soporte técnico</Link>
-            </li>
-            <li>
+            </Grid>
+            <Grid item>
               <Link to="/help-center">Centro de Ayuda</Link>
-            </li>
-          </ul>
-        </section>
-        <section>
-          <p>Acerca de</p>
-          <ul>
-            <li>
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item>
+          <Grid container direction="column">
+            <Grid item>
+              <p className={classes.footer__top__title}>Acerca de</p>
+            </Grid>
+            <Grid item>
               <Link to="/about">Compañía</Link>
-            </li>
-            <li>
+            </Grid>
+            <Grid item>
               <Link to="/agrees">Agradecimientos</Link>
-            </li>
-          </ul>
-        </section>
-        <section>
-          <Logo onlyIcon size="big" />
-          {actionButton && (
-            <Button {...actionButton}>{actionButton.message}</Button>
-          )}
-        </section>
-      </div>
-      <div className={classes.footer__bottom}>
-        <p>&copy; NextChat 2022</p>
-        <ul>
-          <li>
-            <Link to="/terms">Términos y Condiciones</Link>
-          </li>
-          <li>
-            <Link to="/privacy">Políticas de Privacidad</Link>
-          </li>
-        </ul>
-      </div>
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item>
+          <Grid container alignItems="center" direction="column" spacing={16}>
+            <Grid item>
+              <Logo onlyIcon size="big" />
+            </Grid>
+            <Grid item>
+              {actionButton && (
+                <Button {...actionButton}>{actionButton.message}</Button>
+              )}
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
+      <Grid
+        container
+        alignItems="center"
+        className={classes.footer__bottom}
+        justifyContent="space-between"
+      >
+        <Grid item>
+          <p className={classes.footer__bottom__copyright}>
+            &copy; NextChat 2022
+          </p>
+        </Grid>
+        <Grid item>
+          <Grid container justifyContent="flex-end">
+            <Grid item xs="auto">
+              <Link to="/terms">Términos y Condiciones</Link>
+            </Grid>
+            <Grid item>
+              <Link to="/privacy">Políticas de Privacidad</Link>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
     </footer>
   );
 }

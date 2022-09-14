@@ -1,0 +1,60 @@
+$grid-columns: 12 !default
+
+$xs-max: 40rem !default
+$sm-max: 64rem !default
+$md-max: 90rem !default
+$lg-max: 120rem !default
+
+$sm-start: ($xs-max + 1)
+$lg-start: ($md-max + 1)
+$md-start: ($sm-max + 1)
+$xl-start: ($lg-max + 1)
+
+$breakpoint-sm-up: "only screen and (min-width: #{$sm-start})"
+$breakpoint-md-up: "only screen and (min-width: #{$md-start})"
+$breakpoint-lg-up: "only screen and (min-width: #{$lg-start})"
+$breakpoint-xl-up: "only screen and (min-width: #{$xl-start})"
+
+$breakpoint-up-prefixes: ("xs", "sm", "md", "lg", "xl")
+
+@mixin col-factory($thisPrefix)
+  &--#{$thisPrefix}-auto
+    box-sizing: border-box
+    flex-grow: 1
+    flex-basis: 0
+    max-width: 100%
+
+  @for $i from 1 through $grid-columns
+    &--#{$thisPrefix}-#{$i}
+      box-sizing: border-box
+      flex-basis: 100% / $grid-columns * $i
+      max-width: 100% / $grid-columns * $i
+    &--#{$thisPrefix}-offset-#{$i}
+      margin-left: 100% / $grid-columns * $i
+
+.grid
+  &__container
+    display: -webkit-flex
+    display: -ms-flexbox
+    display: flex
+    flex: 0 1 auto
+    margin: 0 auto
+    width: 100%
+  &__item
+    @for $i from 1 through length($breakpoint-up-prefixes)
+      $thisPrefix: nth($breakpoint-up-prefixes, $i)
+
+      @if $thisPrefix == "xs"
+        @include col-factory($thisPrefix)
+      @else if $thisPrefix == "sm"
+        @media #{$breakpoint-sm-up}
+          @include col-factory($thisPrefix)
+      @else if $thisPrefix == "md"
+        @media #{$breakpoint-md-up}
+          @include col-factory($thisPrefix)
+      @else if $thisPrefix == "lg"
+        @media #{$breakpoint-lg-up}
+          @include col-factory($thisPrefix)
+      @else if $thisPrefix == "xl"
+        @media #{$breakpoint-xl-up}
+          @include col-factory($thisPrefix)

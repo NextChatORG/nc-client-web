@@ -15,6 +15,7 @@ import classes from './TextField.module.sass';
 export interface TextFieldProps<TForm extends FieldValues> {
   control: Control<TForm>;
   defaultValue?: PathValue<TForm, Path<TForm>>;
+  fullWidth?: boolean;
   helperText?: string;
   name: Path<TForm>;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
@@ -28,6 +29,7 @@ export interface TextFieldProps<TForm extends FieldValues> {
 export function TextField<TForm extends FieldValues>({
   control,
   defaultValue,
+  fullWidth,
   helperText,
   name,
   onChange,
@@ -80,6 +82,7 @@ export function TextField<TForm extends FieldValues>({
         return (
           <div
             className={clsx(classes.textField, {
+              [classes['textField--fullWidth']]: fullWidth,
               [classes['textField--error']]: hasError,
             })}
           >
