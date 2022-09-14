@@ -1,10 +1,10 @@
-import { LogInResponse, LogInVariables, LOGIN_MUTATION } from "@nc-core/api";
-import { JWT_TOKEN } from "@nc-core/constants/local-storage";
-import { UserContext } from "@nc-core/contexts";
-import { useMutation } from "@nc-core/hooks";
-import { useContext } from "react";
-import { useForm } from "react-hook-form";
-import { AuthTemplate } from "../ui/templates";
+import { LogInResponse, LogInVariables, LOGIN_MUTATION } from '@nc-core/api';
+import { JWT_TOKEN } from '@nc-core/constants/local-storage';
+import { UserContext } from '@nc-core/contexts';
+import { useMutation } from '@nc-core/hooks';
+import { useContext } from 'react';
+import { useForm } from 'react-hook-form';
+import { AuthTemplate } from '../ui/templates';
 
 export default function LogIn(): JSX.Element {
   const { control, handleSubmit } = useForm<LogInVariables>();
@@ -17,7 +17,7 @@ export default function LogIn(): JSX.Element {
       localStorage.setItem(JWT_TOKEN, accessToken);
 
       dispatch({ type: 'login', payload: { jwt: accessToken } });
-    }
+    },
   });
 
   function onSubmit(variables: LogInVariables) {
@@ -31,15 +31,15 @@ export default function LogIn(): JSX.Element {
           control,
           defaultValue: '',
           name: 'username',
-          placeholder: 'Nombre de usuario'
+          placeholder: 'Nombre de usuario',
         },
         {
           control,
           defaultValue: '',
           name: 'password',
           placeholder: 'Contraseña',
-          type: 'password'
-        }
+          type: 'password',
+        },
       ]}
       figure={{
         caption: '¡Conecta con otras personas alrededor del mundo!',
@@ -57,8 +57,8 @@ export default function LogIn(): JSX.Element {
           link: true,
           message: 'Regístrate',
           to: '/signup',
-          variant: 'outlined'
-        }
+          variant: 'outlined',
+        },
       ]}
       submitMessage="INGRESAR"
       title="Inicia sesión"

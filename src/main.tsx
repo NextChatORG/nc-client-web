@@ -8,7 +8,9 @@ import Router from './Router';
 import '@nc-core/styles/global.sass';
 import 'react-toastify/dist/ReactToastify.min.css';
 
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement,
+);
 
 root.render(
   <React.StrictMode>
@@ -17,5 +19,5 @@ root.render(
         <Router />
       </BrowserRouter>
     </ApolloProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );

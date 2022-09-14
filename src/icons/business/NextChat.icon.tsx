@@ -1,4 +1,4 @@
-import SVGProps, { defaultSvgPropsValues } from "../props";
+import SVGProps, { defaultSvgPropsValues } from '../props';
 
 export default function NextChatIcon({
   size = defaultSvgPropsValues.size,

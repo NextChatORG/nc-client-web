@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export interface LogInVariables {
   username: string;
@@ -12,10 +12,7 @@ export interface LogInResponse {
 }
 
 export const LOGIN_MUTATION = gql`
-  mutation logIn(
-    $username: String!
-    $password: String!
-  ) {
+  mutation logIn($username: String!, $password: String!) {
     logIn(username: $username, password: $password) {
       accessToken
     }

@@ -19,7 +19,10 @@ interface LogOutAction {
 
 export type UserReducerActions = LogInAction | LogOutAction;
 
-export function userReducer(state: UserReducerState, action: UserReducerActions): UserReducerState {
+export function userReducer(
+  state: UserReducerState,
+  action: UserReducerActions,
+): UserReducerState {
   switch (action.type) {
     case 'login':
       return { ...state, jwt: action.payload.jwt };

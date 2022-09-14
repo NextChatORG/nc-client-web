@@ -1,6 +1,6 @@
-import { FieldValues } from "react-hook-form";
-import { Button, TextField, TextFieldProps } from "../../atoms";
-import { Footer, Header, HeaderProps } from "../../organisms";
+import { FieldValues } from 'react-hook-form';
+import { Button, TextField, TextFieldProps } from '../../atoms';
+import { Footer, Header, HeaderProps } from '../../organisms';
 import classes from './AuthTemplate.module.sass';
 
 export interface AuthTemplateProps<TForm extends FieldValues> {
@@ -21,13 +21,16 @@ export function AuthTemplate<TForm extends FieldValues>({
   handleSubmit,
   navButtons,
   submitMessage,
-  title
+  title,
 }: AuthTemplateProps<TForm>) {
   return (
     <div className={classes.authTemplate}>
       <Header navButtons={navButtons} />
       <section className={classes.authTemplate__section}>
-        <form className={classes.authTemplate__section__form} onSubmit={handleSubmit}>
+        <form
+          className={classes.authTemplate__section__form}
+          onSubmit={handleSubmit}
+        >
           <h2>{title}</h2>
           {fields.map((props, i) => (
             <TextField {...props} key={`authTemplate_text_field_${i}`} />

@@ -8,7 +8,7 @@ interface ButtonCommonProps {
   disabled?: boolean;
   endIcon?: React.ReactNode;
   startIcon?: React.ReactNode;
-  type?: "button" | "submit" | "reset";
+  type?: 'button' | 'submit' | 'reset';
   variant?: 'contained' | 'input-icon' | 'outlined' | 'text';
 }
 
@@ -25,7 +25,9 @@ interface ButtonNormalProps extends ButtonCommonProps {
 
 export type ButtonProps = ButtonLinkProps | ButtonNormalProps;
 
-export function Button(props: React.PropsWithChildren<ButtonProps>): JSX.Element {
+export function Button(
+  props: React.PropsWithChildren<ButtonProps>,
+): JSX.Element {
   const { color = 'primary', type = 'button', variant = 'contained' } = props;
 
   const [isRippling, setRippling] = useState<boolean>(false);
@@ -68,11 +70,10 @@ export function Button(props: React.PropsWithChildren<ButtonProps>): JSX.Element
         [classes['button--contained']]: variant === 'contained',
         [classes['button--inputIcon']]: variant === 'input-icon',
         [classes['button--outlined']]: variant === 'outlined',
-        [classes['button--text']]: variant === 'text'
+        [classes['button--text']]: variant === 'text',
       })}
       disabled={props.disabled}
       onClick={handleClick}
-      role="button"
       type={type}
     >
       {isRippling && ripplePos && (
@@ -82,17 +83,11 @@ export function Button(props: React.PropsWithChildren<ButtonProps>): JSX.Element
         />
       )}
       {props.startIcon && (
-        <div className={classes.button__icon}>
-          {props.startIcon}
-        </div>
+        <div className={classes.button__icon}>{props.startIcon}</div>
       )}
-      <span className={classes.button__text}>
-        {props.children}
-      </span>
+      <span className={classes.button__text}>{props.children}</span>
       {props.endIcon && (
-        <div className={classes.button__icon}>
-          {props.endIcon}
-        </div>
+        <div className={classes.button__icon}>{props.endIcon}</div>
       )}
     </button>
   );

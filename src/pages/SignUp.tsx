@@ -1,33 +1,37 @@
-import { SignUpResponse, SignUpVariables, SIGNUP_MUTATION } from "@nc-core/api";
-import { JWT_TOKEN } from "@nc-core/constants/local-storage";
-import { UserContext } from "@nc-core/contexts";
-import { useMutation } from "@nc-core/hooks";
-import { useContext } from "react";
-import { useForm } from "react-hook-form";
-import { AuthTemplate } from "../ui/templates";
+import { SignUpResponse, SignUpVariables, SIGNUP_MUTATION } from '@nc-core/api';
+import { JWT_TOKEN } from '@nc-core/constants/local-storage';
+import { UserContext } from '@nc-core/contexts';
+import { useMutation } from '@nc-core/hooks';
+import { useContext } from 'react';
+import { useForm } from 'react-hook-form';
+import { AuthTemplate } from '../ui/templates';
 import Lottie from 'lottie-react';
 import CompleteTasksAnimationData from '@nc-assets/lottie/complete-tasks.json';
 
 export default function SignUp(): JSX.Element {
-  const { clearErrors, control, handleSubmit, setError, watch } = useForm<SignUpVariables>();
+  const { clearErrors, control, handleSubmit, setError, watch } =
+    useForm<SignUpVariables>();
   const { dispatch } = useContext(UserContext);
 
-  const [signUp] = useMutation<SignUpResponse, SignUpVariables>(SIGNUP_MUTATION, {
-    onCompleted({ signUp: { accessToken, recoveryCodes } }) {
-      if (!dispatch) return;
+  const [signUp] = useMutation<SignUpResponse, SignUpVariables>(
+    SIGNUP_MUTATION,
+    {
+      onCompleted({ signUp: { accessToken } }) {
+        if (!dispatch) return;
 
-      localStorage.setItem(JWT_TOKEN, accessToken);
+        localStorage.setItem(JWT_TOKEN, accessToken);
 
-      dispatch({ type: 'login', payload: { jwt: accessToken } });
-    },
-    onError({ fields }) {
-      if (fields.length > 0) {
-        for (const { field, message } of fields) {
-          setError(field as keyof SignUpVariables, { message });
+        dispatch({ type: 'login', payload: { jwt: accessToken } });
+      },
+      onError({ fields }) {
+        if (fields.length > 0) {
+          for (const { field, message } of fields) {
+            setError(field as keyof SignUpVariables, { message });
+          }
         }
-      }
-    }
-  });
+      },
+    },
+  );
 
   function onSubmit(variables: SignUpVariables) {
     return signUp({ variables });
@@ -45,25 +49,45 @@ export default function SignUp(): JSX.Element {
           placeholder: 'Nombre de usuario',
           required: true,
           validations: {
-            maxLength: { message: 'El nombre de usuario debe tener entre 4 y 15 caracteres', value: 15 },
-            minLength: { message: 'El nombre de usuario debe tener entre 4 y 15 caracteres', value: 4 },
-            pattern: { message: 'El nombre de usuario no es válido', value: /^[a-zA-Z0-9_]*$/ }
-          }
+            maxLength: {
+              message:
+                'El nombre de usuario debe tener entre 4 y 15 caracteres',
+              value: 15,
+            },
+            minLength: {
+              message:
+                'El nombre de usuario debe tener entre 4 y 15 caracteres',
+              value: 4,
+            },
+            pattern: {
+              message: 'El nombre de usuario no es válido',
+              value: /^[a-zA-Z0-9_]*$/,
+            },
+          },
         },
         {
           control,
           defaultValue: '',
           name: 'password',
-          onChange: () =>clearErrors('confirmPassword'),
+          onChange: () => clearErrors('confirmPassword'),
           placeholder: 'Contraseña',
           required: true,
           type: 'password',
           validations: {
-            maxLength: { message: 'La contraseña debe tener entre 8 y 40 caracteres', value: 40 },
-            minLength: { message: 'La contraseña debe tener entre 8 y 40 caracteres', value: 8 },
+            maxLength: {
+              message: 'La contraseña debe tener entre 8 y 40 caracteres',
+              value: 40,
+            },
+            minLength: {
+              message: 'La contraseña debe tener entre 8 y 40 caracteres',
+              value: 8,
+            },
             validate(value: string) {
-              return !value.includes(' ') || 'La contraseña no puede contener espacios';
-            }
+              return (
+                !value.includes(' ') ||
+                'La contraseña no puede contener espacios'
+              );
+            },
           },
         },
         {
@@ -76,12 +100,13 @@ export default function SignUp(): JSX.Element {
           validations: {
             validate(value: string) {
               return password === value || 'Las contraseñas no coinciden';
-            }
-          }
-        }
+            },
+          },
+        },
       ]}
       figure={{
-        caption: 'Deberás recordar muy bien tu contraseña, solo podrás recuperarla con uno de los códigos que te daremos al finalizar el registro.',
+        caption:
+          'Deberás recordar muy bien tu contraseña, solo podrás recuperarla con uno de los códigos que te daremos al finalizar el registro.',
         image: (
           <Lottie
             animationData={CompleteTasksAnimationData}
@@ -95,8 +120,8 @@ export default function SignUp(): JSX.Element {
           link: true,
           message: 'Inicia sesión',
           to: '/login',
-          variant: 'outlined'
-        }
+          variant: 'outlined',
+        },
       ]}
       submitMessage="CONTINUAR"
       title="Registro"

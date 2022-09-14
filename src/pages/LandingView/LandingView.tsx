@@ -1,7 +1,7 @@
 import FriendsAnimationData from '@nc-assets/lottie/friends.json';
 import LockAnimationData from '@nc-assets/lottie/lock.json';
 import UsingKeyToUnlockAnimationData from '@nc-assets/lottie/using-key-to-unlock.json';
-import { Footer, Header, LandingFeature } from "@nc-ui";
+import { Footer, Header, LandingFeature } from '@nc-ui';
 import Lottie from 'lottie-react';
 import { OpenInNewIcon } from '@nc-icons';
 import classes from './LandingView.module.sass';
@@ -18,15 +18,15 @@ export default function LandingView(): JSX.Element {
               link: true,
               message: 'Inicia sesión',
               to: '/login',
-              variant: 'text'
+              variant: 'text',
             },
             {
               color: 'white',
               link: true,
               message: 'Regístrate',
               to: '/signup',
-              variant: 'outlined'
-            }
+              variant: 'outlined',
+            },
           ]}
         />
         <div className={classes.landingView__firstSection__content}>
@@ -41,7 +41,7 @@ export default function LandingView(): JSX.Element {
             message: 'Políticas de Privacidad',
             startIcon: <OpenInNewIcon />,
             to: '/privacy',
-            variant: 'outlined'
+            variant: 'outlined',
           }}
           description="Tus mensajes son alojados en nuestros servidores con el sistema criptográfico EdDSA para brindarte la seguridad de que tus mensajes no serán leídos por ningún integrante de nuestro equipo."
           icon={<Lottie animationData={LockAnimationData} />}
@@ -60,7 +60,7 @@ export default function LandingView(): JSX.Element {
             message: 'Conoce más',
             startIcon: <OpenInNewIcon />,
             to: '/beta',
-            variant: 'outlined'
+            variant: 'outlined',
           }}
           description="¡Sé uno/a de los/as elegidos/as para probar la aplicación! Solo debes hacer click en el botón de abajo para conocer más información."
           icon={<Lottie animationData={UsingKeyToUnlockAnimationData} />}
@@ -72,7 +72,7 @@ export default function LandingView(): JSX.Element {
           link: true,
           message: 'Regístrate',
           to: '/signup',
-          variant: 'outlined'
+          variant: 'outlined',
         }}
       />
     </div>

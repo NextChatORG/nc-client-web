@@ -1,5 +1,5 @@
-import clsx from "clsx";
-import { Button, ButtonProps } from "../../atoms";
+import clsx from 'clsx';
+import { Button, ButtonProps } from '../../atoms';
 import classes from './LandingFeature.module.sass';
 
 export interface LandingFeatureProps {
@@ -15,23 +15,19 @@ export function LandingFeature({
   description,
   icon,
   position = 'left',
-  title
+  title,
 }: LandingFeatureProps): JSX.Element {
   return (
     <div
       className={clsx(classes.landingFeature, {
-        [classes['landingFeature--right']]: position === 'right'
+        [classes['landingFeature--right']]: position === 'right',
       })}
     >
       <div className={classes.landingFeature__icon}>{icon}</div>
       <div className={classes.landingFeature__content}>
         <h2>{title}</h2>
         <span>{description}</span>
-        {action && (
-          <Button {...action}>
-            {action.message}
-          </Button>
-        )}
+        {action && <Button {...action}>{action.message}</Button>}
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
-import { ApolloError } from "@apollo/client";
-import { toast } from "react-toastify";
+import { ApolloError } from '@apollo/client';
+import { toast } from 'react-toastify';
 
 export interface GraphQLFieldError {
   field: string;
@@ -10,11 +10,14 @@ export interface GraphQLParsedErrors {
   fields: GraphQLFieldError[];
 }
 
-export function parseGraphQLErrors({ graphQLErrors, ...errors }: ApolloError): GraphQLParsedErrors {
+export function parseGraphQLErrors({
+  graphQLErrors,
+  ...errors
+}: ApolloError): GraphQLParsedErrors {
   const fields: GraphQLFieldError[] = [];
 
   if (graphQLErrors && graphQLErrors.length > 0) {
-    for (let err of graphQLErrors) {
+    for (const err of graphQLErrors) {
       if (err.extensions.field !== undefined) {
         fields.push({
           field: err.extensions.field as string,

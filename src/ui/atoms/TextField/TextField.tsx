@@ -1,8 +1,15 @@
-import clsx from "clsx";
-import React, { HTMLInputTypeAttribute, useState } from "react";
-import { Control, Controller, ControllerProps, FieldValues, Path, PathValue } from "react-hook-form";
-import { VisibilityIcon, VisibilityOffIcon } from "../../../icons/mui";
-import { Button } from "../Button";
+import clsx from 'clsx';
+import React, { HTMLInputTypeAttribute, useState } from 'react';
+import {
+  Control,
+  Controller,
+  ControllerProps,
+  FieldValues,
+  Path,
+  PathValue,
+} from 'react-hook-form';
+import { VisibilityIcon, VisibilityOffIcon } from '../../../icons/mui';
+import { Button } from '../Button';
 import classes from './TextField.module.sass';
 
 export interface TextFieldProps<TForm extends FieldValues> {
@@ -14,7 +21,7 @@ export interface TextFieldProps<TForm extends FieldValues> {
   placeholder?: string;
   required?: boolean;
   type?: 'email' | 'password' | 'text';
-  validations?: Omit<ControllerProps<TForm, Path<TForm>>['rules'], 'required'>
+  validations?: Omit<ControllerProps<TForm, Path<TForm>>['rules'], 'required'>;
   variant?: 'outlined';
 }
 
@@ -28,9 +35,11 @@ export function TextField<TForm extends FieldValues>({
   required = false,
   type = 'text',
   validations,
-  variant = 'outlined'
+  variant = 'outlined',
 }: TextFieldProps<TForm>): JSX.Element {
-  const [endAdormentRef, setEndAdormentRef] = useState<HTMLDivElement | null>(null);
+  const [endAdormentRef, setEndAdormentRef] = useState<HTMLDivElement | null>(
+    null,
+  );
   const [inputType, setInputType] = useState<HTMLInputTypeAttribute>(type);
   const [focused, setFocused] = useState<boolean>(false);
 
@@ -62,7 +71,7 @@ export function TextField<TForm extends FieldValues>({
         }
 
         function handleOnFocus() {
-          if(!focused) setFocused(true);
+          if (!focused) setFocused(true);
         }
 
         const hasError = Boolean(error);
@@ -77,7 +86,7 @@ export function TextField<TForm extends FieldValues>({
             <div
               className={clsx(classes.textField__field, {
                 [classes['textField__field--outlined']]: variant === 'outlined',
-                [classes['textField__field--focused']]: focused
+                [classes['textField__field--focused']]: focused,
               })}
               id={id}
             >
@@ -91,7 +100,9 @@ export function TextField<TForm extends FieldValues>({
                 onFocus={handleOnFocus}
                 placeholder={placeholder}
                 style={{
-                  width: `calc(100% - ${endAdormentRef?.offsetWidth ?? 0}px - 16px)`
+                  width: `calc(100% - ${
+                    endAdormentRef?.offsetWidth ?? 0
+                  }px - 16px)`,
                 }}
                 type={inputType}
                 value={field.value}
@@ -103,8 +114,16 @@ export function TextField<TForm extends FieldValues>({
                   ref={setEndAdormentRef}
                 >
                   {type === 'password' && (
-                    <Button color="default" onClick={handleToggleVisibility} variant="input-icon">
-                      {inputType === 'text' ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                    <Button
+                      color="default"
+                      onClick={handleToggleVisibility}
+                      variant="input-icon"
+                    >
+                      {inputType === 'text' ? (
+                        <VisibilityOffIcon />
+                      ) : (
+                        <VisibilityIcon />
+                      )}
                     </Button>
                   )}
                 </div>

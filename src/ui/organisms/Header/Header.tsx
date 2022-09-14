@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-import { Button, ButtonProps, Logo, LogoProps } from "../../atoms";
+import { Link } from 'react-router-dom';
+import { Button, ButtonProps, Logo, LogoProps } from '../../atoms';
 import classes from './Header.module.sass';
 
 export interface HeaderProps {

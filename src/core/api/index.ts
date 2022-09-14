@@ -1,7 +1,7 @@
-import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
+import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
-import { VITE_API_URL } from "@nc-core/constants/environment";
-import { JWT_TOKEN } from "@nc-core/constants/local-storage";
+import { VITE_API_URL } from '@nc-core/constants/environment';
+import { JWT_TOKEN } from '@nc-core/constants/local-storage';
 
 export * from './auth';
 

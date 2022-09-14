@@ -1,12 +1,15 @@
-import { useUser } from "@nc-core/hooks";
-import { Navigate } from "react-router-dom";
+import { useUser } from '@nc-core/hooks';
+import { Navigate } from 'react-router-dom';
 
 export interface AuthRedirectionProps {
   whenLogged?: JSX.Element;
   whenNoLogged?: JSX.Element;
 }
 
-export function AuthRedirection({ whenLogged, whenNoLogged }: AuthRedirectionProps): JSX.Element | null {
+export function AuthRedirection({
+  whenLogged,
+  whenNoLogged,
+}: AuthRedirectionProps): JSX.Element | null {
   const { isLogged } = useUser();
 
   if (!isLogged()) {

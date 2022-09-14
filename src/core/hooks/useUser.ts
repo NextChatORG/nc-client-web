@@ -1,7 +1,6 @@
-import { LogInResponse, LogInVariables, LOGIN_MUTATION } from "@nc-core/api";
-import { JWT_TOKEN } from "@nc-core/constants/local-storage";
-import { UserContext } from "@nc-core/contexts";
-import { useContext } from "react";
+import { JWT_TOKEN } from '@nc-core/constants/local-storage';
+import { UserContext } from '@nc-core/contexts';
+import { useContext } from 'react';
 
 export interface UserHook {
   logOut(): void;
