@@ -9,7 +9,7 @@ import Lottie from 'lottie-react';
 import CompleteTasksAnimationData from '@nc-assets/lottie/complete-tasks.json';
 
 export default function SignUp() {
-  const { control, handleSubmit } = useForm<SignUpVariables>();
+  const { clearErrors, control, handleSubmit, setError, watch } = useForm<SignUpVariables>();
   const { dispatch } = useContext(UserContext);
 
   const [signUp] = useMutation<SignUpResponse, SignUpVariables>(SIGNUP_MUTATION, {
@@ -19,12 +19,21 @@ export default function SignUp() {
       localStorage.setItem(JWT_TOKEN, accessToken);
 
       dispatch({ type: 'login', payload: { jwt: accessToken } });
+    },
+    onError({ fields }) {
+      if (fields.length > 0) {
+        for (const { field, message } of fields) {
+          setError(field as keyof SignUpVariables, { message });
+        }
+      }
     }
   });
 
   function onSubmit(variables: SignUpVariables) {
     return signUp({ variables });
   }
+
+  const password = watch('password');
 
   return (
     <AuthTemplate
@@ -33,21 +42,42 @@ export default function SignUp() {
           control,
           defaultValue: '',
           name: 'username',
-          placeholder: 'Nombre de usuario'
+          placeholder: 'Nombre de usuario',
+          required: true,
+          validations: {
+            maxLength: { message: 'El nombre de usuario debe tener entre 4 y 15 caracteres', value: 15 },
+            minLength: { message: 'El nombre de usuario debe tener entre 4 y 15 caracteres', value: 4 },
+            pattern: { message: 'El nombre de usuario no es válido', value: /^[a-zA-Z0-9_]*$/ }
+          }
         },
         {
           control,
           defaultValue: '',
           name: 'password',
+          onChange: () =>clearErrors('confirmPassword'),
           placeholder: 'Contraseña',
-          type: 'password'
+          required: true,
+          type: 'password',
+          validations: {
+            maxLength: { message: 'La contraseña debe tener entre 8 y 40 caracteres', value: 40 },
+            minLength: { message: 'La contraseña debe tener entre 8 y 40 caracteres', value: 8 },
+            validate(value: string) {
+              return !value.includes(' ') || 'La contraseña no puede contener espacios';
+            }
+          },
         },
         {
           control,
           defaultValue: '',
           name: 'confirmPassword',
           placeholder: 'Confirma la contraseña',
-          type: 'password'
+          required: true,
+          type: 'password',
+          validations: {
+            validate(value: string) {
+              return password === value || 'Las contraseñas no coinciden';
+            }
+          }
         }
       ]}
       figure={{
