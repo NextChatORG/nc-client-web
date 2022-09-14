@@ -1,6 +1,6 @@
 import clsx from "clsx";
-import { HTMLInputTypeAttribute, useRef, useState } from "react";
-import { Control, Controller, FieldValues, Path, PathValue } from "react-hook-form";
+import React, { HTMLInputTypeAttribute, useRef, useState } from "react";
+import { Control, Controller, ControllerProps, FieldValues, Path, PathValue } from "react-hook-form";
 import { VisibilityIcon, VisibilityOffIcon } from "../../../icons/mui";
 import { NCButton } from "../NCButton";
 import classes from './NCTextField.module.sass';
@@ -10,8 +10,11 @@ export interface NCTextFieldProps<TForm extends FieldValues> {
   defaultValue?: PathValue<TForm, Path<TForm>>;
   helperText?: string;
   name: Path<TForm>;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
   placeholder?: string;
+  required?: boolean;
   type?: 'email' | 'password' | 'text';
+  validations?: Omit<ControllerProps<TForm, Path<TForm>>['rules'], 'required'>
   variant?: 'outlined';
 }
 
@@ -20,8 +23,11 @@ export function NCTextField<TForm extends FieldValues>({
   defaultValue,
   helperText,
   name,
+  onChange,
   placeholder,
+  required = false,
   type = 'text',
+  validations,
   variant = 'outlined'
 }: NCTextFieldProps<TForm>): JSX.Element {
   const [endAdormentRef, setEndAdormentRef] = useState<HTMLDivElement | null>(null);
@@ -40,10 +46,19 @@ export function NCTextField<TForm extends FieldValues>({
       control={control}
       defaultValue={defaultValue}
       name={name}
-      render={({ field: { onBlur, onChange, value }, fieldState: { error } }) => {
+      rules={{
+        ...validations,
+        required: { message: 'Campo requerido', value: required },
+      }}
+      render={({ field, fieldState: { error } }) => {
         function handleOnBlur() {
           if (focused) setFocused(false);
-          onBlur();
+          field.onBlur();
+        }
+
+        function handleOnChange(e: React.ChangeEvent<HTMLInputElement>) {
+          field.onChange(e);
+          if (onChange) onChange(e);
         }
 
         function handleOnFocus() {
@@ -72,14 +87,14 @@ export function NCTextField<TForm extends FieldValues>({
                 })}
                 id={`${id}-field`}
                 onBlur={handleOnBlur}
+                onChange={handleOnChange}
                 onFocus={handleOnFocus}
-                onChange={onChange}
                 placeholder={placeholder}
                 style={{
                   width: `calc(100% - ${endAdormentRef?.offsetWidth ?? 0}px - 16px)`
                 }}
                 type={inputType}
-                value={value}
+                value={field.value}
               />
               {hasEndAdorment && (
                 <div
