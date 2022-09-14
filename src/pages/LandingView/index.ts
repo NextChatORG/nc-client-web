@@ -1,1 +1,1 @@
-export { default as LandingView } from './LandingView';
+export { default } from './LandingView';
