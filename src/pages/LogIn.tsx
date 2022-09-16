@@ -32,12 +32,14 @@ export default function LogIn(): JSX.Element {
           defaultValue: '',
           name: 'username',
           placeholder: 'Nombre de usuario',
+          required: true,
         },
         {
           control,
           defaultValue: '',
           name: 'password',
           placeholder: 'Contraseña',
+          required: true,
           type: 'password',
         },
       ]}
