@@ -1,7 +1,7 @@
 import FriendsAnimationData from '@nc-assets/lottie/friends.json';
 import LockAnimationData from '@nc-assets/lottie/lock.json';
 import UsingKeyToUnlockAnimationData from '@nc-assets/lottie/using-key-to-unlock.json';
-import { Footer, Header, LandingFeature } from '@nc-ui';
+import { Footer, AuthHeader, LandingFeature } from '@nc-ui';
 import Lottie from 'lottie-react';
 import { OpenInNewIcon } from '@nc-icons';
 import classes from './LandingView.module.sass';
@@ -10,7 +10,7 @@ export default function LandingView(): JSX.Element {
   return (
     <div className={classes.landingView}>
       <section className={classes.landingView__firstSection}>
-        <Header
+        <AuthHeader
           logo={{ color: 'white' }}
           navButtons={[
             {

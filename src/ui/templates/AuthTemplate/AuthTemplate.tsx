@@ -6,7 +6,7 @@ import {
   TextField,
   TextFieldProps,
 } from '../../atoms';
-import { Footer, Header, HeaderProps } from '../../organisms';
+import { Footer, AuthHeader, AuthHeaderProps } from '../../organisms';
 import classes from './AuthTemplate.module.sass';
 
 export interface AuthTemplateProps<TForm extends FieldValues> {
@@ -17,7 +17,7 @@ export interface AuthTemplateProps<TForm extends FieldValues> {
     xs?: GridSizeProps;
   };
   handleSubmit(): Promise<void>;
-  navButtons: HeaderProps['navButtons'];
+  navButtons: AuthHeaderProps['navButtons'];
   submitMessage: string;
   title: string;
 }
@@ -32,7 +32,7 @@ export function AuthTemplate<TForm extends FieldValues>({
 }: AuthTemplateProps<TForm>) {
   return (
     <div className={classes.authTemplate}>
-      <Header navButtons={navButtons} />
+      <AuthHeader navButtons={navButtons} />
       <Grid
         container
         alignItems="center"

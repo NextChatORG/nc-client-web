@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom';
 import { Button, ButtonProps, Grid, Logo, LogoProps } from '../../atoms';
-import classes from './Header.module.sass';
+import classes from './AuthHeader.module.sass';
 
-export interface HeaderProps {
+export interface AuthHeaderProps {
   logo?: Pick<LogoProps, 'color'>;
   navButtons?: (ButtonProps & { message: string })[];
 }
 
-export function Header({ logo, navButtons }: HeaderProps): JSX.Element {
+export function AuthHeader({ logo, navButtons }: AuthHeaderProps): JSX.Element {
   return (
     <header className={classes.header}>
       <Grid container alignItems="center" justifyContent="space-between">
