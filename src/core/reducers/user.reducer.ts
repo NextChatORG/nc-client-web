@@ -1,9 +1,11 @@
+import { JWT_TOKEN } from '@nc-core/constants/local-storage';
+
 export interface UserReducerState {
   jwt: string | null;
 }
 
 export const userReducerInitialState: UserReducerState = {
-  jwt: null,
+  jwt: localStorage.getItem(JWT_TOKEN),
 };
 
 interface LogInAction {
