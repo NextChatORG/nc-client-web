@@ -8,6 +8,7 @@ const LogIn = lazy(() => import('./pages/LogIn'));
 const SignUp = lazy(() => import('./pages/SignUp'));
 
 const Home = lazy(() => import('./pages/Home'));
+const Profile = lazy(() => import('./pages/Profile/index'));
 
 export default function Router(): JSX.Element {
   return (
@@ -25,6 +26,16 @@ export default function Router(): JSX.Element {
           path="signup"
           element={<AuthRedirection redirectToIndex NoLogged={SignUp} />}
         />
+        <Route path="profile">
+          <Route
+            index
+            element={<AuthRedirection redirectToIndex Logged={Profile} />}
+          />
+          <Route
+            path=":username"
+            element={<AuthRedirection redirectToIndex Logged={Profile} />}
+          />
+        </Route>
       </Route>
     </Routes>
   );
