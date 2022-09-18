@@ -15,7 +15,7 @@ export function MainTemplate({
         <Sidebar />
         <Grid item xs="auto">
           <div className={classes.main__content}>
-            <Grid container alignItems="center" spacing={12}>
+            <Grid container alignContent="flex-start" spacing={24}>
               {children}
             </Grid>
           </div>
