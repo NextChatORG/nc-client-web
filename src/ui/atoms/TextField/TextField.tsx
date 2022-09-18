@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { HTMLInputTypeAttribute, useState } from 'react';
+import React, { HTMLInputTypeAttribute, useState } from 'react';
 import {
   Control,
   Controller,
@@ -17,7 +17,7 @@ import {
 import { Button } from '../Button';
 import classes from './TextField.module.sass';
 
-interface CommonTextFieldProps<TForm extends FieldValues> {
+export interface TextFieldProps<TForm extends FieldValues> {
   control: Control<TForm>;
   defaultValue?: PathValue<TForm, Path<TForm>>;
   endAdorment?: React.ReactNode;
@@ -28,24 +28,10 @@ interface CommonTextFieldProps<TForm extends FieldValues> {
   placeholder?: string;
   required?: boolean;
   startAdorment?: React.ReactNode;
+  type?: 'email' | 'password' | 'search' | 'text';
   validations?: Omit<ControllerProps<TForm, Path<TForm>>['rules'], 'required'>;
   variant?: 'contained' | 'outlined';
 }
-
-interface OtherTextFieldProps<TForm extends FieldValues>
-  extends CommonTextFieldProps<TForm> {
-  type?: 'email' | 'password' | 'text';
-}
-
-interface SearchTextFieldProps<TForm extends FieldValues>
-  extends CommonTextFieldProps<TForm> {
-  type: 'search';
-  onSearchClick: React.MouseEventHandler<HTMLButtonElement>;
-}
-
-export type TextFieldProps<TForm extends FieldValues> =
-  | OtherTextFieldProps<TForm>
-  | SearchTextFieldProps<TForm>;
 
 export function TextField<TForm extends FieldValues>({
   control,
@@ -58,27 +44,24 @@ export function TextField<TForm extends FieldValues>({
   placeholder,
   required = false,
   startAdorment,
+  type = 'text',
   validations,
   variant = 'outlined',
-  ...props
 }: TextFieldProps<TForm>): JSX.Element {
   const [startAdormentRef, setStartAdormentRef] =
     useState<HTMLDivElement | null>(null);
   const [endAdormentRef, setEndAdormentRef] = useState<HTMLDivElement | null>(
     null,
   );
-  const [inputType, setInputType] = useState<HTMLInputTypeAttribute>(
-    props.type ?? 'text',
-  );
+  const [inputType, setInputType] = useState<HTMLInputTypeAttribute>(type);
   const [focused, setFocused] = useState<boolean>(false);
 
   function handleToggleVisibility() {
     setInputType(inputType === 'text' ? 'password' : 'text');
   }
 
-  const hasStartAdorment = props.type === 'search' || Boolean(startAdorment);
-
-  const id = `${props.type ?? 'text'}-input-${name}`;
+  const hasStartAdorment = type === 'search' || Boolean(startAdorment);
+  const id = `${type}-input-${name}`;
 
   return (
     <Controller
@@ -109,8 +92,8 @@ export function TextField<TForm extends FieldValues>({
         }
 
         const hasEndAdorment =
-          props.type === 'password' ||
-          (props.type === 'search' && Boolean(field.value.length)) ||
+          type === 'password' ||
+          (type === 'search' && Boolean(field.value.length)) ||
           Boolean(endAdorment);
 
         const hasError = Boolean(error);
@@ -138,20 +121,19 @@ export function TextField<TForm extends FieldValues>({
                   id={`${id}-start-adorment`}
                   ref={setStartAdormentRef}
                 >
-                  {props.type === 'search' ? (
-                    <Button
-                      color="default"
-                      onClick={props.onSearchClick}
-                      variant="input-icon"
+                  {type === 'search' ? (
+                    <div
+                      className={classes.textField__field__startAdorment__icon}
                     >
                       <SearchIcon />
-                    </Button>
+                    </div>
                   ) : (
                     startAdorment
                   )}
                 </div>
               )}
               <input
+                autoComplete="off"
                 className={clsx(classes.textField__field__input, {
                   [classes['textField__field__input--withBoth']]:
                     hasStartAdorment && hasEndAdorment,
@@ -179,7 +161,7 @@ export function TextField<TForm extends FieldValues>({
                   id={`${id}-end-adorment`}
                   ref={setEndAdormentRef}
                 >
-                  {props.type === 'password' ? (
+                  {type === 'password' ? (
                     <Button
                       color="default"
                       onClick={handleToggleVisibility}
@@ -191,7 +173,7 @@ export function TextField<TForm extends FieldValues>({
                         <VisibilityIcon />
                       )}
                     </Button>
-                  ) : props.type === 'search' ? (
+                  ) : type === 'search' ? (
                     <Button
                       color="default"
                       onClick={handleClearValue}
