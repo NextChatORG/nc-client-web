@@ -1,46 +1,76 @@
 import { JWT_TOKEN } from '@nc-core/constants/local-storage';
 import { UserContext } from '@nc-core/contexts';
 import { useContext } from 'react';
-import jwtDecode from 'jwt-decode';
+import {
+  LogInResponse,
+  LogInVariables,
+  LOGIN_MUTATION,
+  SignUpResponse,
+  SignUpVariables,
+  SIGNUP_MUTATION,
+  UserProfile,
+} from '@nc-core/api';
+import { useMutation } from './useMutation';
+import { GraphQLParsedErrors } from '@nc-core/utils';
+import { useNavigate } from 'react-router-dom';
 
-export interface UserData {
-  id: string;
-  username: string;
+export interface UserHookProps {
+  onSignUpErrors?(errors: GraphQLParsedErrors): void;
 }
 
 export interface UserHook {
-  data: UserData | null;
+  data: UserProfile | null;
+  isLogged: boolean;
+  logIn(variables: LogInVariables): Promise<void>;
   logOut(): void;
-  isLogged(): boolean;
+  signUp(variables: SignUpVariables): Promise<void>;
 }
 
-export function useUser(): UserHook {
+export function useUser(props?: UserHookProps): UserHook {
   const { dispatch, state } = useContext(UserContext);
+  const navigate = useNavigate();
 
-  function getData(): UserData | null {
-    if (!state || !state.jwt || !state.jwt.length) {
-      return null;
-    }
+  const [logIn] = useMutation<LogInResponse, LogInVariables>(LOGIN_MUTATION, {
+    async onCompleted({ logIn: { accessToken } }) {
+      localStorage.setItem(JWT_TOKEN, accessToken);
 
-    const payload = jwtDecode<{ sub: string; username: string }>(state.jwt);
-
-    return {
-      id: payload.sub,
-      username: payload.username,
-    };
-  }
-
-  return {
-    data: getData(),
-    logOut() {
       if (!dispatch) return;
 
+      dispatch({ type: 'set-jwt', payload: accessToken });
+      navigate('/', { replace: true });
+    },
+  });
+
+  const [signUp] = useMutation<SignUpResponse, SignUpVariables>(
+    SIGNUP_MUTATION,
+    {
+      async onCompleted({ signUp: { accessToken } }) {
+        localStorage.setItem(JWT_TOKEN, accessToken);
+
+        if (!dispatch) return;
+
+        dispatch({ type: 'set-jwt', payload: accessToken });
+        navigate('/', { replace: true });
+      },
+      onError: props?.onSignUpErrors,
+    },
+  );
+
+  return {
+    data: state?.profileData ?? null,
+    isLogged: state?.jwt !== null && state?.profileData !== null,
+    async logIn(variables) {
+      await logIn({ variables });
+    },
+    logOut() {
       localStorage.removeItem(JWT_TOKEN);
+
+      if (!dispatch) return;
 
       dispatch({ type: 'logout' });
     },
-    isLogged() {
-      return state?.jwt !== null;
+    async signUp(variables) {
+      await signUp({ variables });
     },
   };
 }

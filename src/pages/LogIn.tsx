@@ -1,28 +1,11 @@
-import { LogInResponse, LogInVariables, LOGIN_MUTATION } from '@nc-core/api';
-import { JWT_TOKEN } from '@nc-core/constants/local-storage';
-import { UserContext } from '@nc-core/contexts';
-import { useMutation } from '@nc-core/hooks';
-import { useContext } from 'react';
+import { LogInVariables } from '@nc-core/api';
+import { useUser } from '@nc-core/hooks';
 import { useForm } from 'react-hook-form';
 import { AuthTemplate } from '../ui/templates';
 
 export default function LogIn(): JSX.Element {
   const { control, handleSubmit } = useForm<LogInVariables>();
-  const { dispatch } = useContext(UserContext);
-
-  const [logIn] = useMutation<LogInResponse, LogInVariables>(LOGIN_MUTATION, {
-    onCompleted({ logIn: { accessToken } }) {
-      if (!dispatch) return;
-
-      localStorage.setItem(JWT_TOKEN, accessToken);
-
-      dispatch({ type: 'login', payload: { jwt: accessToken } });
-    },
-  });
-
-  function onSubmit(variables: LogInVariables) {
-    return logIn({ variables });
-  }
+  const { logIn } = useUser();
 
   return (
     <AuthTemplate
@@ -53,7 +36,7 @@ export default function LogIn(): JSX.Element {
           />
         ),
       }}
-      handleSubmit={handleSubmit(onSubmit)}
+      handleSubmit={handleSubmit(logIn)}
       navButtons={[
         {
           link: true,

@@ -1,8 +1,5 @@
-import { SignUpResponse, SignUpVariables, SIGNUP_MUTATION } from '@nc-core/api';
-import { JWT_TOKEN } from '@nc-core/constants/local-storage';
-import { UserContext } from '@nc-core/contexts';
-import { useMutation } from '@nc-core/hooks';
-import { useContext } from 'react';
+import { SignUpVariables } from '@nc-core/api';
+import { useUser } from '@nc-core/hooks';
 import { useForm } from 'react-hook-form';
 import { AuthTemplate } from '../ui/templates';
 import Lottie from 'lottie-react';
@@ -11,31 +8,16 @@ import CompleteTasksAnimationData from '@nc-assets/lottie/complete-tasks.json';
 export default function SignUp(): JSX.Element {
   const { clearErrors, control, handleSubmit, setError, watch } =
     useForm<SignUpVariables>();
-  const { dispatch } = useContext(UserContext);
 
-  const [signUp] = useMutation<SignUpResponse, SignUpVariables>(
-    SIGNUP_MUTATION,
-    {
-      onCompleted({ signUp: { accessToken } }) {
-        if (!dispatch) return;
-
-        localStorage.setItem(JWT_TOKEN, accessToken);
-
-        dispatch({ type: 'login', payload: { jwt: accessToken } });
-      },
-      onError({ fields }) {
-        if (fields.length > 0) {
-          for (const { field, message } of fields) {
-            setError(field as keyof SignUpVariables, { message });
-          }
+  const { signUp } = useUser({
+    onSignUpErrors({ fields }) {
+      if (fields.length > 0) {
+        for (const { field, message } of fields) {
+          setError(field as keyof SignUpVariables, { message });
         }
-      },
+      }
     },
-  );
-
-  function onSubmit(variables: SignUpVariables) {
-    return signUp({ variables });
-  }
+  });
 
   const password = watch('password');
 
@@ -110,7 +92,7 @@ export default function SignUp(): JSX.Element {
         image: <Lottie animationData={CompleteTasksAnimationData} />,
         xs: 8,
       }}
-      handleSubmit={handleSubmit(onSubmit)}
+      handleSubmit={handleSubmit(signUp)}
       navButtons={[
         {
           link: true,
