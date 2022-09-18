@@ -1,16 +1,16 @@
 import { gql } from '@apollo/client';
 
 export enum Role {
-  USER = 'user',
-  ADMIN = 'admin',
+  USER = 'USER',
+  ADMIN = 'ADMIN',
 }
 
 export interface User {
-  id?: string;
+  id: string;
   createdAt?: string;
-  username?: string;
+  username: string;
   role?: Role;
-  profileImage?: string;
+  profileImage: string;
 }
 
 export enum UserFriendStatus {

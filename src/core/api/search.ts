@@ -3,8 +3,8 @@ import { Message } from './messages';
 import { UserProfile } from './user';
 
 export enum SearchResultType {
-  MESSAGE,
-  USER,
+  MESSAGE = 'MESSAGE',
+  USER = 'USER',
 }
 
 export interface SearchResult {
@@ -29,12 +29,16 @@ export const SEARCH_QUERY = gql`
         id
         content
         createdAt
+        fromUserId
         fromUser {
           id
+          profileImage
           username
         }
+        toUserId
         toUser {
           id
+          profileImage
           username
         }
       }
@@ -44,7 +48,7 @@ export const SEARCH_QUERY = gql`
         username
         actions {
           isFriend
-          isFriendRequest
+          isFriendRequested
           isMe
         }
       }

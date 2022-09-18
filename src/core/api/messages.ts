@@ -2,22 +2,22 @@ import { gql } from '@apollo/client';
 import { User } from './user';
 
 export interface Message {
-  id?: string;
-  content?: string;
-  createdAt?: number;
+  id: string;
+  content: string;
+  createdAt: number;
   fromUser?: User | null;
-  fromUserId?: string;
+  fromUserId: string;
   toUser?: User | null;
-  toUserId?: string;
+  toUserId: string;
 }
 
 export interface RecentMessage {
-  content?: string;
-  createdAt?: number;
-  profileImage?: string;
-  unread?: number;
-  userId?: string;
-  username?: string;
+  content: string;
+  createdAt: number;
+  profileImage: string;
+  unread: number;
+  userId: string;
+  username: string;
 }
 
 export interface GetRecentMessagesResponse {
