@@ -1,10 +1,10 @@
-import { Grid, MainTemplate } from '@nc-ui';
+import { Grid, Header, MainTemplate } from '@nc-ui';
 
 export default function Home(): JSX.Element {
   return (
     <MainTemplate>
       <Grid item xs={12}>
-        Header
+        <Header />
       </Grid>
       <Grid item xs={3}>
         Left
