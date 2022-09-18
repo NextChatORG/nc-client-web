@@ -34,9 +34,10 @@ $breakpoint-up-prefixes: ("xs", "sm", "md", "lg", "xl")
   &__container
     display: flex
     flex: 0 1 auto
-    height: 100%
     margin: calc(var(--grid-row-spacing) / -2) calc(var(--grid-column-spacing) / -2)
-    width: 100%
+
+    &--fullHeight
+      height: 100%
   &__item
     padding: calc(var(--grid-row-spacing) / 2) calc(var(--grid-column-spacing) / 2)
 

@@ -31,6 +31,7 @@ export function Sidebar(): JSX.Element {
     <div className={classes.sidebar}>
       <Grid
         container
+        fullHeight
         alignItems="flex-start"
         direction="column"
         justifyContent="space-between"

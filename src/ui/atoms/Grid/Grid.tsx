@@ -13,6 +13,7 @@ interface GridContainerProps {
   alignItems?: 'center' | 'flex-end' | 'flex-start';
   container: true;
   direction?: 'column' | 'column-reverse' | 'row' | 'row-reverse';
+  fullHeight?: boolean;
   item?: false;
   justifyContent?:
     | 'center'
@@ -59,6 +60,7 @@ export function Grid({
       alignContent,
       alignItems,
       direction = 'row',
+      fullHeight,
       justifyContent,
       spacing = 0,
       wrap = 'wrap',
@@ -66,10 +68,9 @@ export function Grid({
 
     return (
       <div
-        className={clsx(
-          classes.grid__container,
-          classes[`grid__container--${wrap === 'nowrap' ? 'no' : ''}wrap`],
-        )}
+        className={clsx(classes.grid__container, {
+          [classes['grid__container--fullHeight']]: fullHeight,
+        })}
         style={{
           alignContent,
           alignItems,
