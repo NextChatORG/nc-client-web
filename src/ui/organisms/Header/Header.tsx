@@ -1,9 +1,8 @@
 import { SearchVariables } from '@nc-core/api';
 import { useUser } from '@nc-core/hooks';
-import { PersonIcon } from '@nc-icons';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-import { Grid, TextField } from '../../atoms';
+import { Avatar, Grid, TextField } from '../../atoms';
 import classes from './Header.module.sass';
 
 export function Header(): JSX.Element {
@@ -46,9 +45,7 @@ export function Header(): JSX.Element {
                 </div>
                 <Grid item>
                   <Grid container justifyContent="flex-end">
-                    <div className={classes.header__profile__avatar}>
-                      <PersonIcon size="1em" />
-                    </div>
+                    <Avatar url={data?.profileImage} />
                   </Grid>
                 </Grid>
               </Grid>
