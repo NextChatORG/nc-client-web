@@ -3,6 +3,13 @@ import { PropsWithChildren } from 'react';
 import classes from './Grid.module.sass';
 
 interface GridContainerProps {
+  alignContent?:
+    | 'center'
+    | 'flex-end'
+    | 'flex-start'
+    | 'space-around'
+    | 'space-between'
+    | 'space-evenly';
   alignItems?: 'center' | 'flex-end' | 'flex-start';
   container: true;
   direction?: 'column' | 'column-reverse' | 'row' | 'row-reverse';
@@ -49,6 +56,7 @@ export function Grid({
 
   if (props.container) {
     const {
+      alignContent,
       alignItems,
       direction = 'row',
       justifyContent,
@@ -63,6 +71,7 @@ export function Grid({
           classes[`grid__container--${wrap === 'nowrap' ? 'no' : ''}wrap`],
         )}
         style={{
+          alignContent,
           alignItems,
           flexDirection: direction,
           flexWrap: wrap,
