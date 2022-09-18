@@ -22,6 +22,17 @@
     flex-flow: row wrap
     overflow: hidden
 
+    &--contained
+      background-color: rgba(black, .3)
+      border:
+        color: rgba(black, .5)
+        style: solid
+        width: 1px
+
+      &:hover
+        border-color: black
+      &#{ $field }--focused
+        border-color: var(--color-primary)
     &--outlined
       border:
         color: rgba(black, .12)
@@ -33,7 +44,10 @@
         border-color: rgba(black, .25)
       &#{ $field }--focused
         border-color: var(--color-primary)
+    &__startAdorment
+      padding-left: 6px
     &__input
+      background-color: transparent
       border: none
       border-radius: $borderRadius
       color: currentColor
@@ -42,6 +56,19 @@
       padding: 16px
       width: 100%
 
+      &::-ms-reveal, &::-ms-clear
+        display: none
+      &::-webkit-search-decoration,
+      &::-webkit-search-cancel-button,
+      &::-webkit-search-results-button,
+      &::-webkit-search-results-decoration
+        -webkit-appearance: none
+      &--withBoth
+        border-radius: 0
+        padding: 16px 0
+        padding-left: 6px
+      &--withStart
+        border-radius: 0 $borderRadius $borderRadius 0
       &--withEnd
         border-radius: $borderRadius 0 0 $borderRadius
     &__endAdorment
