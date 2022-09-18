@@ -20,7 +20,7 @@ export enum UserFriendStatus {
 
 export interface UserProfileActions {
   isFriend?: boolean;
-  isFriendRequest?: boolean;
+  isFriendRequested?: boolean;
   isMe?: boolean;
 }
 
@@ -52,11 +52,11 @@ export const PROFILE_QUERY = gql`
       username
       actions {
         isFriend
-        isFriendRequest
+        isFriendRequested
         isMe
       }
       counters {
-        friendRequest
+        friendRequests
         friends
       }
     }
