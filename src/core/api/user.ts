@@ -10,6 +10,7 @@ export interface User {
   createdAt?: string;
   username?: string;
   role?: Role;
+  profileImage?: string;
 }
 
 export enum UserFriendStatus {
@@ -29,7 +30,7 @@ export interface UserProfileCounters {
 }
 
 export interface UserProfile
-  extends Pick<User, 'id' | 'createdAt' | 'username'> {
+  extends Pick<User, 'id' | 'createdAt' | 'profileImage' | 'username'> {
   actions?: UserProfileActions;
   counters?: UserProfileCounters;
 }
@@ -47,6 +48,7 @@ export const PROFILE_QUERY = gql`
     profile(username: $username) {
       id
       createdAt
+      profileImage
       username
       actions {
         isFriend

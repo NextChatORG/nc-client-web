@@ -40,6 +40,7 @@ export const SEARCH_QUERY = gql`
       }
       userData {
         id
+        profileImage
         username
         actions {
           isFriend

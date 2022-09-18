@@ -14,6 +14,7 @@ export interface Message {
 export interface RecentMessage {
   content?: string;
   createdAt?: number;
+  profileImage?: string;
   unread?: number;
   userId?: string;
   username?: string;
@@ -28,6 +29,7 @@ export const GET_RECENT_MESSAGES_QUERY = gql`
     getRecentMessages {
       content
       createdAt
+      profileImage
       unread
       userId
       username
