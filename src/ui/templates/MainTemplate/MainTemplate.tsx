@@ -2,13 +2,25 @@ import { Grid } from '../../atoms';
 import { Sidebar } from '../../organisms';
 import classes from './MainTemplate.module.sass';
 
-export function MainTemplate(): JSX.Element {
+export interface MainTemplateProps {
+  title?: string;
+}
+
+export function MainTemplate({
+  children,
+}: React.PropsWithChildren<MainTemplateProps>): JSX.Element {
   return (
-    <Grid container alignItems="flex-start" className={classes.main}>
-      <Grid item>
+    <div className={classes.main}>
+      <Grid container>
         <Sidebar />
+        <Grid item xs="auto">
+          <div className={classes.main__content}>
+            <Grid container alignItems="center" spacing={12}>
+              {children}
+            </Grid>
+          </div>
+        </Grid>
       </Grid>
-      <Grid item>Main</Grid>
-    </Grid>
+    </div>
   );
 }

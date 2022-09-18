@@ -2,72 +2,70 @@
   
 .sidebar
   $sidebarBG: #1c1c21
+  $size: 70px
 
   background-color: $sidebarBG
   height: 100vh
-  padding: 20px 0
-  padding-left: 20%
-  width: 70px
+  padding: 24px 0
+  padding-left: $size * 0.2
+  width: $size
 
-  &__nav
+  &__nav, &__bottom
     display: flex
+    flex-flow: column wrap
+    width: calc($size * 0.8)
+  &__nav
     justify-content: flex-end
-    width: 100%
 
-    &__items
+    &__item
+      align-items: center
+      border-radius: 12px 0 0 12px
+      color: rgba(white, 0.6)
+      display: flex
+      justify-content: center
+      padding: 12px 0
+      position: relative
       width: 100%
 
-      &__item
-        align-items: center
-        border-radius: 12px 0 0 12px
-        color: rgba(white, .6)
-        display: flex
-        justify-content: center
+      &--active
+        $sizeBorder: 20px
+
+        background-color: $backgroundColor
+        color: var(--color-primary)
         padding: 12px 0
-        position: relative
-        width: 100%
+        margin: 10px 0
 
-        &--active
-          $sizeBorder: 20px
+        &::before, &::after
+          background-color: $sidebarBG
+          content: ""
+          height: $sizeBorder
+          position: absolute
+          right: 0
+          width: $sizeBorder
+        &::before
+          border-radius: 0 0 50% 0
+          box-shadow: -4px -4px 0 4px $sidebarBG, 0 0 0 5px $backgroundColor
+          top: -$sizeBorder
+        &::after
+          border-radius: 0 50% 0 0
+          bottom: -$sizeBorder
+          box-shadow: -4px 4px 0 4px $sidebarBG, 0 0 0 5px $backgroundColor
+        & > a
+          line-height: 0.5
+          position: relative
 
-          background-color: $backgroundColor
-          color: var(--color-primary)
-          padding: 12px 0
-          margin: 10px 0
-
-          &::before, &::after
-            background-color: $sidebarBG
-            content: ""
-            height: $sizeBorder
-            position: absolute
-            right: 0
-            width: $sizeBorder
           &::before
-            border-radius: 0 0 50% 0
-            box-shadow: -4px -4px 0 4px $sidebarBG, 0 0 0 5px $backgroundColor
-            top: -$sizeBorder
-          &::after
-            border-radius: 0 50% 0 0
-            bottom: -$sizeBorder
-            box-shadow: -4px 4px 0 4px $sidebarBG, 0 0 0 5px $backgroundColor
-          & > a
-            line-height: 0.5
-            position: relative
-
-            &::before
-              background-color: var(--color-primary)
-              border-radius: 2px
-              content: ""
-              height: 64%
-              left: -45%
-              position: absolute
-              top: calc(50% - (64% / 2))
-              width: 4px
+            background-color: var(--color-primary)
+            border-radius: 2px
+            content: ""
+            height: 64%
+            left: -45%
+            position: absolute
+            top: calc(50% - (64% / 2))
+            width: 4px
   &__bottom
     align-items: center
-    display: flex
     justify-content: center
-    width: 100%
 
     &__logout
       color: var(--color-error)

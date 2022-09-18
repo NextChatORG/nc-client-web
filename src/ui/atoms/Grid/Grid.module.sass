@@ -19,14 +19,12 @@ $breakpoint-up-prefixes: ("xs", "sm", "md", "lg", "xl")
 
 @mixin col-factory($thisPrefix)
   &--#{$thisPrefix}-auto
-    box-sizing: border-box
     flex-grow: 1
     flex-basis: 0
     max-width: 100%
 
   @for $i from 1 through $grid-columns
     &--#{$thisPrefix}-#{$i}
-      box-sizing: border-box
       flex-basis: 100% / $grid-columns * $i
       max-width: 100% / $grid-columns * $i
     &--#{$thisPrefix}-offset-#{$i}
@@ -34,13 +32,14 @@ $breakpoint-up-prefixes: ("xs", "sm", "md", "lg", "xl")
 
 .grid
   &__container
-    display: -webkit-flex
-    display: -ms-flexbox
     display: flex
     flex: 0 1 auto
-    margin: 0 auto
+    height: 100%
+    margin: calc(var(--grid-row-spacing) / -2) calc(var(--grid-column-spacing) / -2)
     width: 100%
   &__item
+    padding: calc(var(--grid-row-spacing) / 2) calc(var(--grid-column-spacing) / 2)
+
     @for $i from 1 through length($breakpoint-up-prefixes)
       $thisPrefix: nth($breakpoint-up-prefixes, $i)
 
