@@ -2,7 +2,7 @@ import { ProfileResponse, PROFILE_QUERY } from '@nc-core/api';
 import { UserContext } from '@nc-core/contexts';
 import { useLazyQuery, useUser } from '@nc-core/hooks';
 import { useContext, useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export interface AuthRedirectionProps {
   Logged?: React.LazyExoticComponent<() => JSX.Element>;
@@ -17,6 +17,7 @@ export function AuthRedirection({
 }: AuthRedirectionProps): JSX.Element | null {
   const { dispatch, state } = useContext(UserContext);
   const { isLogged } = useUser();
+  const navigate = useNavigate();
 
   const [getProfile, { loading: fetchingProfile }] =
     useLazyQuery<ProfileResponse>(PROFILE_QUERY, {
@@ -30,6 +31,11 @@ export function AuthRedirection({
     });
 
   useEffect(() => {
+    if (!state?.jwt && redirectToIndex) {
+      navigate('/');
+      return;
+    }
+
     if (state?.jwt && !state?.profileData) {
       getProfile();
     }
@@ -37,13 +43,7 @@ export function AuthRedirection({
 
   if (fetchingProfile) return null;
 
-  if (!isLogged) {
-    return NoLogged ? (
-      <NoLogged />
-    ) : redirectToIndex ? (
-      <Navigate to="/" />
-    ) : null;
-  }
+  if (!isLogged) return NoLogged ? <NoLogged /> : null;
 
-  return Logged ? <Logged /> : redirectToIndex ? <Navigate to="/" /> : null;
+  return Logged ? <Logged /> : null;
 }
