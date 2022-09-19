@@ -7,6 +7,7 @@ interface ButtonCommonProps {
   color?: 'black' | 'default' | 'primary' | 'success' | 'white';
   disabled?: boolean;
   endIcon?: React.ReactNode;
+  loading?: boolean;
   startIcon?: React.ReactNode;
   type?: 'button' | 'submit' | 'reset';
   variant?: 'contained' | 'input-icon' | 'outlined' | 'text';
@@ -72,7 +73,7 @@ export function Button(
         [classes['button--outlined']]: variant === 'outlined',
         [classes['button--text']]: variant === 'text',
       })}
-      disabled={props.disabled}
+      disabled={props.disabled || props.loading}
       onClick={handleClick}
       type={type}
     >
