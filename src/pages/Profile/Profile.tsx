@@ -1,5 +1,14 @@
-import { ProfileResponse, ProfileVariables, PROFILE_QUERY } from '@nc-core/api';
-import { useLazyQuery, useUser } from '@nc-core/hooks';
+import {
+  CancelFriendRequestResponse,
+  CANCEL_FRIEND_REQUEST_MUTATION,
+  FriendRequestVariables,
+  ProfileResponse,
+  ProfileVariables,
+  PROFILE_QUERY,
+  SendFriendRequestResponse,
+  SEND_FRIEND_REQUEST_MUTATION,
+} from '@nc-core/api';
+import { useLazyQuery, useMutation, useUser } from '@nc-core/hooks';
 import {
   Avatar,
   Button,
@@ -11,13 +20,19 @@ import {
   MainTemplate,
 } from '@nc-ui';
 import { format } from 'date-fns';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { AddCommentIcon, CloseIcon, EditIcon, PersonAddIcon } from '@nc-icons';
 import classes from './Profile.module.sass';
-import { parseUserProfileActions } from '@nc-core/utils';
+import {
+  DEFAULT_USER_PROFILE_ACTIONS,
+  parseUserProfileActions,
+  UserProfileActions,
+} from '@nc-core/utils';
 
 export default function Profile(): JSX.Element {
+  const [actions, setActions] = useState<UserProfileActions | null>(null);
+
   const { data: meData } = useUser();
   const { username } = useParams();
 
@@ -26,17 +41,60 @@ export default function Profile(): JSX.Element {
     ProfileVariables
   >(PROFILE_QUERY);
 
+  const [sendFriendRequest, { loading: sendingFriendRequest }] = useMutation<
+    SendFriendRequestResponse,
+    FriendRequestVariables
+  >(SEND_FRIEND_REQUEST_MUTATION, {
+    onCompleted({ sendFriendRequest }) {
+      if (!sendFriendRequest) return;
+
+      setActions({
+        ...DEFAULT_USER_PROFILE_ACTIONS,
+        canUnSendFriendRequest: true,
+      });
+    },
+  });
+
+  const [cancelFriendRequest, { loading: cancelingFriendRequest }] =
+    useMutation<CancelFriendRequestResponse, FriendRequestVariables>(
+      CANCEL_FRIEND_REQUEST_MUTATION,
+      {
+        onCompleted({ cancelFriendRequest }) {
+          if (!cancelFriendRequest) return;
+
+          setActions({
+            ...DEFAULT_USER_PROFILE_ACTIONS,
+            canSendFriendRequest: true,
+          });
+        },
+      },
+    );
+
+  function handleSendFriendRequest() {
+    if (!profileData?.id || !actions?.canSendFriendRequest) return;
+
+    return sendFriendRequest({ variables: { userId: profileData.id } });
+  }
+
+  function handleUnSendFriendRequest() {
+    if (!profileData?.id || !actions?.canUnSendFriendRequest) return;
+
+    return cancelFriendRequest({ variables: { userId: profileData.id } });
+  }
+
+  const profileData = username ? userData?.profile ?? null : meData;
+
   useEffect(() => {
     if (username && username.length >= 4 && username !== meData?.username) {
       getProfile({ variables: { username } });
     }
   }, [username]);
 
-  const profileData = username ? userData?.profile ?? meData : meData;
-
-  const actions = profileData?.actions
-    ? parseUserProfileActions(profileData.actions)
-    : null;
+  useEffect(() => {
+    if (profileData?.actions) {
+      setActions(parseUserProfileActions(profileData.actions));
+    }
+  }, [profileData]);
 
   return (
     <MainTemplate>
@@ -65,13 +123,18 @@ export default function Profile(): JSX.Element {
                   </Button>
                 ) : actions?.canSendFriendRequest ? (
                   <Button
-                    onClick={() => undefined}
+                    loading={sendingFriendRequest}
+                    onClick={handleSendFriendRequest}
                     startIcon={<PersonAddIcon />}
                   >
                     Enviar solicitud
                   </Button>
                 ) : actions?.canUnSendFriendRequest ? (
-                  <Button onClick={() => undefined} startIcon={<CloseIcon />}>
+                  <Button
+                    loading={cancelingFriendRequest}
+                    onClick={handleUnSendFriendRequest}
+                    startIcon={<CloseIcon />}
+                  >
                     Cancelar solicitud
                   </Button>
                 ) : null}
