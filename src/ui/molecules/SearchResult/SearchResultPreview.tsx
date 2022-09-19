@@ -1,5 +1,6 @@
 import { SearchResult, SearchResultType } from '@nc-core/api';
 import { useUser } from '@nc-core/hooks';
+import { parseUserProfileActions } from '@nc-core/utils';
 import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
 import { Avatar, Grid } from '../../atoms';
@@ -16,6 +17,11 @@ export function SearchResultPreview({
 }: SearchResultPreviewProps): JSX.Element {
   const { data: meData } = useUser();
 
+  const userProfileActions =
+    data.type === SearchResultType.USER && data.userData?.actions
+      ? parseUserProfileActions(data.userData.actions)
+      : null;
+
   return (
     <Link
       className={classes.searchResultPreview}
@@ -23,7 +29,7 @@ export function SearchResultPreview({
       to={
         data.type === SearchResultType.USER
           ? `/profile${
-              data.userData?.actions?.isMe ? '' : `/${data.userData?.username}`
+              userProfileActions?.isMe ? '' : `/${data.userData?.username}`
             }`
           : `/chats/user/${
               data.messageData?.toUser?.id === meData?.id
