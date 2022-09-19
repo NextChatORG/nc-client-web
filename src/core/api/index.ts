@@ -6,6 +6,7 @@ import { JWT_TOKEN } from '@nc-core/constants/local-storage';
 export * from './auth';
 export * from './messages';
 export * from './search';
+export * from './user-friends';
 export * from './users';
 
 const httpLink = createHttpLink({ uri: VITE_API_URL });

@@ -13,11 +13,6 @@ export interface User {
   profileImage: string;
 }
 
-export enum UserFriendStatus {
-  REQUESTED = 'REQUESTED',
-  ACCEPTED = 'ACCEPTED',
-}
-
 export enum UserProfileAction {
   CAN_EDIT_PROFILE = 'CAN_EDIT_PROFILE',
   CAN_SEND_FRIEND_REQUEST = 'CAN_SEND_FRIEND_REQUEST',
