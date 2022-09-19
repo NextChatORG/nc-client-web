@@ -10,7 +10,7 @@ import classes from './Header.module.sass';
 export function Header(): JSX.Element {
   const [typing, setTyping] = useState<boolean>(false);
 
-  const { control, getValues, watch } = useForm<SearchVariables>();
+  const { control, getValues, setValue, watch } = useForm<SearchVariables>();
   const { data } = useUser();
 
   const [search, { data: searchData, loading: searching }] = useLazyQuery<
@@ -72,6 +72,7 @@ export function Header(): JSX.Element {
                     <SearchResultPreview
                       data={data}
                       key={`search_result_${i}`}
+                      onClick={() => setValue('searchText', '')}
                     />
                   ))
                 ) : (

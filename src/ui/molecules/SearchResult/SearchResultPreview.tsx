@@ -7,16 +7,19 @@ import classes from './SearchResultPreview.module.sass';
 
 export interface SearchResultPreviewProps {
   data: SearchResult;
+  onClick?: React.MouseEventHandler<HTMLAnchorElement>;
 }
 
 export function SearchResultPreview({
   data,
+  onClick,
 }: SearchResultPreviewProps): JSX.Element {
   const { data: meData } = useUser();
 
   return (
     <Link
       className={classes.searchResultPreview}
+      onClick={onClick}
       to={
         data.type === SearchResultType.USER
           ? `/profile${
