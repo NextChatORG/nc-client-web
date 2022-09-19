@@ -10,6 +10,16 @@ export interface UserProfileActions {
   canRemoveFriend: boolean;
 }
 
+export const DEFAULT_USER_PROFILE_ACTIONS: UserProfileActions = {
+  isMe: false,
+  canSendFriendRequest: false,
+  canUnSendFriendRequest: false,
+  canAcceptFriendRequest: false,
+  canDeclineFriendRequest: false,
+  canSendMessage: false,
+  canRemoveFriend: false,
+};
+
 export function parseUserProfileActions(
   actions: UserProfileAction[],
 ): UserProfileActions {
