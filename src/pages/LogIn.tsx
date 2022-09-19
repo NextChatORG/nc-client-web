@@ -39,6 +39,7 @@ export default function LogIn(): JSX.Element {
       handleSubmit={handleSubmit(logIn)}
       navButtons={[
         {
+          color: 'white',
           link: true,
           message: 'Regístrate',
           to: '/signup',

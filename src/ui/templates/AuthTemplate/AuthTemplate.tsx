@@ -32,7 +32,7 @@ export function AuthTemplate<TForm extends FieldValues>({
 }: AuthTemplateProps<TForm>) {
   return (
     <div className={classes.authTemplate}>
-      <AuthHeader navButtons={navButtons} />
+      <AuthHeader logo={{ color: 'white' }} navButtons={navButtons} />
       <div className={classes.authTemplate__content}>
         <Grid container alignItems="center" justifyContent="space-evenly">
           <Grid item xs={12} sm={3}>

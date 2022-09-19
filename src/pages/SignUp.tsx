@@ -95,6 +95,7 @@ export default function SignUp(): JSX.Element {
       handleSubmit={handleSubmit(signUp)}
       navButtons={[
         {
+          color: 'white',
           link: true,
           message: 'Inicia sesión',
           to: '/login',

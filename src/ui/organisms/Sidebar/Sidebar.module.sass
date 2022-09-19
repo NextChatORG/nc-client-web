@@ -1,10 +1,7 @@
-@import '@nc-core/styles/common/variables.sass'
-  
 .sidebar
-  $sidebarBG: #1c1c21
   $size: 70px
 
-  background-color: $sidebarBG
+  background-color: var(--color-sidebar)
   height: 100vh
   padding: 24px 0
   padding-left: $size * 0.2
@@ -30,13 +27,13 @@
       &--active
         $sizeBorder: 20px
 
-        background-color: $backgroundColor
+        background-color: var(--color-background)
         color: var(--color-primary)
         padding: 12px 0
         margin: 10px 0
 
         &::before, &::after
-          background-color: $sidebarBG
+          background-color: var(--color-sidebar)
           content: ""
           height: $sizeBorder
           position: absolute
@@ -44,12 +41,12 @@
           width: $sizeBorder
         &::before
           border-radius: 0 0 50% 0
-          box-shadow: -4px -4px 0 4px $sidebarBG, 0 0 0 5px $backgroundColor
+          box-shadow: -4px -4px 0 4px var(--color-sidebar), 0 0 0 5px var(--color-background)
           top: -$sizeBorder
         &::after
           border-radius: 0 50% 0 0
           bottom: -$sizeBorder
-          box-shadow: -4px 4px 0 4px $sidebarBG, 0 0 0 5px $backgroundColor
+          box-shadow: -4px 4px 0 4px var(--color-sidebar), 0 0 0 5px var(--color-background)
         & > a
           line-height: 0.5
           position: relative

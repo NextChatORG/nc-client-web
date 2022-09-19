@@ -36,6 +36,7 @@ export default function LandingView(): JSX.Element {
       <section className={classes.landingView__secondSection}>
         <LandingFeature
           action={{
+            color: 'white',
             external: true,
             link: true,
             message: 'Políticas de Privacidad',
@@ -55,6 +56,7 @@ export default function LandingView(): JSX.Element {
         />
         <LandingFeature
           action={{
+            color: 'white',
             external: true,
             link: true,
             message: 'Conoce más',
@@ -69,6 +71,7 @@ export default function LandingView(): JSX.Element {
       </section>
       <Footer
         actionButton={{
+          color: 'white',
           link: true,
           message: 'Regístrate',
           to: '/signup',

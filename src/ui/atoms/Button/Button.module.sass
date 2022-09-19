@@ -17,20 +17,6 @@
   padding: 16px 48px
   position: relative
 
-  &--colorBlack
-    &#{ $self }--contained
-      background-color: black
-      color: white
-
-      &:hover
-        background-color: lighten(black, 10)
-      & #{ $self }__rippleEffect
-        background-color: rgba(white, .5)
-    &#{ $self }--inputIcon
-      color: black
-
-      & #{ $self }__rippleEffect
-        background-color: rgba(black, .15)
   &--colorDefault
     &#{ $self }--inputIcon
       color: currentColor
@@ -43,14 +29,14 @@
       color: var(--color-on-primary)
 
       &:hover
-        background-color: #303f9f
+        background-color: var(--color-on-primary-contained-hover)
       & #{ $self }__rippleEffect
-        background-color: #3f51b5
+        background-color: var(--color-on-primary-contained-ripple)
     &#{ $self }--inputIcon
       color: var(--color-primary)
 
       & #{ $self }__rippleEffect
-        background-color: rgba($primaryColor, .25)
+        background-color: var(--color-on-primary-text-ripple)
     &#{ $self }--outlined
       border-color: silver
       color: var(--color-primary)
@@ -59,16 +45,16 @@
         background-color: rgba($primaryColor, .05)
         border-color: var(--color-primary)
       & #{ $self }__rippleEffect
-        background-color: rgba($primaryColor, .25)
+        background-color: var(--color-on-primary-outlined-ripple)
   &--colorSuccess
     &#{ $self }--contained
       background-color: var(--color-success)
-      color: white
+      color: var(--color-on-success)
 
       &:hover
-        background-color: #66bb6a
+        background-color: var(--color-on-success-contained-hover)
       & #{ $self }__rippleEffect
-        background-color: #81c784
+        background-color: var(--color-on-success-contained-ripple)
   &--colorWhite
     &#{ $self }--outlined
       border-color: rgba(white, .6)

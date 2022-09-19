@@ -1,17 +1,34 @@
 @import './common/fonts.sass'
+@import './common/variables.sass'
 
 :root
-  --color-primary: #283593
+  --color-on-primary-contained-ripple: #{$primaryContainedRippleColor}
+  --color-on-primary-contained-hover: #{$primaryContainedHoverColor}
+  --color-on-primary-outlined-ripple: #{$primaryOutlinedRippleColor}
+  --color-on-primary-text-ripple: #{$primaryTextRippleColor}
+  --color-primary: #{$primaryColor}
   --color-on-primary: white
 
-  --color-error: #f44336
-  --color-success: #4CAF50
+  --color-on-success-contained-ripple: #{$successContainedRippleColor}
+  --color-on-success-contained-hover: #{$successContainedHoverColor}
+  --color-success: #{$successColor}
+  --color-on-success: white
+
+  --color-error: #{$errorColor}
+  --color-on-error: white
+
+  --color-search-results: #{$searchResultsColor}
+  --color-background: #{$backgroundColor}
+  --color-sidebar: #{$sidebarColor}
+  --color-text: #{$textColor}
+  --color-footer: #{$footerColor}
 
 *
   box-sizing: border-box
   font-family: Roboto
 
 body
+  background-color: var(--color-background)
   left: 0
   margin: 0
   padding: 0
