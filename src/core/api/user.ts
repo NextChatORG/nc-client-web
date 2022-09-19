@@ -14,14 +14,18 @@ export interface User {
 }
 
 export enum UserFriendStatus {
-  REQUESTED = 'requested',
-  ACCEPTED = 'accepted',
+  REQUESTED = 'REQUESTED',
+  ACCEPTED = 'ACCEPTED',
 }
 
-export interface UserProfileActions {
-  isFriend?: boolean;
-  isFriendRequested?: boolean;
-  isMe?: boolean;
+export enum UserProfileAction {
+  CAN_EDIT_PROFILE = 'CAN_EDIT_PROFILE',
+  CAN_SEND_FRIEND_REQUEST = 'CAN_SEND_FRIEND_REQUEST',
+  CAN_UNSEND_FRIEND_REQUEST = 'CAN_UNSEND_FRIEND_REQUEST',
+  CAN_ACCEPT_FRIEND_REQUEST = 'CAN_ACCEPT_FRIEND_REQUEST',
+  CAN_DECLINE_FRIEND_REQUEST = 'CAN_DECLINE_FRIEND_REQUEST',
+  CAN_SEND_MESSAGE = 'CAN_SEND_MESSAGE',
+  CAN_REMOVE_FRIEND = 'CAN_REMOVE_FRIEND',
 }
 
 export interface UserProfileCounters {
@@ -31,7 +35,7 @@ export interface UserProfileCounters {
 
 export interface UserProfile
   extends Pick<User, 'id' | 'createdAt' | 'profileImage' | 'username'> {
-  actions?: UserProfileActions;
+  actions: UserProfileAction[];
   counters?: UserProfileCounters;
 }
 
@@ -47,14 +51,10 @@ export const PROFILE_QUERY = gql`
   query profile($username: String) {
     profile(username: $username) {
       id
+      actions
+      username
       createdAt
       profileImage
-      username
-      actions {
-        isFriend
-        isFriendRequested
-        isMe
-      }
       counters {
         friendRequests
         friends

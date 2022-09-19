@@ -13,8 +13,9 @@ import {
 import { format } from 'date-fns';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { EditIcon, PersonAddIcon } from '@nc-icons';
+import { AddCommentIcon, CloseIcon, EditIcon, PersonAddIcon } from '@nc-icons';
 import classes from './Profile.module.sass';
+import { parseUserProfileActions } from '@nc-core/utils';
 
 export default function Profile(): JSX.Element {
   const { data: meData } = useUser();
@@ -33,6 +34,10 @@ export default function Profile(): JSX.Element {
 
   const profileData = username ? userData?.profile ?? meData : meData;
 
+  const actions = profileData?.actions
+    ? parseUserProfileActions(profileData.actions)
+    : null;
+
   return (
     <MainTemplate>
       <Grid item xs={12}>
@@ -43,7 +48,7 @@ export default function Profile(): JSX.Element {
           <Content className={classes.profile__leftContent}>
             <div className={classes.profile__leftContent__action}>
               <Grid container justifyContent="center">
-                {profileData.actions?.isMe ? (
+                {actions?.isMe ? (
                   <Button
                     link
                     startIcon={<EditIcon />}
@@ -51,13 +56,23 @@ export default function Profile(): JSX.Element {
                   >
                     Editar perfil
                   </Button>
-                ) : profileData.actions?.isFriendRequested ? null : !profileData
-                    .actions?.isFriend ? (
+                ) : actions?.canSendMessage ? (
+                  <Button
+                    onClick={() => undefined}
+                    startIcon={<AddCommentIcon />}
+                  >
+                    Enviar mensaje
+                  </Button>
+                ) : actions?.canSendFriendRequest ? (
                   <Button
                     onClick={() => undefined}
                     startIcon={<PersonAddIcon />}
                   >
                     Enviar solicitud
+                  </Button>
+                ) : actions?.canUnSendFriendRequest ? (
+                  <Button onClick={() => undefined} startIcon={<CloseIcon />}>
+                    Cancelar solicitud
                   </Button>
                 ) : null}
               </Grid>
