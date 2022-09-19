@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 import { Message } from './messages';
-import { UserProfile } from './user';
+import { UserProfile } from './users';
 
 export enum SearchResultType {
   MESSAGE = 'MESSAGE',

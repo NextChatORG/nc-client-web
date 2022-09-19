@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { User } from './user';
+import { User } from './users';
 
 export interface Message {
   id: string;
