@@ -1,9 +1,16 @@
 import {
+  AcceptFriendRequestResponse,
+  ACCEPT_FRIEND_REQUEST_MUTATION,
   CancelFriendRequestResponse,
   CANCEL_FRIEND_REQUEST_MUTATION,
+  DeclineFriendRequestResponse,
+  DECLINE_FRIEND_REQUEST_MUTATION,
   FriendRequestVariables,
+  ProfileActionsChangedResponse,
+  ProfileActionsChangedVariables,
   ProfileResponse,
   ProfileVariables,
+  PROFILE_ACTIONS_CHANGED_SUBSCRIPTION,
   PROFILE_QUERY,
   SendFriendRequestResponse,
   SEND_FRIEND_REQUEST_MUTATION,
@@ -29,6 +36,7 @@ import {
   parseUserProfileActions,
   UserProfileActions,
 } from '@nc-core/utils';
+import { useSubscription } from '@apollo/client';
 
 export default function Profile(): JSX.Element {
   const [actions, setActions] = useState<UserProfileActions | null>(null);
@@ -40,6 +48,22 @@ export default function Profile(): JSX.Element {
     ProfileResponse,
     ProfileVariables
   >(PROFILE_QUERY);
+
+  useSubscription<
+    ProfileActionsChangedResponse,
+    ProfileActionsChangedVariables
+  >(PROFILE_ACTIONS_CHANGED_SUBSCRIPTION, {
+    onSubscriptionData({ subscriptionData }) {
+      if (subscriptionData.data?.profileActionsChanged) {
+        setActions(
+          parseUserProfileActions(
+            subscriptionData.data.profileActionsChanged.actions,
+          ),
+        );
+      }
+    },
+    variables: { username: (username || meData?.username) ?? '' },
+  });
 
   const [sendFriendRequest, { loading: sendingFriendRequest }] = useMutation<
     SendFriendRequestResponse,
@@ -70,6 +94,30 @@ export default function Profile(): JSX.Element {
       },
     );
 
+  const [acceptFriendRequest, { loading: acceptingFriendRequest }] =
+    useMutation<AcceptFriendRequestResponse, FriendRequestVariables>(
+      ACCEPT_FRIEND_REQUEST_MUTATION,
+      {
+        onCompleted({ acceptFriendRequest }) {
+          if (!acceptFriendRequest) return;
+
+          setActions({ ...DEFAULT_USER_PROFILE_ACTIONS, canSendMessage: true });
+        },
+      },
+    );
+
+  const [declineFriendRequest, { loading: decliningFriendRequest }] =
+    useMutation<DeclineFriendRequestResponse, FriendRequestVariables>(
+      DECLINE_FRIEND_REQUEST_MUTATION,
+      {
+        onCompleted({ declineFriendRequest }) {
+          if (!declineFriendRequest) return;
+
+          setActions({ ...DEFAULT_USER_PROFILE_ACTIONS, canSendMessage: true });
+        },
+      },
+    );
+
   function handleSendFriendRequest() {
     if (!profileData?.id || !actions?.canSendFriendRequest) return;
 
@@ -80,6 +128,18 @@ export default function Profile(): JSX.Element {
     if (!profileData?.id || !actions?.canUnSendFriendRequest) return;
 
     return cancelFriendRequest({ variables: { userId: profileData.id } });
+  }
+
+  function handleAcceptFriendRequest() {
+    if (!profileData?.id || !actions?.canAcceptFriendRequest) return;
+
+    return acceptFriendRequest({ variables: { userId: profileData.id } });
+  }
+
+  function handleDeclineFriendRequest() {
+    if (!profileData?.id || !actions?.canDeclineFriendRequest) return;
+
+    return declineFriendRequest({ variables: { userId: profileData.id } });
   }
 
   const profileData = username ? userData?.profile ?? null : meData;
@@ -105,39 +165,62 @@ export default function Profile(): JSX.Element {
         <Grid item xs={3}>
           <Content className={classes.profile__leftContent}>
             <div className={classes.profile__leftContent__action}>
-              <Grid container justifyContent="center">
-                {actions?.isMe ? (
-                  <Button
-                    link
-                    startIcon={<EditIcon />}
-                    to={`/profile/${profileData.username}/settings`}
-                  >
-                    Editar perfil
-                  </Button>
-                ) : actions?.canSendMessage ? (
-                  <Button
-                    onClick={() => undefined}
-                    startIcon={<AddCommentIcon />}
-                  >
-                    Enviar mensaje
-                  </Button>
-                ) : actions?.canSendFriendRequest ? (
-                  <Button
-                    loading={sendingFriendRequest}
-                    onClick={handleSendFriendRequest}
-                    startIcon={<PersonAddIcon />}
-                  >
-                    Enviar solicitud
-                  </Button>
-                ) : actions?.canUnSendFriendRequest ? (
-                  <Button
-                    loading={cancelingFriendRequest}
-                    onClick={handleUnSendFriendRequest}
-                    startIcon={<CloseIcon />}
-                  >
-                    Cancelar solicitud
-                  </Button>
-                ) : null}
+              <Grid container justifyContent="center" spacing={12}>
+                <Grid item>
+                  {actions?.canAcceptFriendRequest ? (
+                    <Button
+                      loading={acceptingFriendRequest || decliningFriendRequest}
+                      onClick={handleAcceptFriendRequest}
+                      size="small"
+                    >
+                      Aceptar solicitud
+                    </Button>
+                  ) : null}
+                </Grid>
+                <Grid item>
+                  {actions?.isMe ? (
+                    <Button
+                      link
+                      startIcon={<EditIcon />}
+                      to={`/profile/${profileData.username}/settings`}
+                    >
+                      Editar perfil
+                    </Button>
+                  ) : actions?.canSendMessage ? (
+                    <Button
+                      onClick={() => undefined}
+                      startIcon={<AddCommentIcon />}
+                    >
+                      Enviar mensaje
+                    </Button>
+                  ) : actions?.canSendFriendRequest ? (
+                    <Button
+                      loading={sendingFriendRequest}
+                      onClick={handleSendFriendRequest}
+                      startIcon={<PersonAddIcon />}
+                    >
+                      Enviar solicitud
+                    </Button>
+                  ) : actions?.canUnSendFriendRequest ? (
+                    <Button
+                      color="error"
+                      loading={cancelingFriendRequest}
+                      onClick={handleUnSendFriendRequest}
+                      startIcon={<CloseIcon />}
+                    >
+                      Cancelar solicitud
+                    </Button>
+                  ) : actions?.canDeclineFriendRequest ? (
+                    <Button
+                      color="error"
+                      loading={acceptingFriendRequest || decliningFriendRequest}
+                      onClick={handleDeclineFriendRequest}
+                      size="small"
+                    >
+                      Rechazar solicitud
+                    </Button>
+                  ) : null}
+                </Grid>
               </Grid>
             </div>
             <Grid container justifyContent="center" spacing={24}>

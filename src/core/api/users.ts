@@ -57,3 +57,21 @@ export const PROFILE_QUERY = gql`
     }
   }
 `;
+
+export interface ProfileActionsChangedVariables {
+  username: string;
+}
+
+export interface ProfileActionsChangedResponse {
+  profileActionsChanged: {
+    actions: UserProfileAction[];
+  };
+}
+
+export const PROFILE_ACTIONS_CHANGED_SUBSCRIPTION = gql`
+  subscription profileActionsChanged($username: String!) {
+    profileActionsChanged(username: $username) {
+      actions
+    }
+  }
+`;
