@@ -8,6 +8,7 @@ interface ButtonCommonProps {
   disabled?: boolean;
   endIcon?: React.ReactNode;
   loading?: boolean;
+  size?: 'normal' | 'small';
   startIcon?: React.ReactNode;
   type?: 'button' | 'submit' | 'reset';
   variant?: 'contained' | 'input-icon' | 'outlined' | 'text';
@@ -29,7 +30,12 @@ export type ButtonProps = ButtonLinkProps | ButtonNormalProps;
 export function Button(
   props: React.PropsWithChildren<ButtonProps>,
 ): JSX.Element {
-  const { color = 'primary', type = 'button', variant = 'contained' } = props;
+  const {
+    color = 'primary',
+    size = 'normal',
+    type = 'button',
+    variant = 'contained',
+  } = props;
 
   const [isRippling, setRippling] = useState<boolean>(false);
   const [ripplePos, setRipplePos] = useState<[number, number] | null>(null);
@@ -73,6 +79,7 @@ export function Button(
         [classes['button--inputIcon']]: variant === 'input-icon',
         [classes['button--outlined']]: variant === 'outlined',
         [classes['button--text']]: variant === 'text',
+        [classes['button--small']]: size === 'small',
       })}
       disabled={props.disabled || props.loading}
       onClick={handleClick}
