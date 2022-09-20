@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import classes from './Button.module.sass';
 
 interface ButtonCommonProps {
-  color?: 'default' | 'primary' | 'success' | 'white';
+  color?: 'default' | 'error' | 'primary' | 'success' | 'warning' | 'white';
   disabled?: boolean;
   endIcon?: React.ReactNode;
   loading?: boolean;
@@ -64,8 +64,10 @@ export function Button(
     <button
       className={clsx(classes.button, {
         [classes['button--colorDefault']]: color === 'default',
+        [classes['button--colorError']]: color === 'error',
         [classes['button--colorPrimary']]: color === 'primary',
         [classes['button--colorSuccess']]: color === 'success',
+        [classes['button--colorWarning']]: color === 'warning',
         [classes['button--colorWhite']]: color === 'white',
         [classes['button--contained']]: variant === 'contained',
         [classes['button--inputIcon']]: variant === 'input-icon',

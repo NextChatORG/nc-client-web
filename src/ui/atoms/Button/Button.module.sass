@@ -23,6 +23,15 @@
 
       & #{ $self }__rippleEffect
         background-color: rgba(black, .15)
+  &--colorError
+    &#{ $self }--contained
+      background-color: var(--color-error)
+      color: var(--color-on-error)
+
+      &:hover
+        background-color: var(--color-on-error-contained-hover)
+      & #{ $self }__rippleEffect
+        background-color: var(--color-on-error-contained-ripple)
   &--colorPrimary
     &#{ $self }--contained
       background-color: var(--color-primary)
@@ -55,6 +64,15 @@
         background-color: var(--color-on-success-contained-hover)
       & #{ $self }__rippleEffect
         background-color: var(--color-on-success-contained-ripple)
+  &--colorWarning
+    &#{ $self }--contained
+      background-color: var(--color-warning)
+      color: var(--color-on-warning)
+
+      &:hover
+        background-color: var(--color-on-warning-contained-hover)
+      & #{ $self }__rippleEffect
+        background-color: var(--color-on-warning-contained-ripple)
   &--colorWhite
     &#{ $self }--outlined
       border-color: rgba(white, .6)
