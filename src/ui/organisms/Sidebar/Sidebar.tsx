@@ -2,6 +2,8 @@ import { Link, useLocation } from 'react-router-dom';
 import {
   DashboardFilledIcon,
   DashboardOutlinedIcon,
+  ExploreFilledIcon,
+  ExploreOutlinedIcon,
   HelpFilledIcon,
   HelpOutlinedIcon,
   LogoutIcon,
@@ -49,6 +51,15 @@ export function Sidebar(): JSX.Element {
                   <DashboardFilledIcon />
                 ) : (
                   <DashboardOutlinedIcon />
+                )}
+              </Link>
+            </li>
+            <li className={getLinkClasses('/explore')}>
+              <Link to="/explore">
+                {isActive('/explore') ? (
+                  <ExploreFilledIcon />
+                ) : (
+                  <ExploreOutlinedIcon />
                 )}
               </Link>
             </li>
