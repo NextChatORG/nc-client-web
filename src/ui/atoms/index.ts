@@ -3,6 +3,7 @@ export * from './Button';
 export * from './Content';
 export * from './Divider';
 export * from './Grid';
+export * from './IconButton';
 export * from './Label';
 export * from './Loading';
 export * from './Logo';

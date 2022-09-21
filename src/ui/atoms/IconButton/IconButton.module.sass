@@ -1,0 +1,127 @@
+.iconButton
+  $self: &
+
+  background-color: transparent
+  border: none
+  border-radius: 50%
+  cursor: pointer
+  height: var(--iconbutton-size)
+  overflow: hidden
+  position: relative
+  width: var(--iconbutton-size)
+
+  &--colorDefault
+    &#{ $self }--inputIcon
+      color: currentColor
+
+      & #{ $self }__rippleEffect
+        background-color: rgba(black, .15)
+  &--colorError
+    &#{ $self }--contained
+      background-color: var(--color-error)
+      color: var(--color-on-error)
+
+      &:hover
+        background-color: var(--color-on-error-contained-hover)
+      & #{ $self }__rippleEffect
+        background-color: var(--color-on-error-contained-ripple)
+    &#{ $self }--transparent
+      color: var(--color-error)
+
+      &:hover
+        background-color: var(--color-on-error-text-hover)
+      & #{ $self }__rippleEffect
+        background-color: var(--color-on-error-text-ripple)
+  &--colorPrimary
+    &#{ $self }--contained
+      background-color: var(--color-primary)
+      color: var(--color-on-primary)
+
+      &:hover
+        background-color: var(--color-on-primary-contained-hover)
+      & #{ $self }__rippleEffect
+        background-color: var(--color-on-primary-contained-ripple)
+    &#{ $self }--transparent
+      color: var(--color-primary)
+
+      &:hover
+        background-color: var(--color-on-primary-text-hover)
+      & #{ $self }__rippleEffect
+        background-color: var(--color-on-primary-text-ripple)
+  &--colorSuccess
+    &#{ $self }--contained
+      background-color: var(--color-success)
+      color: var(--color-on-success)
+
+      &:hover
+        background-color: var(--color-on-success-contained-hover)
+      & #{ $self }__rippleEffect
+        background-color: var(--color-on-success-contained-ripple)
+    &#{ $self }--transparent
+      color: var(--color-success)
+
+      &:hover
+        background-color: var(--color-on-success-text-hover)
+      & #{ $self }__rippleEffect
+        background-color: var(--color-on-success-text-ripple)
+  &--colorWarning
+    &#{ $self }--contained
+      background-color: var(--color-warning)
+      color: var(--color-on-warning)
+
+      &:hover
+        background-color: var(--color-on-warning-contained-hover)
+      & #{ $self }__rippleEffect
+        background-color: var(--color-on-warning-contained-ripple)
+    &#{ $self }--transparent
+      color: var(--color-warning)
+
+      &:hover
+        background-color: var(--color-on-warning-text-hover)
+      & #{ $self }__rippleEffect
+        background-color: var(--color-on-warning-text-ripple)
+  &--colorWhite
+    &#{ $self }--contained
+      background-color: rgba(white, .25)
+      color: white
+
+      &:hover
+        background-color: rgba(white, .35)
+        border-color: white
+      & #{ $self }__rippleEffect
+        background-color: rgba(white, .25)
+    &#{ $self }--transparent
+      color: white
+
+      &:hover
+        background-color: rgba(white, .05)
+      & #{ $self }__rippleEffect
+        background-color: rgba(white, .25)
+  &--normal
+    --iconbutton-size: 45px
+    --iconbutton-ripple-size: 40px
+  &--small
+    --iconbutton-size: 35px
+    --iconbutton-ripple-size: 30px
+  &--contained, &--text
+    transition: .2s background-color ease-in-out
+  &__rippleEffect
+    animation: 0.9s ease 1 forwards ncIconButtonRipple
+    border-radius: 9999px
+    content: ''
+    display: block
+    height: var(--iconbutton-ripple-size)
+    opacity: 1
+    position: absolute
+    width: var(--iconbutton-ripple-size)
+
+@keyframes ncIconButtonRipple
+  0%
+    transform: scale(1)
+    opacity: 1
+  50%
+    transform: scale(10)
+    opacity: 0.375
+  100%
+    transform: scale(35)
+    opacity: 0
