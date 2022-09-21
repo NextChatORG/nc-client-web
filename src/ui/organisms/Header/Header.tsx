@@ -3,7 +3,8 @@ import { useLazyQuery, useUser } from '@nc-core/hooks';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-import { Avatar, Grid, Loading, TextField } from '../../atoms';
+import { NotificationsOutlinedIcon } from '../../../icons/mui';
+import { Avatar, Grid, IconButton, Loading, TextField } from '../../atoms';
 import { SearchResultPreview } from '../../molecules';
 import classes from './Header.module.sass';
 
@@ -85,30 +86,48 @@ export function Header(): JSX.Element {
           </div>
         </Grid>
         <Grid item xs={3}>
-          <Grid container justifyContent="flex-end">
-            <Link className={classes.header__profile} to="/profile">
-              <Grid
-                container
-                alignItems="center"
-                justifyContent="flex-end"
-                spacing={12}
-              >
-                <Grid item>
-                  <div className={classes.header__profile__information}>
-                    <h3
-                      className={classes.header__profile__information__username}
-                    >
-                      {data?.username ?? ''}
-                    </h3>
-                  </div>
-                </Grid>
-                <Grid item>
-                  <Grid container justifyContent="flex-end">
-                    <Avatar url={data?.profileImage} />
+          <Grid
+            container
+            alignItems="center"
+            justifyContent="flex-end"
+            spacing={12}
+          >
+            <Grid item>
+              <Link className={classes.header__profile} to="/profile">
+                <Grid
+                  container
+                  alignItems="center"
+                  justifyContent="flex-end"
+                  spacing={12}
+                >
+                  <Grid item>
+                    <div className={classes.header__profile__information}>
+                      <h3
+                        className={
+                          classes.header__profile__information__username
+                        }
+                      >
+                        {data?.username ?? ''}
+                      </h3>
+                    </div>
+                  </Grid>
+                  <Grid item>
+                    <Grid container justifyContent="flex-end">
+                      <Avatar url={data?.profileImage} />
+                    </Grid>
                   </Grid>
                 </Grid>
-              </Grid>
-            </Link>
+              </Link>
+            </Grid>
+            <Grid item>
+              <IconButton
+                color="white"
+                onClick={() => undefined}
+                variant="transparent"
+              >
+                <NotificationsOutlinedIcon />
+              </IconButton>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
