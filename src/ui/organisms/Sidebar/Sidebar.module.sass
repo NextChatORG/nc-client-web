@@ -4,15 +4,12 @@
   background-color: var(--color-sidebar)
   height: 100vh
   padding: 24px 0
-  padding-left: $size * 0.2
   width: $size
 
-  &__nav, &__bottom
+  &__nav
     display: flex
     flex-flow: column wrap
     width: calc($size * 0.8)
-  &__nav
-    justify-content: flex-end
 
     &__item
       align-items: center
@@ -31,6 +28,7 @@
         color: var(--color-primary)
         padding: 12px 0
         margin: 10px 0
+        width: calc($size * 0.9)
 
         &::before, &::after
           background-color: var(--color-sidebar)
@@ -60,10 +58,3 @@
             position: absolute
             top: calc(50% - (64% / 2))
             width: 4px
-  &__bottom
-    align-items: center
-    justify-content: center
-
-    &__logout
-      color: var(--color-error)
-      line-height: 0.5

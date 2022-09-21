@@ -5,17 +5,17 @@ import {
   HelpFilledIcon,
   HelpOutlinedIcon,
   LogoutIcon,
-  NotificationsFilledIcon,
-  NotificationsOutlinedIcon,
   SettingsFilledIcon,
   SettingsOutlinedIcon,
 } from '@nc-icons';
-import { Grid, Logo } from '../../atoms';
+import { Grid, IconButton, Logo } from '../../atoms';
 import classes from './Sidebar.module.sass';
 import clsx from 'clsx';
+import { useUser } from '@nc-core/hooks';
 
 export function Sidebar(): JSX.Element {
   const location = useLocation();
+  const { data: meData, logOut } = useUser();
 
   function isActive(pathname: string): boolean {
     return location.pathname === pathname;
@@ -32,7 +32,7 @@ export function Sidebar(): JSX.Element {
       <Grid
         container
         fullHeight
-        alignItems="flex-start"
+        alignItems="center"
         direction="column"
         justifyContent="space-between"
       >
@@ -52,24 +52,21 @@ export function Sidebar(): JSX.Element {
                 )}
               </Link>
             </li>
-            <li className={getLinkClasses('/notifications')}>
-              <Link to="/notifications">
-                {isActive('/notifications') ? (
-                  <NotificationsFilledIcon />
-                ) : (
-                  <NotificationsOutlinedIcon />
+            {meData && (
+              <li
+                className={getLinkClasses(
+                  `/profile/${meData.username}/settings`,
                 )}
-              </Link>
-            </li>
-            <li className={getLinkClasses('/settings')}>
-              <Link to="/settings">
-                {isActive('/settings') ? (
-                  <SettingsFilledIcon />
-                ) : (
-                  <SettingsOutlinedIcon />
-                )}
-              </Link>
-            </li>
+              >
+                <Link to={`/profile/${meData?.username}/settings`}>
+                  {isActive(`/profile/${meData?.username}/settings`) ? (
+                    <SettingsFilledIcon />
+                  ) : (
+                    <SettingsOutlinedIcon />
+                  )}
+                </Link>
+              </li>
+            )}
             <li className={getLinkClasses('/help')}>
               <Link to="/help">
                 {isActive('/help') ? <HelpFilledIcon /> : <HelpOutlinedIcon />}
@@ -78,11 +75,11 @@ export function Sidebar(): JSX.Element {
           </ul>
         </Grid>
         <Grid item>
-          <div className={classes.sidebar__bottom}>
-            <Link className={classes.sidebar__bottom__logout} to="/logout">
+          <Grid container alignItems="center" justifyContent="center">
+            <IconButton color="error" onClick={logOut} variant="transparent">
               <LogoutIcon />
-            </Link>
-          </div>
+            </IconButton>
+          </Grid>
         </Grid>
       </Grid>
     </div>
