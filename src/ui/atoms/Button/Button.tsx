@@ -1,10 +1,11 @@
+import { ButtonColors } from '@nc-core/interfaces/ui';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import classes from './Button.module.sass';
 
 interface ButtonCommonProps {
-  color?: 'default' | 'error' | 'primary' | 'success' | 'warning' | 'white';
+  color?: ButtonColors;
   disabled?: boolean;
   endIcon?: React.ReactNode;
   loading?: boolean;
