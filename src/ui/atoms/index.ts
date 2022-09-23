@@ -8,3 +8,4 @@ export * from './Label';
 export * from './Loading';
 export * from './Logo';
 export * from './TextField';
+export * from './Typography';
