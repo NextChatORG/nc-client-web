@@ -5,16 +5,17 @@
   border: none
   border-radius: 50%
   cursor: pointer
-  height: var(--iconbutton-size)
-  overflow: hidden
+  padding: 0
   position: relative
-  width: var(--iconbutton-size)
 
+  &, &__button
+    height: var(--iconbutton-size)
+    width: var(--iconbutton-size)
   &--colorDefault
     &#{ $self }--inputIcon
       color: currentColor
 
-      & #{ $self }__rippleEffect
+      & #{ $self }__button__rippleEffect
         background-color: rgba(black, .15)
   &--colorError
     &#{ $self }--contained
@@ -23,14 +24,14 @@
 
       &:hover
         background-color: var(--color-on-error-contained-hover)
-      & #{ $self }__rippleEffect
+      & #{ $self }__button__rippleEffect
         background-color: var(--color-on-error-contained-ripple)
     &#{ $self }--transparent
       color: var(--color-error)
 
       &:hover
         background-color: var(--color-on-error-text-hover)
-      & #{ $self }__rippleEffect
+      & #{ $self }__button__rippleEffect
         background-color: var(--color-on-error-text-ripple)
   &--colorPrimary
     &#{ $self }--contained
@@ -39,14 +40,14 @@
 
       &:hover
         background-color: var(--color-on-primary-contained-hover)
-      & #{ $self }__rippleEffect
+      & #{ $self }__button__rippleEffect
         background-color: var(--color-on-primary-contained-ripple)
     &#{ $self }--transparent
       color: var(--color-primary)
 
       &:hover
         background-color: var(--color-on-primary-text-hover)
-      & #{ $self }__rippleEffect
+      & #{ $self }__button__rippleEffect
         background-color: var(--color-on-primary-text-ripple)
   &--colorSuccess
     &#{ $self }--contained
@@ -55,14 +56,14 @@
 
       &:hover
         background-color: var(--color-on-success-contained-hover)
-      & #{ $self }__rippleEffect
+      & #{ $self }__button__rippleEffect
         background-color: var(--color-on-success-contained-ripple)
     &#{ $self }--transparent
       color: var(--color-success)
 
       &:hover
         background-color: var(--color-on-success-text-hover)
-      & #{ $self }__rippleEffect
+      & #{ $self }__button__rippleEffect
         background-color: var(--color-on-success-text-ripple)
   &--colorWarning
     &#{ $self }--contained
@@ -71,14 +72,14 @@
 
       &:hover
         background-color: var(--color-on-warning-contained-hover)
-      & #{ $self }__rippleEffect
+      & #{ $self }__button__rippleEffect
         background-color: var(--color-on-warning-contained-ripple)
     &#{ $self }--transparent
       color: var(--color-warning)
 
       &:hover
         background-color: var(--color-on-warning-text-hover)
-      & #{ $self }__rippleEffect
+      & #{ $self }__button__rippleEffect
         background-color: var(--color-on-warning-text-ripple)
   &--colorWhite
     &#{ $self }--contained
@@ -88,14 +89,14 @@
       &:hover
         background-color: rgba(white, .35)
         border-color: white
-      & #{ $self }__rippleEffect
+      & #{ $self }__button__rippleEffect
         background-color: rgba(white, .25)
     &#{ $self }--transparent
       color: white
 
       &:hover
         background-color: rgba(white, .05)
-      & #{ $self }__rippleEffect
+      & #{ $self }__button__rippleEffect
         background-color: rgba(white, .25)
   &--normal
     --iconbutton-size: 45px
@@ -105,15 +106,42 @@
     --iconbutton-ripple-size: 30px
   &--contained, &--text
     transition: .2s background-color ease-in-out
-  &__rippleEffect
-    animation: 0.9s ease 1 forwards ncIconButtonRipple
-    border-radius: 9999px
-    content: ''
-    display: block
-    height: var(--iconbutton-ripple-size)
-    opacity: 1
+  &__button
+    align-items: center
+    border-radius: 50%
+    display: flex
+    justify-content: center
+    line-height: 0.5
+    overflow: hidden
+    position: relative
+
+    &__rippleEffect
+      animation: 0.9s ease 1 forwards ncIconButtonRipple
+      border-radius: 9999px
+      content: ''
+      display: block
+      height: var(--iconbutton-ripple-size)
+      opacity: 1
+      position: absolute
+      width: var(--iconbutton-ripple-size)
+  &__counter
+    $counterSize: 18px
+
+    align-items: center
+    background-color: var(--color-error)
+    border-radius: 50%
+    color: var(--color-on-error)
+    display: flex
+    flex-flow: row wrap
+    font:
+      size: 10px
+      weight: 500
+    height: $counterSize
+    justify-content: center
     position: absolute
-    width: var(--iconbutton-ripple-size)
+    right: 0px
+    top: 0
+    width: $counterSize
 
 @keyframes ncIconButtonRipple
   0%

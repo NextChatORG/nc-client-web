@@ -13,6 +13,7 @@ import { getMainDefinition } from '@apollo/client/utilities';
 
 export * from './auth';
 export * from './messages';
+export * from './notifications';
 export * from './search';
 export * from './user-friends';
 export * from './users';

@@ -9,7 +9,7 @@ interface ButtonCommonProps {
   disabled?: boolean;
   endIcon?: React.ReactNode;
   loading?: boolean;
-  size?: 'normal' | 'small';
+  size?: 'extra-small' | 'normal' | 'small';
   startIcon?: React.ReactNode;
   type?: 'button' | 'submit' | 'reset';
   variant?: 'contained' | 'input-icon' | 'outlined' | 'text';
@@ -69,19 +69,19 @@ export function Button(
 
   return (
     <button
-      className={clsx(classes.button, {
-        [classes['button--colorDefault']]: color === 'default',
-        [classes['button--colorError']]: color === 'error',
-        [classes['button--colorPrimary']]: color === 'primary',
-        [classes['button--colorSuccess']]: color === 'success',
-        [classes['button--colorWarning']]: color === 'warning',
-        [classes['button--colorWhite']]: color === 'white',
-        [classes['button--contained']]: variant === 'contained',
-        [classes['button--inputIcon']]: variant === 'input-icon',
-        [classes['button--outlined']]: variant === 'outlined',
-        [classes['button--text']]: variant === 'text',
-        [classes['button--small']]: size === 'small',
-      })}
+      className={clsx(
+        classes.button,
+        classes[`button--${size}`],
+        classes[`button--${variant}`],
+        {
+          [classes['button--colorDefault']]: color === 'default',
+          [classes['button--colorError']]: color === 'error',
+          [classes['button--colorPrimary']]: color === 'primary',
+          [classes['button--colorSuccess']]: color === 'success',
+          [classes['button--colorWarning']]: color === 'warning',
+          [classes['button--colorWhite']]: color === 'white',
+        },
+      )}
       disabled={props.disabled || props.loading}
       onClick={handleClick}
       type={type}

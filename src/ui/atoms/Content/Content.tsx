@@ -5,6 +5,7 @@ export interface ContentProps {
   className?: string;
   fullHeight?: boolean;
   noPadding?: boolean;
+  style?: React.CSSProperties;
 }
 
 export function Content({
@@ -12,6 +13,7 @@ export function Content({
   className,
   fullHeight,
   noPadding,
+  style,
 }: React.PropsWithChildren<ContentProps>): JSX.Element {
   return (
     <section
@@ -19,6 +21,7 @@ export function Content({
         [classes['content--fullHeight']]: fullHeight,
         [classes['content--padding']]: !noPadding,
       })}
+      style={style}
     >
       {children}
     </section>

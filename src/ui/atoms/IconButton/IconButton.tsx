@@ -6,6 +6,7 @@ import classes from './IconButton.module.sass';
 
 interface IconButtonCommonProps {
   color?: ButtonColors;
+  counter?: number;
   disabled?: boolean;
   size?: 'normal' | 'small';
   variant?: 'contained' | 'transparent';
@@ -26,6 +27,7 @@ export type IconButtonProps = IconButtonLinkProps | IconButtonNormalProps;
 
 export function IconButton({
   color = 'primary',
+  counter = 0,
   children,
   disabled,
   size = 'normal',
@@ -78,13 +80,20 @@ export function IconButton({
       disabled={disabled}
       onClick={handleClick}
     >
-      {isRippling && ripplePos && (
-        <div
-          className={classes.iconButton__rippleEffect}
-          style={{ left: ripplePos[0], top: ripplePos[1] }}
-        />
+      <div className={classes.iconButton__button}>
+        {isRippling && ripplePos && (
+          <div
+            className={classes.iconButton__button__rippleEffect}
+            style={{ left: ripplePos[0], top: ripplePos[1] }}
+          />
+        )}
+        <div>{children}</div>
+      </div>
+      {counter > 0 && (
+        <div className={classes.iconButton__counter}>
+          {counter > 99 ? '+99' : counter}
+        </div>
       )}
-      <div className={classes.iconButton__text}>{children}</div>
     </button>
   );
 }

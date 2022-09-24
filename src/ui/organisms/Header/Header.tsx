@@ -3,9 +3,8 @@ import { useLazyQuery, useUser } from '@nc-core/hooks';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-import { NotificationsOutlinedIcon } from '../../../icons/mui';
-import { Avatar, Grid, IconButton, Loading, TextField } from '../../atoms';
-import { SearchResultPreview } from '../../molecules';
+import { Avatar, Grid, Loading, TextField } from '../../atoms';
+import { NotificationsBox, SearchResultPreview } from '../../molecules';
 import classes from './Header.module.sass';
 
 export interface HeaderProps {
@@ -124,13 +123,7 @@ export function Header({ headerRef }: HeaderProps): JSX.Element {
               </Link>
             </Grid>
             <Grid item>
-              <IconButton
-                color="white"
-                onClick={() => undefined}
-                variant="transparent"
-              >
-                <NotificationsOutlinedIcon />
-              </IconButton>
+              <NotificationsBox />
             </Grid>
           </Grid>
         </Grid>
