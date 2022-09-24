@@ -2,8 +2,8 @@ import { ApolloProvider } from '@apollo/client';
 import client from '@nc-core/api';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
-import Router from './Router';
+import { RouterProvider } from 'react-router-dom';
+import router from './Router';
 
 import '@nc-core/styles/global.sass';
 import 'react-toastify/dist/ReactToastify.min.css';
@@ -15,9 +15,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <BrowserRouter>
-        <Router />
-      </BrowserRouter>
+      <RouterProvider router={router} />
     </ApolloProvider>
   </React.StrictMode>,
 );
