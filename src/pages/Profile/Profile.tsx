@@ -189,8 +189,9 @@ export default function Profile(): JSX.Element {
                     </Button>
                   ) : actions?.canSendMessage ? (
                     <Button
-                      onClick={() => undefined}
+                      link
                       startIcon={<AddCommentIcon />}
+                      to={`/chat/${profileData.id}`}
                     >
                       Enviar mensaje
                     </Button>
