@@ -12,7 +12,7 @@ import {
   Typography,
 } from '@nc-ui';
 
-export default function Home(): JSX.Element {
+export default function Chat(): JSX.Element {
   const { data } = useQuery<GetRecentMessagesResponse>(
     GET_RECENT_MESSAGES_QUERY,
   );

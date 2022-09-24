@@ -7,7 +7,7 @@ const LandingView = lazy(() => import('./pages/LandingView/index'));
 const LogIn = lazy(() => import('./pages/LogIn'));
 const SignUp = lazy(() => import('./pages/SignUp'));
 
-const Home = lazy(() => import('./pages/Home'));
+const Chat = lazy(() => import('./pages/Chat'));
 const Profile = lazy(() => import('./pages/Profile/index'));
 
 export default function Router(): JSX.Element {
@@ -16,7 +16,7 @@ export default function Router(): JSX.Element {
       <Route path="/" element={<App />}>
         <Route
           index
-          element={<AuthRedirection Logged={Home} NoLogged={LandingView} />}
+          element={<AuthRedirection Logged={Chat} NoLogged={LandingView} />}
         />
         <Route
           path="login"
@@ -26,6 +26,16 @@ export default function Router(): JSX.Element {
           path="signup"
           element={<AuthRedirection redirectToIndex NoLogged={SignUp} />}
         />
+        <Route path="chat">
+          <Route
+            index
+            element={<AuthRedirection redirectToIndex Logged={Chat} />}
+          />
+          <Route
+            path=":id"
+            element={<AuthRedirection redirectToIndex Logged={Chat} />}
+          />
+        </Route>
         <Route path="profile">
           <Route
             index
