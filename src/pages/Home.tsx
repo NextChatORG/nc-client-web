@@ -6,30 +6,22 @@ import { useQuery } from '@nc-core/hooks';
 import {
   Content,
   Grid,
-  Header,
   MainTemplate,
   MessagePreview,
   NoChatSelected,
   Typography,
 } from '@nc-ui';
-import { useRef } from 'react';
 
 export default function Home(): JSX.Element {
-  const headerRef = useRef<HTMLElement | null>(null);
-
   const { data } = useQuery<GetRecentMessagesResponse>(
     GET_RECENT_MESSAGES_QUERY,
   );
 
-  const minHeight = `calc(100vh - ${headerRef.current?.clientHeight ?? 0}px - ${
-    headerRef.current?.offsetTop ?? 0
-  }px - 48px)`;
+  const headerRef = document.getElementById('nc-header');
+  const minHeight = `calc(100vh - ${headerRef?.clientHeight ?? 0}px - 72px)`;
 
   return (
     <MainTemplate>
-      <Grid item xs={12}>
-        <Header headerRef={headerRef} />
-      </Grid>
       <Grid item xs={12}>
         <Grid container fullHeight spacing={24}>
           <Grid item xs={3}>

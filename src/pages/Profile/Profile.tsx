@@ -22,7 +22,6 @@ import {
   Content,
   Divider,
   Grid,
-  Header,
   Label,
   MainTemplate,
 } from '@nc-ui';
@@ -158,9 +157,6 @@ export default function Profile(): JSX.Element {
 
   return (
     <MainTemplate>
-      <Grid item xs={12}>
-        <Header />
-      </Grid>
       {profileData && (
         <Grid item xs={3}>
           <Content className={classes.profile__leftContent}>

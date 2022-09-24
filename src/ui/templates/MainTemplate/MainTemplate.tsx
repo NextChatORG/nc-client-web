@@ -1,5 +1,6 @@
+import { useUser } from '@nc-core/hooks';
 import { Grid } from '../../atoms';
-import { Sidebar } from '../../organisms';
+import { Header, Sidebar } from '../../organisms';
 import classes from './MainTemplate.module.sass';
 
 export interface MainTemplateProps {
@@ -9,6 +10,8 @@ export interface MainTemplateProps {
 export function MainTemplate({
   children,
 }: React.PropsWithChildren<MainTemplateProps>): JSX.Element {
+  const { isLogged } = useUser();
+
   return (
     <div className={classes.main}>
       <Grid container>
@@ -16,6 +19,11 @@ export function MainTemplate({
         <Grid item xs="auto">
           <div className={classes.main__content}>
             <Grid container alignContent="flex-start" spacing={24}>
+              {isLogged && (
+                <Grid item xs={12}>
+                  <Header />
+                </Grid>
+              )}
               {children}
             </Grid>
           </div>

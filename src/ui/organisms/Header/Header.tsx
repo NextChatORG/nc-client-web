@@ -7,11 +7,7 @@ import { Avatar, Grid, Loading, TextField } from '../../atoms';
 import { NotificationsBox, SearchResultPreview } from '../../molecules';
 import classes from './Header.module.sass';
 
-export interface HeaderProps {
-  headerRef?: React.Ref<HTMLElement>;
-}
-
-export function Header({ headerRef }: HeaderProps): JSX.Element {
+export function Header(): JSX.Element {
   const [typing, setTyping] = useState<boolean>(false);
 
   const { control, getValues, setValue, watch } = useForm<SearchVariables>();
@@ -49,7 +45,7 @@ export function Header({ headerRef }: HeaderProps): JSX.Element {
   }, [typing]);
 
   return (
-    <header className={classes.header} ref={headerRef}>
+    <header className={classes.header} id="nc-header">
       <Grid container alignItems="center">
         <Grid item offsetXs={3} xs={6}>
           <div className={classes.header__search}>
