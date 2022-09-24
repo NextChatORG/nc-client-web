@@ -35,7 +35,6 @@ import {
   parseUserProfileActions,
   UserProfileActions,
 } from '@nc-core/utils';
-import { useSubscription } from '@apollo/client';
 
 export default function Profile(): JSX.Element {
   const [actions, setActions] = useState<UserProfileActions | null>(null);
@@ -43,26 +42,10 @@ export default function Profile(): JSX.Element {
   const { data: meData } = useUser();
   const { username } = useParams();
 
-  const [getProfile, { data: userData }] = useLazyQuery<
+  const [getProfile, { data: userData, subscribeToMore }] = useLazyQuery<
     ProfileResponse,
     ProfileVariables
   >(PROFILE_QUERY);
-
-  useSubscription<
-    ProfileActionsChangedResponse,
-    ProfileActionsChangedVariables
-  >(PROFILE_ACTIONS_CHANGED_SUBSCRIPTION, {
-    onSubscriptionData({ subscriptionData }) {
-      if (subscriptionData.data?.profileActionsChanged) {
-        setActions(
-          parseUserProfileActions(
-            subscriptionData.data.profileActionsChanged.actions,
-          ),
-        );
-      }
-    },
-    variables: { username: (username || meData?.username) ?? '' },
-  });
 
   const [sendFriendRequest, { loading: sendingFriendRequest }] = useMutation<
     SendFriendRequestResponse,
@@ -154,6 +137,28 @@ export default function Profile(): JSX.Element {
       setActions(parseUserProfileActions(profileData.actions));
     }
   }, [profileData]);
+
+  useEffect(() => {
+    if (username) {
+      subscribeToMore<
+        ProfileActionsChangedResponse,
+        ProfileActionsChangedVariables
+      >({
+        document: PROFILE_ACTIONS_CHANGED_SUBSCRIPTION,
+        variables: { username },
+        updateQuery(prev, { subscriptionData }) {
+          if (!subscriptionData.data) return prev;
+
+          return {
+            profile: {
+              ...prev.profile,
+              actions: subscriptionData.data.profileActionsChanged.actions,
+            },
+          };
+        },
+      });
+    }
+  }, []);
 
   return (
     <MainTemplate>
