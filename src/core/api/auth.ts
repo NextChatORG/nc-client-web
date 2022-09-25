@@ -23,6 +23,7 @@ export interface SignUpVariables {
   username: string;
   password: string;
   confirmPassword: string;
+  betaKey: string;
 }
 
 export interface SignUpResponse {
@@ -37,11 +38,13 @@ export const SIGNUP_MUTATION = gql`
     $username: String!
     $password: String!
     $confirmPassword: String!
+    $betaKey: String!
   ) {
     signUp(
       username: $username
       password: $password
       confirmPassword: $confirmPassword
+      betaKey: $betaKey
     ) {
       accessToken
       recoveryCodes

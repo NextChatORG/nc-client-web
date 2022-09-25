@@ -85,6 +85,14 @@ export default function SignUp(): JSX.Element {
             },
           },
         },
+        {
+          control,
+          defaultValue: '',
+          name: 'betaKey',
+          placeholder: 'Código beta',
+          required: true,
+          type: 'password',
+        },
       ]}
       figure={{
         caption:
