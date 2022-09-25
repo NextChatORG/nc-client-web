@@ -2,9 +2,11 @@ import { ButtonColors } from '@nc-core/interfaces/ui';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Badge } from '../Badge';
 import classes from './IconButton.module.sass';
 
 interface IconButtonCommonProps {
+  active?: boolean;
   color?: ButtonColors;
   counter?: number;
   disabled?: boolean;
@@ -26,6 +28,7 @@ interface IconButtonNormalProps extends IconButtonCommonProps {
 export type IconButtonProps = IconButtonLinkProps | IconButtonNormalProps;
 
 export function IconButton({
+  active = false,
   color = 'primary',
   counter = 0,
   children,
@@ -65,18 +68,15 @@ export function IconButton({
 
   return (
     <button
-      className={clsx(classes.iconButton, {
-        [classes['iconButton--colorDefault']]: color === 'default',
-        [classes['iconButton--colorError']]: color === 'error',
-        [classes['iconButton--colorPrimary']]: color === 'primary',
-        [classes['iconButton--colorSuccess']]: color === 'success',
-        [classes['iconButton--colorWarning']]: color === 'warning',
-        [classes['iconButton--colorWhite']]: color === 'white',
-        [classes['iconButton--normal']]: size === 'normal',
-        [classes['iconButton--small']]: size === 'small',
-        [classes['iconButton--contained']]: variant === 'contained',
-        [classes['iconButton--transparent']]: variant === 'transparent',
-      })}
+      className={clsx(
+        classes.iconButton,
+        classes[`iconButton--color${color[0].toUpperCase() + color.slice(1)}`],
+        classes[`iconButton--${size}`],
+        classes[`iconButton--${variant}`],
+        {
+          [classes['iconButton--active']]: active,
+        },
+      )}
       disabled={disabled}
       onClick={handleClick}
     >
@@ -90,9 +90,7 @@ export function IconButton({
         <div>{children}</div>
       </div>
       {counter > 0 && (
-        <div className={classes.iconButton__counter}>
-          {counter > 99 ? '+99' : counter}
-        </div>
+        <Badge className={classes.iconButton__counter} counter={counter} />
       )}
     </button>
   );

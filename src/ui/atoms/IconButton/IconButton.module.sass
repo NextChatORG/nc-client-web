@@ -94,7 +94,9 @@
     &#{ $self }--transparent
       color: white
 
-      &:hover
+      &:not(&#{ $self }--active):hover
+        background-color: rgba(white, .05)
+      &#{ $self }--active
         background-color: rgba(white, .05)
       & #{ $self }__button__rippleEffect
         background-color: rgba(white, .25)
@@ -125,23 +127,9 @@
       position: absolute
       width: var(--iconbutton-ripple-size)
   &__counter
-    $counterSize: 18px
-
-    align-items: center
-    background-color: var(--color-error)
-    border-radius: 50%
-    color: var(--color-on-error)
-    display: flex
-    flex-flow: row wrap
-    font:
-      size: 10px
-      weight: 500
-    height: $counterSize
-    justify-content: center
     position: absolute
     right: 0px
     top: 0
-    width: $counterSize
 
 @keyframes ncIconButtonRipple
   0%
