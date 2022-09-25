@@ -1,6 +1,8 @@
 import { RecentMessage } from '@nc-core/api';
+import clsx from 'clsx';
 import { format } from 'date-fns';
-import { Avatar, Grid, Typography } from '../../atoms';
+import { Link, useLocation } from 'react-router-dom';
+import { Avatar, Badge, Grid, Typography } from '../../atoms';
 import classes from './MessagePreview.module.sass';
 
 export interface MessagePreviewProps {
@@ -8,13 +10,21 @@ export interface MessagePreviewProps {
 }
 
 export function MessagePreview({ data }: MessagePreviewProps): JSX.Element {
+  const location = useLocation();
+
   return (
-    <div className={classes.messagePreview}>
+    <Link
+      className={clsx(classes.messagePreview, {
+        [classes['messagePreview--active']]:
+          location.pathname === `/chat/${data.userId}`,
+      })}
+      to={`/chat/${data.userId}`}
+    >
       <Grid container alignItems="center" spacing={24}>
         <Grid item>
           <Avatar url={data.profileImage} />
         </Grid>
-        <Grid item xs="auto">
+        <Grid item xs={9}>
           <Grid container justifyContent="space-between">
             <Grid item>
               <Typography withLetterSpacing fontSize={18} fontWeight={500}>
@@ -26,19 +36,29 @@ export function MessagePreview({ data }: MessagePreviewProps): JSX.Element {
                 {format(new Date(data.createdAt), 'hh:mm a')}
               </Typography>
             </Grid>
-            <Grid item xs={11}>
-              <Typography variant="body" style={{ color: '#6A6B70' }}>
+            <Grid item xs={10}>
+              <Typography
+                style={{
+                  color: '#6A6B70',
+                  display: 'block',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
+                variant="body"
+              >
+                {data.isMe ? 'Tú: ' : null}
                 {data.content}
               </Typography>
             </Grid>
             {Boolean(data.unread) && (
-              <Grid item xs={1}>
-                {data.unread}
+              <Grid item>
+                <Badge counter={data.unread} />
               </Grid>
             )}
           </Grid>
         </Grid>
       </Grid>
-    </div>
+    </Link>
   );
 }

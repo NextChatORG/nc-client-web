@@ -10,16 +10,23 @@ import {
   SettingsFilledIcon,
   SettingsOutlinedIcon,
 } from '@nc-icons';
-import { Grid, IconButton, Logo } from '../../atoms';
+import { Avatar, Grid, IconButton, Logo } from '../../atoms';
 import classes from './Sidebar.module.sass';
 import clsx from 'clsx';
 import { useUser } from '@nc-core/hooks';
+import { NotificationsBox } from '../../molecules';
 
 export function Sidebar(): JSX.Element {
   const location = useLocation();
   const { data: meData, logOut } = useUser();
 
   function isActive(pathname: string): boolean {
+    if (pathname === '/chat') {
+      return (
+        location.pathname.startsWith(pathname) || location.pathname === '/'
+      );
+    }
+
     return location.pathname === pathname;
   }
 
@@ -45,9 +52,9 @@ export function Sidebar(): JSX.Element {
         </Grid>
         <Grid item>
           <ul className={classes.sidebar__nav}>
-            <li className={getLinkClasses('/')}>
-              <Link to="/">
-                {isActive('/') ? (
+            <li className={getLinkClasses('/chat')}>
+              <Link to="/chat">
+                {isActive('/chat') ? (
                   <DashboardFilledIcon />
                 ) : (
                   <DashboardOutlinedIcon />
@@ -86,11 +93,37 @@ export function Sidebar(): JSX.Element {
           </ul>
         </Grid>
         <Grid item>
-          <Grid container alignItems="center" justifyContent="center">
-            <IconButton color="error" onClick={logOut} variant="transparent">
-              <LogoutIcon />
-            </IconButton>
-          </Grid>
+          {meData && (
+            <Grid
+              container
+              alignItems="center"
+              direction="column"
+              justifyContent="center"
+              spacing={12}
+            >
+              {isActive('/chat') && (
+                <>
+                  <Grid item>
+                    <NotificationsBox direction="right-center" />
+                  </Grid>
+                  <Grid item>
+                    <Link to="/profile">
+                      <Avatar url={meData.profileImage} size="small" />
+                    </Link>
+                  </Grid>
+                </>
+              )}
+              <Grid item>
+                <IconButton
+                  color="error"
+                  onClick={logOut}
+                  variant="transparent"
+                >
+                  <LogoutIcon />
+                </IconButton>
+              </Grid>
+            </Grid>
+          )}
         </Grid>
       </Grid>
     </div>

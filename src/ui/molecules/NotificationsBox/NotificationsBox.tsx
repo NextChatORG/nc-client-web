@@ -20,7 +20,13 @@ import {
 } from '../../atoms';
 import { FriendRequestNotification } from './FriendRequestNotification';
 
-export default function NotificationsBox(): JSX.Element | null {
+export interface NotificationsBoxProps {
+  direction?: 'right-bottom' | 'right-center';
+}
+
+export function NotificationsBox({
+  direction = 'right-bottom',
+}: NotificationsBoxProps): JSX.Element | null {
   const [notificationsEl, setNotificationsEl] =
     useState<HTMLButtonElement | null>(null);
 
@@ -68,6 +74,7 @@ export default function NotificationsBox(): JSX.Element | null {
   return (
     <>
       <IconButton
+        active={Boolean(notificationsEl)}
         color="white"
         counter={unreadNotifications.length}
         onClick={handleNotificationsClick}
@@ -82,10 +89,22 @@ export default function NotificationsBox(): JSX.Element | null {
       {notificationsEl && (
         <Content
           style={{
+            boxShadow: '0 0 4px 0 rgba(0, 0, 0, .75)',
             position: 'absolute',
-            left: notificationsEl.offsetLeft,
-            top: notificationsEl.offsetHeight + notificationsEl.offsetTop + 12,
-            transform: 'translateX(-87%)',
+            left:
+              notificationsEl.offsetLeft +
+              (direction === 'right-bottom'
+                ? 0
+                : notificationsEl.offsetWidth + 12),
+            top:
+              notificationsEl.offsetTop +
+              (direction === 'right-bottom'
+                ? notificationsEl.offsetHeight + 12
+                : 0),
+            transform:
+              direction === 'right-bottom'
+                ? 'translateX(-87%)'
+                : 'translateY(-50%)',
             width: 450,
             zIndex: 1000,
           }}

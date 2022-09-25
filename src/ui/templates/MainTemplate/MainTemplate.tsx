@@ -5,10 +5,12 @@ import classes from './MainTemplate.module.sass';
 
 export interface MainTemplateProps {
   title?: string;
+  withHeader?: boolean;
 }
 
 export function MainTemplate({
   children,
+  withHeader = false,
 }: React.PropsWithChildren<MainTemplateProps>): JSX.Element {
   const { isLogged } = useUser();
 
@@ -19,7 +21,7 @@ export function MainTemplate({
         <Grid item xs="auto">
           <div className={classes.main__content}>
             <Grid container alignContent="flex-start" spacing={24}>
-              {isLogged && (
+              {isLogged && withHeader && (
                 <Grid item xs={12}>
                   <Header />
                 </Grid>

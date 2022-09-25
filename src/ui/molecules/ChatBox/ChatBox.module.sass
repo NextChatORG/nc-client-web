@@ -1,0 +1,59 @@
+@import '@nc-core/styles/common/variables.sass'
+
+.chatBox
+  position: relative
+
+  &__header, &__footer
+    background-color: $dark600
+    width: 100%
+  &__header
+    padding: 10px 24px
+    padding-right: 12px
+  &__content
+    height: 100%
+    max-height: calc(100% - 57px - 72px)
+    overflow-y: auto
+    padding-bottom: 12px
+
+    &::-webkit-scrollbar
+      width: 8px
+    &::-webkit-scrollbar-track
+      background-color: transparent
+    &::-webkit-scrollbar-thumb
+      background-color: $dark800
+
+      &:hover
+        background-color: darken($dark800, 1)
+    &__grouped
+      align-items: center
+
+      &, &__messages
+        display: flex
+        flex-flow: column wrap
+      &__title
+        padding: 6px 0
+      &__messages
+        gap: 12px
+        width: 100%
+        align-items: center
+
+        &__unread
+          background-color: var(--color-error)
+          border-radius: 12px
+          color: var(--color-on-error)
+          padding: 6px 24px
+          text-align: center
+  &__footer
+    bottom: 0
+    left: 0
+    padding: 16px 24px
+    position: absolute
+
+    &__input
+      background-color: $dark700
+      border: none
+      border-radius: 24px
+      color: var(--color-text)
+      outline: none
+      padding: 12px 24px
+      width: 100%

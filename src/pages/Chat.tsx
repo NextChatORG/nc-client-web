@@ -4,28 +4,37 @@ import {
 } from '@nc-core/api';
 import { useQuery } from '@nc-core/hooks';
 import {
+  ChatBox,
   Content,
   Grid,
   MainTemplate,
   MessagePreview,
   NoChatSelected,
+  Search,
   Typography,
 } from '@nc-ui';
+import { useParams } from 'react-router-dom';
 
 export default function Chat(): JSX.Element {
-  const { data } = useQuery<GetRecentMessagesResponse>(
-    GET_RECENT_MESSAGES_QUERY,
-  );
+  const { chatId } = useParams();
 
-  const headerRef = document.getElementById('nc-header');
-  const minHeight = `calc(100vh - ${headerRef?.clientHeight ?? 0}px - 72px)`;
+  const { data, refetch: refetchRecentMessages } =
+    useQuery<GetRecentMessagesResponse>(GET_RECENT_MESSAGES_QUERY);
+
+  const recentMessages = data?.getRecentMessages ?? [];
 
   return (
     <MainTemplate>
       <Grid item xs={12}>
-        <Grid container fullHeight spacing={24}>
-          <Grid item xs={3}>
-            <div style={{ height: minHeight, minHeight }}>
+        <Grid container fullHeight spacing={12}>
+          <Grid item>
+            <div
+              style={{
+                height: 'calc(100vh - 48px)',
+                maxHeight: 'calc(100vh - 48px)',
+                width: 320,
+              }}
+            >
               <Content fullHeight noPadding>
                 <Typography
                   withLetterSpacing
@@ -35,8 +44,8 @@ export default function Chat(): JSX.Element {
                 >
                   Conversaciones
                 </Typography>
-                {(data?.getRecentMessages ?? []).length > 0 ? (
-                  data?.getRecentMessages.map((recentMessage, i) => (
+                {recentMessages.length > 0 ? (
+                  recentMessages.map((recentMessage, i) => (
                     <MessagePreview
                       data={recentMessage}
                       key={`chat_${recentMessage.userId}_${i}`}
@@ -52,9 +61,23 @@ export default function Chat(): JSX.Element {
               </Content>
             </div>
           </Grid>
-          <Grid item xs={9}>
-            <div style={{ height: minHeight, minHeight }}>
-              <NoChatSelected />
+          <Grid item xs="auto">
+            <Search />
+            <div
+              style={{
+                height: '100%',
+                marginTop: 12,
+                maxHeight: 'calc(100vh - 48px - 62px)',
+              }}
+            >
+              {chatId ? (
+                <ChatBox
+                  chatId={chatId}
+                  refetchRecentMessages={refetchRecentMessages}
+                />
+              ) : (
+                <NoChatSelected />
+              )}
             </div>
           </Grid>
         </Grid>
