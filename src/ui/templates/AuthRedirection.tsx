@@ -1,4 +1,4 @@
-import { ProfileResponse, PROFILE_QUERY } from '@nc-core/api';
+import { GetProfileResponse, GET_PROFILE_QUERY } from '@nc-core/api';
 import { UserContext } from '@nc-core/contexts';
 import { useLazyQuery, useUser } from '@nc-core/hooks';
 import { useContext, useEffect } from 'react';
@@ -20,10 +20,12 @@ export function AuthRedirection({
   const navigate = useNavigate();
 
   const [getProfile, { loading: fetchingProfile }] =
-    useLazyQuery<ProfileResponse>(PROFILE_QUERY, {
+    useLazyQuery<GetProfileResponse>(GET_PROFILE_QUERY, {
       fetchPolicy: 'network-only',
-      onCompleted({ profile }) {
-        if (dispatch) dispatch({ type: 'set-profile-data', payload: profile });
+      onCompleted({ getProfile }) {
+        if (!dispatch) return;
+
+        dispatch({ type: 'set-profile-data', payload: getProfile });
       },
       onError() {
         if (dispatch) dispatch({ type: 'logout' });

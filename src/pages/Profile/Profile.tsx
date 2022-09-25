@@ -8,10 +8,10 @@ import {
   FriendRequestVariables,
   ProfileActionsChangedResponse,
   ProfileActionsChangedVariables,
-  ProfileResponse,
-  ProfileVariables,
+  GetProfileResponse,
+  GetProfileVariables,
   PROFILE_ACTIONS_CHANGED_SUBSCRIPTION,
-  PROFILE_QUERY,
+  GET_PROFILE_QUERY,
   SendFriendRequestResponse,
   SEND_FRIEND_REQUEST_MUTATION,
 } from '@nc-core/api';
@@ -43,9 +43,9 @@ export default function Profile(): JSX.Element {
   const { username } = useParams();
 
   const [getProfile, { data: userData, subscribeToMore }] = useLazyQuery<
-    ProfileResponse,
-    ProfileVariables
-  >(PROFILE_QUERY);
+    GetProfileResponse,
+    GetProfileVariables
+  >(GET_PROFILE_QUERY);
 
   const [sendFriendRequest, { loading: sendingFriendRequest }] = useMutation<
     SendFriendRequestResponse,
@@ -124,7 +124,7 @@ export default function Profile(): JSX.Element {
     return declineFriendRequest({ variables: { userId: profileData.id } });
   }
 
-  const profileData = username ? userData?.profile ?? null : meData;
+  const profileData = username ? userData?.getProfile ?? null : meData;
 
   useEffect(() => {
     if (username && username.length >= 4 && username !== meData?.username) {
@@ -150,8 +150,8 @@ export default function Profile(): JSX.Element {
           if (!subscriptionData.data) return prev;
 
           return {
-            profile: {
-              ...prev.profile,
+            getProfile: {
+              ...prev.getProfile,
               actions: subscriptionData.data.profileActionsChanged.actions,
             },
           };

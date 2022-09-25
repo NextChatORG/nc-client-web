@@ -34,17 +34,17 @@ export interface UserProfile
   counters?: UserProfileCounters;
 }
 
-export interface ProfileVariables {
+export interface GetProfileVariables {
   username?: string;
 }
 
-export interface ProfileResponse {
-  profile: UserProfile;
+export interface GetProfileResponse {
+  getProfile: UserProfile;
 }
 
-export const PROFILE_QUERY = gql`
-  query profile($username: String) {
-    profile(username: $username) {
+export const GET_PROFILE_QUERY = gql`
+  query getProfile($username: String) {
+    getProfile(username: $username) {
       id
       actions
       username
