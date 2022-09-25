@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "build": "tsc && vite build",
+    "predeploy": "yarn build && echo 'beta.nextchat.org' > ./dist/CNAME",
+    "deploy": "gh-pages -d dist",
     "dev": "vite",
     "lint": "eslint src --ext .jsx,.js,.ts,.tsx",
     "preview": "vite preview"
@@ -38,6 +40,7 @@
     "eslint-plugin-jsx-a11y": "^6.6.1",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.31.8",
+    "gh-pages": "^4.0.0",
     "prettier": "^2.7.1",
     "sass": "^1.54.9",
     "typescript": "^4.6.4",
