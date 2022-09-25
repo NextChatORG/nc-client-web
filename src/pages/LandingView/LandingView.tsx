@@ -1,7 +1,7 @@
 import FriendsAnimationData from '@nc-assets/lottie/friends.json';
 import LockAnimationData from '@nc-assets/lottie/lock.json';
 import UsingKeyToUnlockAnimationData from '@nc-assets/lottie/using-key-to-unlock.json';
-import { Footer, AuthHeader, LandingFeature } from '@nc-ui';
+import { Footer, AuthHeader, LandingFeature, Button } from '@nc-ui';
 import Lottie from 'lottie-react';
 import { OpenInNewIcon } from '@nc-icons';
 import classes from './LandingView.module.sass';
@@ -31,6 +31,21 @@ export default function LandingView(): JSX.Element {
         />
         <div className={classes.landingView__firstSection__content}>
           <p>¡Conecta con otras personas alrededor del mundo!</p>
+          <Button
+            external
+            link
+            color="white"
+            startIcon={<OpenInNewIcon />}
+            to="/beta"
+            variant="outlined"
+          >
+            Conoce el programa Beta
+          </Button>
+        </div>
+        <div className={classes.landingView__firstSection__previews}>
+          <div
+            className={classes.landingView__firstSection__previews__desktop}
+          />
         </div>
       </section>
       <section className={classes.landingView__secondSection}>
@@ -64,7 +79,7 @@ export default function LandingView(): JSX.Element {
             to: '/beta',
             variant: 'outlined',
           }}
-          description="¡Sé uno/a de los/as elegidos/as para probar la aplicación! Solo debes hacer click en el botón de abajo para conocer más información."
+          description="¡Sé una de las personas elegidas para probar la aplicación! Solo debes hacer click en el botón de abajo para conocer más información."
           icon={<Lottie animationData={UsingKeyToUnlockAnimationData} />}
           title="Beta"
         />
