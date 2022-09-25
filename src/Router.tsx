@@ -3,9 +3,9 @@ import { lazy } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import App from './App';
 
-const LandingView = lazy(() => import('./pages/LandingView/index'));
-const LogIn = lazy(() => import('./pages/LogIn'));
-const SignUp = lazy(() => import('./pages/SignUp'));
+const Landing = lazy(() => import('./pages/auth/Landing/index'));
+const LogIn = lazy(() => import('./pages/auth/LogIn'));
+const SignUp = lazy(() => import('./pages/auth/SignUp'));
 
 const Chat = lazy(() => import('./pages/Chat'));
 const Profile = lazy(() => import('./pages/Profile/index'));
@@ -14,7 +14,7 @@ const router = createBrowserRouter([
   {
     children: [
       {
-        element: <AuthRedirection Logged={Chat} NoLogged={LandingView} />,
+        element: <AuthRedirection Logged={Chat} NoLogged={Landing} />,
         index: true,
       },
       {
