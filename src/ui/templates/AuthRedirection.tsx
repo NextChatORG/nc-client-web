@@ -33,7 +33,10 @@ export function AuthRedirection({
     });
 
   useEffect(() => {
-    if (!state?.jwt && redirectToIndex) {
+    if (
+      redirectToIndex &&
+      ((!isLogged && !NoLogged) || (isLogged && !Logged))
+    ) {
       navigate('/');
       return;
     }
