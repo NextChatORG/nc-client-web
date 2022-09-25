@@ -30,6 +30,9 @@ const router = createBrowserRouter([
           {
             element: <AuthRedirection redirectToIndex Logged={Chat} />,
             index: true,
+          },
+          {
+            element: <AuthRedirection redirectToIndex Logged={Chat} />,
             path: ':chatId',
           },
         ],
@@ -40,6 +43,9 @@ const router = createBrowserRouter([
           {
             element: <AuthRedirection redirectToIndex Logged={Profile} />,
             index: true,
+          },
+          {
+            element: <AuthRedirection redirectToIndex Logged={Profile} />,
             path: ':username',
           },
         ],
