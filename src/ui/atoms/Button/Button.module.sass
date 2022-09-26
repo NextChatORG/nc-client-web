@@ -10,13 +10,14 @@
   cursor: pointer
   display: flex
   flex-flow: row wrap
+  justify-content: center
   font-weight: 500
   gap: 1em
   letter-spacing: 0.05em
   outline: none
   overflow: hidden
-  padding: 16px 48px
   position: relative
+  text-align: center
 
   &--colorDefault
     &#{ $self }--inputIcon
@@ -113,8 +114,12 @@
   &--extra-small
     font-size: 12px
     padding: 4px 8px
+  &--normal
+    padding: 16px 48px
   &--small
     padding: 8px 16px
+  &--fullWidth
+    width: 100%
   &__rippleEffect
     animation: 0.9s ease 1 forwards ncButtonRipple
     border-radius: 9999px

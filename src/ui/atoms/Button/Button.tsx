@@ -9,6 +9,7 @@ interface ButtonCommonProps {
   color?: ButtonColors;
   disabled?: boolean;
   endIcon?: React.ReactNode;
+  fullWidth?: boolean;
   loading?: boolean;
   size?: 'extra-small' | 'normal' | 'small';
   startIcon?: React.ReactNode;
@@ -78,6 +79,9 @@ export function Button(
         classes[`button--color${capitalize(color)}`],
         classes[`button--${size}`],
         classes[`button--${variant}`],
+        {
+          [classes['button--fullWidth']]: props.fullWidth,
+        },
       )}
       disabled={props.disabled || props.loading}
       onClick={handleClick}
