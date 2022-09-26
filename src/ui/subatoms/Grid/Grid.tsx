@@ -3,6 +3,8 @@ import { PropsWithChildren } from 'react';
 import classes from './Grid.module.sass';
 
 interface GridCommonProps {
+  className?: string;
+  id?: string;
   style?: React.CSSProperties;
 }
 
@@ -53,6 +55,8 @@ export type GridProps = GridContainerProps | GridItemProps;
 
 export function Grid({
   children,
+  className,
+  id,
   style,
   ...props
 }: PropsWithChildren<GridProps>): JSX.Element {
@@ -73,9 +77,10 @@ export function Grid({
 
     return (
       <div
-        className={clsx(classes.grid__container, {
+        className={clsx(className, classes.grid__container, {
           [classes['grid__container--fullHeight']]: fullHeight,
         })}
+        id={id}
         style={{
           ...style,
           alignContent,
@@ -111,7 +116,7 @@ export function Grid({
 
   return (
     <div
-      className={clsx(classes.grid__item, {
+      className={clsx(className, classes.grid__item, {
         [classes[`grid__item--xs-offset-${offsetXs}`]]: Boolean(offsetXs),
         [classes[`grid__item--sm-offset-${offsetSm}`]]: Boolean(offsetSm),
         [classes[`grid__item--md-offset-${offsetMd}`]]: Boolean(offsetMd),
@@ -123,6 +128,7 @@ export function Grid({
         [classes[`grid__item--lg-${lg}`]]: Boolean(lg),
         [classes[`grid__item--xl-${xl}`]]: Boolean(xl),
       })}
+      id={id}
       style={style}
     >
       {children}
