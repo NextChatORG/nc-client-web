@@ -1,4 +1,5 @@
 import { ButtonColors } from '@nc-core/interfaces/ui';
+import { capitalize } from '@nc-core/utils';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -11,6 +12,7 @@ interface ButtonCommonProps {
   loading?: boolean;
   size?: 'extra-small' | 'normal' | 'small';
   startIcon?: React.ReactNode;
+  style?: React.CSSProperties;
   type?: 'button' | 'submit' | 'reset';
   variant?: 'contained' | 'input-icon' | 'outlined' | 'text';
 }
@@ -27,6 +29,8 @@ interface ButtonNormalProps extends ButtonCommonProps {
 }
 
 export type ButtonProps = ButtonLinkProps | ButtonNormalProps;
+
+export type ButtonPropsWithMessage = ButtonProps & { message: string };
 
 export function Button(
   props: React.PropsWithChildren<ButtonProps>,
@@ -71,19 +75,13 @@ export function Button(
     <button
       className={clsx(
         classes.button,
+        classes[`button--color${capitalize(color)}`],
         classes[`button--${size}`],
         classes[`button--${variant}`],
-        {
-          [classes['button--colorDefault']]: color === 'default',
-          [classes['button--colorError']]: color === 'error',
-          [classes['button--colorPrimary']]: color === 'primary',
-          [classes['button--colorSuccess']]: color === 'success',
-          [classes['button--colorWarning']]: color === 'warning',
-          [classes['button--colorWhite']]: color === 'white',
-        },
       )}
       disabled={props.disabled || props.loading}
       onClick={handleClick}
+      style={props.style}
       type={type}
     >
       {isRippling && ripplePos && (

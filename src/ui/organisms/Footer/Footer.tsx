@@ -1,5 +1,5 @@
+import { Button, ButtonProps, Grid, Logo } from '@nc-ui';
 import { Link } from 'react-router-dom';
-import { Button, ButtonProps, Grid, Logo } from '../../atoms';
 import classes from './Footer.module.sass';
 
 export interface FooterProps {

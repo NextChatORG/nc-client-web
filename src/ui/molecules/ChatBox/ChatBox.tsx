@@ -14,16 +14,9 @@ import {
 } from '@nc-core/api';
 import { useMutation, useQuery } from '@nc-core/hooks';
 import { groupMessages } from '@nc-core/utils';
+import { MoreVertIcon } from '@nc-icons';
+import { Avatar, Content, Grid, IconButton, Loading, Typography } from '@nc-ui';
 import { Fragment, useEffect, useRef, useState } from 'react';
-import { MoreVertIcon } from '../../../icons/mui';
-import {
-  Avatar,
-  Content,
-  Grid,
-  IconButton,
-  Loading,
-  Typography,
-} from '../../atoms';
 import classes from './ChatBox.module.sass';
 import { ChatMessage } from './ChatMessage';
 

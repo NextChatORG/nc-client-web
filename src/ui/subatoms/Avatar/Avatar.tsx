@@ -1,5 +1,5 @@
-import clsx from 'clsx';
 import { PersonIcon } from '@nc-icons';
+import clsx from 'clsx';
 import classes from './Avatar.module.sass';
 
 export interface AvatarProps {

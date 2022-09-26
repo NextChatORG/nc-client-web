@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
-import classes from './Loading.module.sass';
+import { Typography } from '@nc-ui';
 import anime from 'animejs';
+import { useEffect } from 'react';
 
 export interface LoadingProps {
   id: string;
@@ -31,17 +31,17 @@ export function Loading({ id, text }: LoadingProps): JSX.Element {
   }, []);
 
   return (
-    <div className={classes.loading} id={id}>
+    <Typography component="div" id={id} style={{ letterSpacing: '0.5em' }}>
       {text &&
         text.split('').map((letter, i) => (
-          <span
-            className={classes.loading__letter}
+          <Typography
             id={`${id}-letter`}
             key={`loading_letter_${letter}_${i}`}
+            style={{ display: 'inline-block', letterSpacing: '0.5em' }}
           >
             {letter}
-          </span>
+          </Typography>
         ))}
-    </div>
+    </Typography>
   );
 }

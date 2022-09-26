@@ -7,6 +7,8 @@ export interface TypographyProps {
   component?: React.ElementType;
   fontSize?: number | string;
   fontWeight?: number | string;
+  id?: string;
+  lineHeight?: number | string;
   style?: React.CSSProperties;
   variant?: 'body' | 'subtitle' | 'title';
   withLetterSpacing?: boolean;
@@ -18,6 +20,8 @@ export function Typography({
   component = 'span',
   fontSize,
   fontWeight,
+  id,
+  lineHeight,
   style,
   variant = 'body',
   withLetterSpacing,
@@ -31,10 +35,12 @@ export function Typography({
         classes[`typography--${variant}`],
         { [classes['typography--withLetterSpacing']]: withLetterSpacing },
       ),
+      id,
       style: {
         ...style,
         fontSize,
         fontWeight,
+        lineHeight,
       },
     },
     children,

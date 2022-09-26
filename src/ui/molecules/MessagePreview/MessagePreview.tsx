@@ -1,8 +1,8 @@
 import { RecentMessage } from '@nc-core/api';
+import { Avatar, Badge, Grid, Typography } from '@nc-ui';
 import clsx from 'clsx';
 import { format } from 'date-fns';
 import { Link, useLocation } from 'react-router-dom';
-import { Avatar, Badge, Grid, Typography } from '../../atoms';
 import classes from './MessagePreview.module.sass';
 
 export interface MessagePreviewProps {

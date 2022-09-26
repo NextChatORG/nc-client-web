@@ -1,8 +1,10 @@
-import FriendsAnimationData from '@nc-assets/lottie/friends.json';
-import LockAnimationData from '@nc-assets/lottie/lock.json';
-import UsingKeyToUnlockAnimationData from '@nc-assets/lottie/using-key-to-unlock.json';
+import {
+  FriendsAnimationData,
+  LockAnimationData,
+  UsingKeyToUnlockAnimationData,
+} from '@nc-assets/lottie';
 import { OpenInNewIcon } from '@nc-icons';
-import { AuthHeader, Button, Footer, LandingFeature } from '@nc-ui';
+import { Button, Footer, Header, LandingFeature } from '@nc-ui';
 import Lottie from 'lottie-react';
 import classes from './Landing.module.sass';
 
@@ -10,24 +12,25 @@ export default function LandingView(): JSX.Element {
   return (
     <div className={classes.landing}>
       <section className={classes.landing__firstSection}>
-        <AuthHeader
-          logo={{ color: 'white' }}
-          navButtons={[
-            {
-              color: 'white',
-              link: true,
-              message: 'Inicia sesión',
-              to: '/login',
-              variant: 'text',
-            },
-            {
-              color: 'white',
-              link: true,
-              message: 'Regístrate',
-              to: '/signup',
-              variant: 'outlined',
-            },
-          ]}
+        <Header
+          auth={{
+            navButtons: [
+              {
+                color: 'white',
+                link: true,
+                message: 'Inicia sesión',
+                to: '/login',
+                variant: 'text',
+              },
+              {
+                color: 'white',
+                link: true,
+                message: 'Regístrate',
+                to: '/signup',
+                variant: 'outlined',
+              },
+            ],
+          }}
         />
         <div className={classes.landing__firstSection__content}>
           <p>¡Conecta con otras personas alrededor del mundo!</p>

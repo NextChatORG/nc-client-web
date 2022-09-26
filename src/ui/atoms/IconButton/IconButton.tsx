@@ -1,8 +1,8 @@
 import { ButtonColors } from '@nc-core/interfaces/ui';
+import { Badge } from '@nc-ui';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Badge } from '../Badge';
 import classes from './IconButton.module.sass';
 
 interface IconButtonCommonProps {

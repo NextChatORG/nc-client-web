@@ -6,9 +6,9 @@ import {
   FriendRequestVariables,
 } from '@nc-core/api';
 import { useMutation } from '@nc-core/hooks';
+import { Avatar, Button, Grid, Typography } from '@nc-ui';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { Avatar, Button, Grid, Typography } from '../../atoms';
 
 export interface FriendRequestNotificationData {
   from: {

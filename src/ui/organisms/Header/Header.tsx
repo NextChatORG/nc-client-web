@@ -1,11 +1,53 @@
 import { useUser } from '@nc-core/hooks';
+import {
+  Avatar,
+  Button,
+  ButtonPropsWithMessage,
+  Grid,
+  Logo,
+  NotificationsBox,
+  Search,
+} from '@nc-ui';
 import { Link } from 'react-router-dom';
-import { Avatar, Grid } from '../../atoms';
-import { NotificationsBox, Search } from '../../molecules';
 import classes from './Header.module.sass';
 
-export function Header(): JSX.Element {
+export interface HeaderProps {
+  auth?: {
+    navButtons?: ButtonPropsWithMessage[];
+  };
+}
+
+export function Header({ auth }: HeaderProps): JSX.Element {
   const { data } = useUser();
+
+  if (auth) {
+    const { navButtons } = auth;
+
+    return (
+      <header className={classes.authHeader}>
+        <Grid container alignItems="center" justifyContent="space-between">
+          <Grid item>
+            <Link to="/">
+              <Logo color="white" />
+            </Link>
+          </Grid>
+          <Grid item>
+            {navButtons && navButtons.length > 0 && (
+              <nav className={classes.authHeader__nav}>
+                <ul className={classes.authHeader__nav__items}>
+                  {navButtons.map((props, i) => (
+                    <Button {...props} key={`nav_button_${i}`}>
+                      {props.message}
+                    </Button>
+                  ))}
+                </ul>
+              </nav>
+            )}
+          </Grid>
+        </Grid>
+      </header>
+    );
+  }
 
   return (
     <header className={classes.header} id="nc-header">

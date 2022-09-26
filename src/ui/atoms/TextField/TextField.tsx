@@ -1,3 +1,10 @@
+import {
+  CloseIcon,
+  SearchIcon,
+  VisibilityIcon,
+  VisibilityOffIcon,
+} from '@nc-icons';
+import { Button } from '@nc-ui';
 import clsx from 'clsx';
 import React, { HTMLInputTypeAttribute, useState } from 'react';
 import {
@@ -8,13 +15,6 @@ import {
   Path,
   PathValue,
 } from 'react-hook-form';
-import {
-  CloseIcon,
-  SearchIcon,
-  VisibilityIcon,
-  VisibilityOffIcon,
-} from '@nc-icons';
-import { Button } from '../Button';
 import classes from './TextField.module.sass';
 
 export interface TextFieldProps<TForm extends FieldValues> {

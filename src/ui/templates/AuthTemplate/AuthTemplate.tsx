@@ -1,12 +1,14 @@
 import { FieldValues } from 'react-hook-form';
 import {
   Button,
+  ButtonPropsWithMessage,
+  Footer,
+  Header,
   Grid,
   GridSizeProps,
   TextField,
   TextFieldProps,
-} from '../../atoms';
-import { Footer, AuthHeader, AuthHeaderProps } from '../../organisms';
+} from '@nc-ui';
 import classes from './AuthTemplate.module.sass';
 
 export interface AuthTemplateProps<TForm extends FieldValues> {
@@ -17,7 +19,7 @@ export interface AuthTemplateProps<TForm extends FieldValues> {
     xs?: GridSizeProps;
   };
   handleSubmit(): Promise<void>;
-  navButtons: AuthHeaderProps['navButtons'];
+  navButtons: ButtonPropsWithMessage[];
   submitMessage: string;
   title: string;
 }
@@ -32,7 +34,7 @@ export function AuthTemplate<TForm extends FieldValues>({
 }: AuthTemplateProps<TForm>) {
   return (
     <div className={classes.authTemplate}>
-      <AuthHeader logo={{ color: 'white' }} navButtons={navButtons} />
+      <Header auth={{ navButtons }} />
       <div className={classes.authTemplate__content}>
         <Grid container alignItems="center" justifyContent="space-evenly">
           <Grid item xs={12} sm={3}>

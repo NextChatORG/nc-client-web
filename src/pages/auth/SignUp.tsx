@@ -1,9 +1,9 @@
+import { CompleteTasksAnimationData } from '@nc-assets/lottie';
 import { SignUpVariables } from '@nc-core/api';
 import { useUser } from '@nc-core/hooks';
+import Lottie from 'lottie-react';
 import { useForm } from 'react-hook-form';
 import { AuthTemplate } from '../../ui/templates';
-import Lottie from 'lottie-react';
-import CompleteTasksAnimationData from '@nc-assets/lottie/complete-tasks.json';
 
 export default function SignUp(): JSX.Element {
   const { clearErrors, control, handleSubmit, setError, watch } =

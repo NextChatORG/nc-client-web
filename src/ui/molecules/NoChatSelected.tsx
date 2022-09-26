@@ -1,7 +1,7 @@
+import { Grid, Typography } from '@nc-ui';
 import { Link } from 'react-router-dom';
-import { Grid, Typography } from '../atoms';
 
-export default function NoChatSelected(): JSX.Element {
+export function NoChatSelected(): JSX.Element {
   return (
     <Grid
       container

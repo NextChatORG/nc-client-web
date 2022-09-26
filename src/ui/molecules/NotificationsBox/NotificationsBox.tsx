@@ -9,15 +9,8 @@ import {
 } from '@nc-core/api';
 import { useQuery } from '@nc-core/hooks';
 import { NotificationsFilledIcon, NotificationsOutlinedIcon } from '@nc-icons';
+import { Button, Content, Grid, IconButton, Loading, Typography } from '@nc-ui';
 import { useEffect, useState } from 'react';
-import {
-  Button,
-  Content,
-  Grid,
-  IconButton,
-  Loading,
-  Typography,
-} from '../../atoms';
 import { FriendRequestNotification } from './FriendRequestNotification';
 
 export interface NotificationsBoxProps {
@@ -47,12 +40,12 @@ export function NotificationsBox({
       updateQuery(prev, { subscriptionData }) {
         if (!subscriptionData.data) return prev;
 
-        return Object.assign({}, prev, {
+        return {
           getNotifications: [
             subscriptionData.data.newNotification.notification,
             ...prev.getNotifications,
           ],
-        });
+        };
       },
     });
 
@@ -61,12 +54,12 @@ export function NotificationsBox({
       updateQuery(prev, { subscriptionData }) {
         if (!subscriptionData.data) return prev;
 
-        return Object.assign({}, prev, {
+        return {
           getNotifications: prev.getNotifications.filter(
             ({ id }) =>
               id !== subscriptionData.data.removeNotification.notificationId,
           ),
-        });
+        };
       },
     });
   }, []);

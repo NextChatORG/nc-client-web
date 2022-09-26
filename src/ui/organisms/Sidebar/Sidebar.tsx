@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom';
+import { useUser } from '@nc-core/hooks';
 import {
   DashboardFilledIcon,
   DashboardOutlinedIcon,
@@ -10,11 +10,10 @@ import {
   SettingsFilledIcon,
   SettingsOutlinedIcon,
 } from '@nc-icons';
-import { Avatar, Grid, IconButton, Logo } from '../../atoms';
-import classes from './Sidebar.module.sass';
+import { Avatar, Grid, IconButton, Logo, NotificationsBox } from '@nc-ui';
 import clsx from 'clsx';
-import { useUser } from '@nc-core/hooks';
-import { NotificationsBox } from '../../molecules';
+import { Link, useLocation } from 'react-router-dom';
+import classes from './Sidebar.module.sass';
 
 export function Sidebar(): JSX.Element {
   const location = useLocation();

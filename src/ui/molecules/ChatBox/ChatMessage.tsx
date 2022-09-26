@@ -1,8 +1,8 @@
 import { Message } from '@nc-core/api';
 import { useUser } from '@nc-core/hooks';
+import { Avatar, Typography } from '@nc-ui';
 import clsx from 'clsx';
 import { format } from 'date-fns';
-import { Avatar, Typography } from '../../atoms';
 import classes from './ChatMessage.module.sass';
 
 export interface ChatMessageProps {

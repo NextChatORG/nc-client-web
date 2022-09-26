@@ -23,6 +23,7 @@ interface GridContainerProps {
     | 'space-between'
     | 'space-evenly';
   spacing?: number | { columns: number; rows: number };
+  style?: React.CSSProperties;
   wrap?: 'nowrap' | 'wrap';
 }
 
@@ -63,6 +64,7 @@ export function Grid({
       fullHeight,
       justifyContent,
       spacing = 0,
+      style,
       wrap = 'wrap',
     } = props;
 
@@ -72,6 +74,7 @@ export function Grid({
           [classes['grid__container--fullHeight']]: fullHeight,
         })}
         style={{
+          ...style,
           alignContent,
           alignItems,
           flexDirection: direction,

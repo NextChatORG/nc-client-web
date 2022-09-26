@@ -1,11 +1,11 @@
 import { SearchResult, SearchResultType } from '@nc-core/api';
 import { useUser } from '@nc-core/hooks';
 import { parseUserProfileActions } from '@nc-core/utils';
+import { AddCommentIcon } from '@nc-icons';
+import { Avatar, Grid, IconButton, Typography } from '@nc-ui';
 import { formatRelative } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { Link, useNavigate } from 'react-router-dom';
-import { AddCommentIcon } from '../../../icons/mui';
-import { Avatar, Grid, IconButton, Typography } from '../../atoms';
 import classes from './SearchResultPreview.module.sass';
 
 export interface SearchResultPreviewProps {

@@ -1,6 +1,5 @@
 import { useUser } from '@nc-core/hooks';
-import { Grid } from '../../atoms';
-import { Header, Sidebar } from '../../organisms';
+import { Grid, Header, Sidebar } from '@nc-ui';
 import classes from './MainTemplate.module.sass';
 
 export interface MainTemplateProps {
