@@ -16,11 +16,12 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "types": ["node"],
+    "baseUrl": "./src/",
     "paths": {
-      "@nc-assets/*": ["./src/assets/*"],
-      "@nc-core/*": ["./src/core/*"],
-      "@nc-icons": ["./src/icons/index.ts"],
-      "@nc-ui": ["./src/ui/index.ts"]
+      "@nc-assets/*": ["assets/*"],
+      "@nc-core/*": ["core/*"],
+      "@nc-icons": ["icons/index.ts"],
+      "@nc-ui": ["ui/index.ts"]
     }
   },
   "include": ["src"],
