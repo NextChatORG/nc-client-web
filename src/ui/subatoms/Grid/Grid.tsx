@@ -2,7 +2,11 @@ import clsx from 'clsx';
 import { PropsWithChildren } from 'react';
 import classes from './Grid.module.sass';
 
-interface GridContainerProps {
+interface GridCommonProps {
+  style?: React.CSSProperties;
+}
+
+interface GridContainerProps extends GridCommonProps {
   alignContent?:
     | 'center'
     | 'flex-end'
@@ -23,13 +27,12 @@ interface GridContainerProps {
     | 'space-between'
     | 'space-evenly';
   spacing?: number | { columns: number; rows: number };
-  style?: React.CSSProperties;
   wrap?: 'nowrap' | 'wrap';
 }
 
 export type GridSizeProps = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
 
-interface GridItemProps {
+interface GridItemProps extends GridCommonProps {
   container?: false;
   item: true;
 
@@ -50,6 +53,7 @@ export type GridProps = GridContainerProps | GridItemProps;
 
 export function Grid({
   children,
+  style,
   ...props
 }: PropsWithChildren<GridProps>): JSX.Element {
   if (!props.container && !props.item) {
@@ -64,7 +68,6 @@ export function Grid({
       fullHeight,
       justifyContent,
       spacing = 0,
-      style,
       wrap = 'wrap',
     } = props;
 
@@ -120,6 +123,7 @@ export function Grid({
         [classes[`grid__item--lg-${lg}`]]: Boolean(lg),
         [classes[`grid__item--xl-${xl}`]]: Boolean(xl),
       })}
+      style={style}
     >
       {children}
     </div>
