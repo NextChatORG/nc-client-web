@@ -1,5 +1,5 @@
 import { JWT_TOKEN } from '@nc-core/constants/local-storage';
-import { UserContext } from '@nc-core/contexts';
+import { AuthContext } from '@nc-core/contexts';
 import { useContext } from 'react';
 import {
   LogInResponse,
@@ -14,29 +14,31 @@ import { useMutation } from './useMutation';
 import { GraphQLParsedErrors } from '@nc-core/utils';
 import { useNavigate } from 'react-router-dom';
 
-export interface UserHookProps {
+export interface AuthHookProps {
   onSignUpErrors?(errors: GraphQLParsedErrors): void;
 }
 
-export interface UserHook {
+export interface AuthHook {
+  clearRecoveryCodes(): void;
   data: UserProfile | null;
   isLogged: boolean;
   logIn(variables: LogInVariables): Promise<void>;
   logOut(): void;
+  recoveryCodes: string[];
   signUp(variables: SignUpVariables): Promise<void>;
 }
 
-export function useUser(props?: UserHookProps): UserHook {
-  const { dispatch, state } = useContext(UserContext);
+export function useAuth(props?: AuthHookProps): AuthHook {
+  const { dispatch, state } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [logIn] = useMutation<LogInResponse, LogInVariables>(LOGIN_MUTATION, {
-    async onCompleted({ logIn: { accessToken } }) {
-      localStorage.setItem(JWT_TOKEN, accessToken);
+    async onCompleted({ logIn }) {
+      localStorage.setItem(JWT_TOKEN, logIn.accessToken);
 
       if (!dispatch) return;
 
-      dispatch({ type: 'set-jwt', payload: accessToken });
+      dispatch({ type: 'log-in', payload: logIn });
       navigate('/', { replace: true });
     },
   });
@@ -44,12 +46,12 @@ export function useUser(props?: UserHookProps): UserHook {
   const [signUp] = useMutation<SignUpResponse, SignUpVariables>(
     SIGNUP_MUTATION,
     {
-      async onCompleted({ signUp: { accessToken } }) {
-        localStorage.setItem(JWT_TOKEN, accessToken);
+      async onCompleted({ signUp }) {
+        localStorage.setItem(JWT_TOKEN, signUp.accessToken);
 
         if (!dispatch) return;
 
-        dispatch({ type: 'set-jwt', payload: accessToken });
+        dispatch({ type: 'sign-up', payload: signUp });
         navigate('/', { replace: true });
       },
       onError: props?.onSignUpErrors,
@@ -57,6 +59,11 @@ export function useUser(props?: UserHookProps): UserHook {
   );
 
   return {
+    clearRecoveryCodes() {
+      if (!dispatch) return;
+
+      dispatch({ type: 'clear-recovery-codes' });
+    },
     data: state?.profileData ?? null,
     isLogged: state?.jwt !== null && state?.profileData !== null,
     async logIn(variables) {
@@ -69,6 +76,7 @@ export function useUser(props?: UserHookProps): UserHook {
 
       dispatch({ type: 'logout' });
     },
+    recoveryCodes: state?.recoveryCodes ?? [],
     async signUp(variables) {
       await signUp({ variables });
     },

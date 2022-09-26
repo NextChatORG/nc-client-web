@@ -1,5 +1,5 @@
 import { Message } from '@nc-core/api';
-import { useUser } from '@nc-core/hooks';
+import { useAuth } from '@nc-core/hooks';
 import { Avatar, Typography } from '@nc-ui';
 import clsx from 'clsx';
 import { format } from 'date-fns';
@@ -10,7 +10,7 @@ export interface ChatMessageProps {
 }
 
 export function ChatMessage({ data }: ChatMessageProps): JSX.Element | null {
-  const { data: meData } = useUser();
+  const { data: meData } = useAuth();
 
   const fromUser = data[0].fromUser;
 

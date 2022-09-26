@@ -1,4 +1,4 @@
-import { useUser } from '@nc-core/hooks';
+import { useAuth } from '@nc-core/hooks';
 import {
   Avatar,
   Button,
@@ -18,7 +18,7 @@ export interface HeaderProps {
 }
 
 export function Header({ auth }: HeaderProps): JSX.Element {
-  const { data } = useUser();
+  const { data } = useAuth();
 
   if (auth) {
     const { navButtons } = auth;

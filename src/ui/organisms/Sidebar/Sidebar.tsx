@@ -1,4 +1,4 @@
-import { useUser } from '@nc-core/hooks';
+import { useAuth } from '@nc-core/hooks';
 import {
   DashboardFilledIcon,
   DashboardOutlinedIcon,
@@ -16,8 +16,8 @@ import { Link, useLocation } from 'react-router-dom';
 import classes from './Sidebar.module.sass';
 
 export function Sidebar(): JSX.Element {
+  const { data: meData, logOut } = useAuth();
   const location = useLocation();
-  const { data: meData, logOut } = useUser();
 
   function isActive(pathname: string): boolean {
     if (pathname === '/chat') {

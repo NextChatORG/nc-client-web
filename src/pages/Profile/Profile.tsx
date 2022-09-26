@@ -15,7 +15,7 @@ import {
   SendFriendRequestResponse,
   SEND_FRIEND_REQUEST_MUTATION,
 } from '@nc-core/api';
-import { useLazyQuery, useMutation, useUser } from '@nc-core/hooks';
+import { useAuth, useLazyQuery, useMutation } from '@nc-core/hooks';
 import {
   Avatar,
   Button,
@@ -39,7 +39,7 @@ import {
 export default function Profile(): JSX.Element {
   const [actions, setActions] = useState<UserProfileActions | null>(null);
 
-  const { data: meData } = useUser();
+  const { data: meData } = useAuth();
   const { username } = useParams();
 
   const [getProfile, { data: userData, subscribeToMore }] = useLazyQuery<

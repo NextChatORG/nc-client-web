@@ -1,4 +1,4 @@
-import { useUser } from '@nc-core/hooks';
+import { useAuth } from '@nc-core/hooks';
 import { Grid, Header, Sidebar } from '@nc-ui';
 import classes from './MainTemplate.module.sass';
 
@@ -11,7 +11,7 @@ export function MainTemplate({
   children,
   withHeader = false,
 }: React.PropsWithChildren<MainTemplateProps>): JSX.Element {
-  const { isLogged } = useUser();
+  const { isLogged } = useAuth();
 
   return (
     <div className={classes.main}>

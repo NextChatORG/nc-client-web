@@ -1,5 +1,5 @@
 import { SearchResult, SearchResultType } from '@nc-core/api';
-import { useUser } from '@nc-core/hooks';
+import { useAuth } from '@nc-core/hooks';
 import { parseUserProfileActions } from '@nc-core/utils';
 import { AddCommentIcon } from '@nc-icons';
 import { Avatar, Grid, IconButton, Typography } from '@nc-ui';
@@ -19,8 +19,7 @@ export function SearchResultPreview({
   onClick,
   searchText,
 }: SearchResultPreviewProps): JSX.Element {
-  const { data: meData } = useUser();
-
+  const { data: meData } = useAuth();
   const navigate = useNavigate();
 
   const userProfileActions =

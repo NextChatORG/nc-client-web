@@ -1,6 +1,6 @@
 import { CompleteTasksAnimationData } from '@nc-assets/lottie';
 import { SignUpVariables } from '@nc-core/api';
-import { useUser } from '@nc-core/hooks';
+import { useAuth } from '@nc-core/hooks';
 import Lottie from 'lottie-react';
 import { useForm } from 'react-hook-form';
 import { AuthTemplate } from '../../ui/templates';
@@ -9,7 +9,7 @@ export default function SignUp(): JSX.Element {
   const { clearErrors, control, handleSubmit, setError, watch } =
     useForm<SignUpVariables>();
 
-  const { signUp } = useUser({
+  const { signUp } = useAuth({
     onSignUpErrors({ fields }) {
       if (fields.length > 0) {
         for (const { field, message } of fields) {

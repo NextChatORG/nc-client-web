@@ -1,11 +1,11 @@
 import { LogInVariables } from '@nc-core/api';
-import { useUser } from '@nc-core/hooks';
+import { useAuth } from '@nc-core/hooks';
 import { useForm } from 'react-hook-form';
 import { AuthTemplate } from '../../ui/templates';
 
 export default function LogIn(): JSX.Element {
   const { control, handleSubmit } = useForm<LogInVariables>();
-  const { logIn } = useUser();
+  const { logIn } = useAuth();
 
   return (
     <AuthTemplate
