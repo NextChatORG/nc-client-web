@@ -4,7 +4,7 @@ import {
   VisibilityIcon,
   VisibilityOffIcon,
 } from '@nc-icons';
-import { Button } from '@nc-ui';
+import { Button, Grid } from '@nc-ui';
 import clsx from 'clsx';
 import React, { HTMLInputTypeAttribute, useState } from 'react';
 import {
@@ -48,11 +48,6 @@ export function TextField<TForm extends FieldValues>({
   validations,
   variant = 'outlined',
 }: TextFieldProps<TForm>): JSX.Element {
-  const [startAdormentRef, setStartAdormentRef] =
-    useState<HTMLDivElement | null>(null);
-  const [endAdormentRef, setEndAdormentRef] = useState<HTMLDivElement | null>(
-    null,
-  );
   const [inputType, setInputType] = useState<HTMLInputTypeAttribute>(type);
   const [focused, setFocused] = useState<boolean>(false);
 
@@ -106,7 +101,8 @@ export function TextField<TForm extends FieldValues>({
               [classes['textField--error']]: hasError,
             })}
           >
-            <div
+            <Grid
+              container
               className={clsx(classes.textField__field, {
                 [classes['textField__field--contained']]:
                   variant === 'contained',
@@ -116,77 +112,78 @@ export function TextField<TForm extends FieldValues>({
               id={id}
             >
               {hasStartAdorment && (
-                <div
-                  className={classes.textField__field__startAdorment}
-                  id={`${id}-start-adorment`}
-                  ref={setStartAdormentRef}
-                >
-                  {type === 'search' ? (
-                    <div
-                      className={classes.textField__field__startAdorment__icon}
-                    >
-                      <SearchIcon />
-                    </div>
-                  ) : (
-                    startAdorment
-                  )}
-                </div>
+                <Grid item>
+                  <div
+                    className={classes.textField__field__startAdorment}
+                    id={`${id}-start-adorment`}
+                  >
+                    {type === 'search' ? (
+                      <div
+                        className={
+                          classes.textField__field__startAdorment__icon
+                        }
+                      >
+                        <SearchIcon />
+                      </div>
+                    ) : (
+                      startAdorment
+                    )}
+                  </div>
+                </Grid>
               )}
-              <input
-                autoComplete="off"
-                className={clsx(classes.textField__field__input, {
-                  [classes['textField__field__input--withBoth']]:
-                    hasStartAdorment && hasEndAdorment,
-                  [classes['textField__field__input--withStart']]:
-                    hasStartAdorment && !hasEndAdorment,
-                  [classes['textField__field__input--withEnd']]:
-                    hasEndAdorment && !hasStartAdorment,
-                })}
-                id={`${id}-field`}
-                onBlur={handleOnBlur}
-                onChange={handleOnChange}
-                onFocus={handleOnFocus}
-                placeholder={placeholder}
-                style={{
-                  width: `calc(100% - ${
-                    startAdormentRef?.offsetWidth ?? 0
-                  }px - ${endAdormentRef?.offsetWidth ?? 0}px - 16px)`,
-                }}
-                type={inputType}
-                value={field.value}
-              />
+              <Grid item xs="auto">
+                <input
+                  autoComplete="off"
+                  className={clsx(classes.textField__field__input, {
+                    [classes['textField__field__input--withBoth']]:
+                      hasStartAdorment && hasEndAdorment,
+                    [classes['textField__field__input--withStart']]:
+                      hasStartAdorment && !hasEndAdorment,
+                    [classes['textField__field__input--withEnd']]:
+                      hasEndAdorment && !hasStartAdorment,
+                  })}
+                  id={`${id}-field`}
+                  onBlur={handleOnBlur}
+                  onChange={handleOnChange}
+                  onFocus={handleOnFocus}
+                  placeholder={placeholder}
+                  type={inputType}
+                  value={field.value}
+                />
+              </Grid>
               {hasEndAdorment && (
-                <div
-                  className={classes.textField__field__endAdorment}
-                  id={`${id}-end-adorment`}
-                  ref={setEndAdormentRef}
-                >
-                  {type === 'password' ? (
-                    <Button
-                      color="default"
-                      onClick={handleToggleVisibility}
-                      variant="input-icon"
-                    >
-                      {inputType === 'text' ? (
-                        <VisibilityOffIcon />
-                      ) : (
-                        <VisibilityIcon />
-                      )}
-                    </Button>
-                  ) : type === 'search' ? (
-                    <Button
-                      color="default"
-                      onClick={handleClearValue}
-                      variant="input-icon"
-                    >
-                      <CloseIcon />
-                    </Button>
-                  ) : (
-                    endAdorment
-                  )}
-                </div>
+                <Grid item>
+                  <div
+                    className={classes.textField__field__endAdorment}
+                    id={`${id}-end-adorment`}
+                  >
+                    {type === 'password' ? (
+                      <Button
+                        color="default"
+                        onClick={handleToggleVisibility}
+                        variant="input-icon"
+                      >
+                        {inputType === 'text' ? (
+                          <VisibilityOffIcon />
+                        ) : (
+                          <VisibilityIcon />
+                        )}
+                      </Button>
+                    ) : type === 'search' ? (
+                      <Button
+                        color="default"
+                        onClick={handleClearValue}
+                        variant="input-icon"
+                      >
+                        <CloseIcon />
+                      </Button>
+                    ) : (
+                      endAdorment
+                    )}
+                  </div>
+                </Grid>
               )}
-            </div>
+            </Grid>
             {withHelperText && (
               <span
                 className={classes.textField__helperText}
