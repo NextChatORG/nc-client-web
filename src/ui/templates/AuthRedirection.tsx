@@ -5,6 +5,7 @@ import { lazy, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const RecoveryCodes = lazy(() => import('../../pages/auth/RecoveryCodes'));
+const TwoFactor = lazy(() => import('../../pages/auth/TwoFactor/index'));
 
 export interface AuthRedirectionProps {
   Logged?: React.LazyExoticComponent<() => JSX.Element>;
@@ -55,7 +56,9 @@ export function AuthRedirection({
 
   if (!isLogged) return NoLogged ? <NoLogged /> : null;
 
-  return recoveryCodes.length === 5 ? (
+  return state?.requireTwoFactor ? (
+    <TwoFactor />
+  ) : recoveryCodes.length === 5 ? (
     <RecoveryCodes />
   ) : Logged ? (
     <Logged />

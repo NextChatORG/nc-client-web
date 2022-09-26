@@ -35,6 +35,13 @@
         background-color: var(--color-on-error-contained-hover)
       & #{ $self }__rippleEffect
         background-color: var(--color-on-error-contained-ripple)
+    &#{ $self }--text
+      color: var(--color-error)
+
+      &:hover
+        background-color: var(--color-on-error-text-hover)
+      & #{ $self }__rippleEffect
+        background-color: var(--color-on-error-text-ripple)
   &--colorPrimary
     &#{ $self }--contained
       background-color: var(--color-primary)

@@ -19,6 +19,24 @@ export const LOGIN_MUTATION = gql`
   }
 `;
 
+export interface LogInTwoFactorVariables {
+  code: string;
+}
+
+export interface LogInTwoFactorResponse {
+  logInTwoFactor: {
+    accessToken: string;
+  };
+}
+
+export const LOGIN_TWO_FACTOR_QUERY = gql`
+  query logInTwoFactor($code: String!) {
+    logInTwoFactor(code: $code) {
+      accessToken
+    }
+  }
+`;
+
 export interface SignUpVariables {
   username: string;
   password: string;

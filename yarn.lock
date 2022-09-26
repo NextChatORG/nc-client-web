@@ -3282,6 +3282,13 @@ queue-microtask@^1.2.2:
   resolved "https://registry.yarnpkg.com/queue-microtask/-/queue-microtask-1.2.3.tgz#4929228bbc724dfac43e0efb058caf7b6cfb6243"
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
 
+rci@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/rci/-/rci-0.0.3.tgz#fd555424c69360c2ae57054c87d3e9fd11fd3bdf"
+  integrity sha512-Rs71aR0YL/8pVNKkGLpTQgPOgn0vPelxzTmP2rChF3Ac30nzROVasilAWbONn5rzwm+1yp23SHyS/IsIU1Wnjw==
+  dependencies:
+    use-code-input "0.0.2"
+
 react-dom@^18.2.0:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-18.2.0.tgz#22aaf38708db2674ed9ada224ca4aa708d821e3d"
@@ -3733,6 +3740,16 @@ uri-js@^4.2.2:
   integrity sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==
   dependencies:
     punycode "^2.1.0"
+
+use-code-input@0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/use-code-input/-/use-code-input-0.0.2.tgz#e330bcd0840916849c0f3daaf24b59ba7b0b4187"
+  integrity sha512-lDIUiRca0K8sF+c/KZ9cz5g6oPqlFiTmaDgwGzg0wlNSnFAvROtweKy0XpihEWJwo2tjETtgAxIh82RVGaBFHQ==
+
+use-is-focused@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/use-is-focused/-/use-is-focused-0.0.1.tgz#640186e627bdf422358703bc2def35fd9eeaa472"
+  integrity sha512-EXVmfDqdzUJOYukC9rBCs4TYd93lDVAL6TxegnV0+3U4cBxWxhbyt1bOm5u1ox+0MZZjamBFU/NSTLTtex2uwQ==
 
 vite@^3.1.0:
   version "3.1.0"

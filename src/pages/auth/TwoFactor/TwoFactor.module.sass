@@ -1,0 +1,68 @@
+.twoFactor
+  &__input
+    $self: &
+
+    &--focused #{ $self }__segment[data-state='selected'],
+    &--focused #{ $self }__segment[data-state='cursor'],
+    &--stateError #{ $self }__segment,
+    &--stateSuccess #{ $self }__segment
+      outline: 2px solid transparent
+      outline-offset: 2px
+      border-color: var(--segment-color)
+      box-shadow: rgb(255, 255, 255) 0px 0px 0px 0px, var(--segment-color) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px
+    &--focused #{ $self }__segment[data-state='selected'] div,
+    &--stateError #{ $self }__segment div,
+    &--stateSuccess #{ $self }__segment div
+      background-color: var(--segment-color)
+      border-radius: 2px
+      flex: 1
+      margin: 3px
+      opacity: 0.15625
+    &--focused #{ $self }__segment[data-state='cursor'] div
+      animation: blink-caret 1.2s step-end infinite
+      background: currentColor
+      flex: 0 0 2px
+      justify-self: center
+      margin: 8px auto
+      width: 2px
+    &--stateLoading
+      & #{ $self }__segment
+        animation: pulse-border 1s ease-in-out 0s infinite
+    &--stateError
+      animation: shake 0.15s ease-in-out 0s 2
+
+      & #{ $self }__segment
+        --segment-color: var(--color-error)
+    &--stateSuccess
+      & #{ $self }__segment
+        --segment-color: var(--color-success)
+    &__segment
+      -webkit-appearance: none
+      -moz-appearance: none
+      appearance: none
+      background-color: transparent
+      border: 2px solid rgba(white, .5)
+      border-radius: 0.375rem
+      display: flex
+      --segment-color: var(--color-primary)
+    & input
+      caret-color: transparent
+      color: var(--color-text)
+
+      &::selection
+        background-color: transparent
+
+@keyframes blink-caret
+  50%
+    background: transparent
+
+@keyframes shake
+  25%
+    transform: translateX(10px)
+  75%
+    transform: translateX(-10px)
+
+@keyframes pulse-border
+  50%
+    border-color: var(--segment-color)
+    box-shadow: rgb(255, 255, 255) 0px 0px 0px 0px, var(--segment-color) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px
