@@ -4,7 +4,23 @@ import { Button, Grid, Logo, Typography } from '@nc-ui';
 const spacing = 20;
 
 export default function RecoveryCodes(): JSX.Element {
-  const { clearRecoveryCodes, recoveryCodes } = useAuth();
+  const { clearRecoveryCodes, data, recoveryCodes } = useAuth();
+
+  function handleDownloadClick() {
+    const el = document.createElement('a');
+
+    el.href = `data:text/plain;charset=utf-8,${encodeURIComponent(
+      recoveryCodes.join('\r\n'),
+    )}`;
+
+    el.download = `${data?.username}_nextchat_recovery_codes.txt`;
+    el.style.display = 'none';
+
+    document.body.appendChild(el);
+
+    el.click();
+    el.remove();
+  }
 
   return (
     <Grid
@@ -68,7 +84,7 @@ export default function RecoveryCodes(): JSX.Element {
       <Grid item xs={11} sm={6} md={4} lg={3} xl={2}>
         <Grid container spacing={12}>
           <Grid item xs={6}>
-            <Button fullWidth color="success" onClick={() => undefined}>
+            <Button fullWidth color="success" onClick={handleDownloadClick}>
               Descargar
             </Button>
           </Grid>
