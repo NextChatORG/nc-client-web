@@ -1,7 +1,7 @@
 import { AuthRedirection } from '@nc-ui';
 import { lazy } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
-import App from './App';
+import Error404 from './pages/Error404';
 
 const Landing = lazy(() => import('./pages/auth/Landing/index'));
 const LogIn = lazy(() => import('./pages/auth/LogIn'));
@@ -52,7 +52,7 @@ const router = createBrowserRouter([
         path: 'profile',
       },
     ],
-    element: <App />,
+    errorElement: <Error404 />,
     path: '/',
   },
 ]);

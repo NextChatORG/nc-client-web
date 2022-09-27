@@ -3,6 +3,7 @@ import client from '@nc-core/api';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
+import App from './App';
 import router from './Router';
 
 import '@nc-core/styles/global.sass';
@@ -15,7 +16,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <RouterProvider router={router} />
+      <App>
+        <RouterProvider router={router} />
+      </App>
     </ApolloProvider>
   </React.StrictMode>,
 );

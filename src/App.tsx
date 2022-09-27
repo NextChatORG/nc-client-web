@@ -1,17 +1,38 @@
+import { GetProfileResponse, GET_PROFILE_QUERY } from '@nc-core/api';
 import { AuthContext } from '@nc-core/contexts';
+import { useLazyQuery } from '@nc-core/hooks';
 import { authReducer, authReducerInitialState } from '@nc-core/reducers';
-import { Suspense, useReducer } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Suspense, useEffect, useReducer, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 
-export default function App(): JSX.Element {
+export default function App({
+  children,
+}: React.PropsWithChildren<unknown>): JSX.Element {
+  const [loading, setLoading] = useState<boolean>(true);
+
   const [state, dispatch] = useReducer(authReducer, authReducerInitialState);
+
+  const [getProfile] = useLazyQuery<GetProfileResponse>(GET_PROFILE_QUERY, {
+    fetchPolicy: 'network-only',
+    onCompleted({ getProfile }) {
+      dispatch({ type: 'set-profile-data', payload: getProfile });
+    },
+  });
+
+  useEffect(() => {
+    if (state.jwt && !state.profileData) {
+      getProfile();
+      return;
+    }
+
+    if ((state.jwt && state.profileData) || !state.jwt) {
+      setLoading(false);
+    }
+  }, [state]);
 
   return (
     <AuthContext.Provider value={{ dispatch, state }}>
-      <Suspense>
-        <Outlet />
-      </Suspense>
+      {loading ? <div>Loading</div> : <Suspense>{children}</Suspense>}
       <ToastContainer
         hideProgressBar
         position="bottom-center"
