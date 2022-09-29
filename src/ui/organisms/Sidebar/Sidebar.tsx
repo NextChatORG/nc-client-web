@@ -15,7 +15,11 @@ import clsx from 'clsx';
 import { Link, useLocation } from 'react-router-dom';
 import classes from './Sidebar.module.sass';
 
-export function Sidebar(): JSX.Element {
+export interface SidebarProps {
+  withHeader?: boolean;
+}
+
+export function Sidebar({ withHeader }: SidebarProps): JSX.Element {
   const { data: meData, logOut } = useAuth();
   const location = useLocation();
 
@@ -100,7 +104,7 @@ export function Sidebar(): JSX.Element {
               justifyContent="center"
               spacing={12}
             >
-              {isActive('/chat') && (
+              {!withHeader && (
                 <>
                   <Grid item>
                     <NotificationsBox direction="right-center" />

@@ -16,7 +16,7 @@ export function MainTemplate({
   return (
     <div className={classes.main}>
       <Grid container>
-        <Sidebar />
+        <Sidebar withHeader={withHeader} />
         <Grid item xs="auto">
           <div className={classes.main__content}>
             <Grid container alignContent="flex-start" spacing={24}>

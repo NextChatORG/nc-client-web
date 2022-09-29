@@ -2,10 +2,8 @@ import { useAuth } from '@nc-core/hooks';
 import { Grid, MainTemplate, Typography } from '@nc-ui';
 import { Link } from 'react-router-dom';
 
-export default function Error404(): JSX.Element {
+export default function Error404(): JSX.Element | null {
   const { isLogged } = useAuth();
-
-  const header = document.getElementById('nc-header');
 
   const Component = (
     <Grid
@@ -15,10 +13,8 @@ export default function Error404(): JSX.Element {
       justifyContent="center"
       spacing={24}
       style={{
-        height: `calc(100vh + 24px - ${header?.offsetHeight ?? 0}px - ${
-          header ? 48 : 0
-        }px)`,
-        width: 'calc(100% + 24px)',
+        height: isLogged ? 'calc(100vh - 24px)' : 'calc(100vh - 12px)',
+        width: isLogged ? 'calc(100% + 24px)' : 'calc(100% - 12px)',
       }}
     >
       <Grid item>
@@ -43,8 +39,14 @@ export default function Error404(): JSX.Element {
   );
 
   if (isLogged) {
-    return <MainTemplate withHeader>{Component}</MainTemplate>;
+    return (
+      <MainTemplate>
+        <Grid item xs="auto">
+          {Component}
+        </Grid>
+      </MainTemplate>
+    );
   }
 
-  return Component;
+  return <div style={{ color: 'var(--color-text)' }}>{Component}</div>;
 }
