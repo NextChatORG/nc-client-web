@@ -1,16 +1,5 @@
 import { gql } from '@apollo/client';
 
-export interface LogInVariables {
-  username: string;
-  password: string;
-}
-
-export interface LogInResponse {
-  logIn: {
-    accessToken: string;
-  };
-}
-
 export const LOGIN_MUTATION = gql`
   mutation logIn($username: String!, $password: String!) {
     logIn(username: $username, password: $password) {
@@ -19,16 +8,6 @@ export const LOGIN_MUTATION = gql`
   }
 `;
 
-export interface LogInTwoFactorVariables {
-  code: string;
-}
-
-export interface LogInTwoFactorResponse {
-  logInTwoFactor: {
-    accessToken: string;
-  };
-}
-
 export const LOGIN_TWO_FACTOR_QUERY = gql`
   query logInTwoFactor($code: String!) {
     logInTwoFactor(code: $code) {
@@ -36,20 +15,6 @@ export const LOGIN_TWO_FACTOR_QUERY = gql`
     }
   }
 `;
-
-export interface SignUpVariables {
-  username: string;
-  password: string;
-  confirmPassword: string;
-  betaKey: string;
-}
-
-export interface SignUpResponse {
-  signUp: {
-    accessToken: string;
-    recoveryCodes: string[];
-  };
-}
 
 export const SIGNUP_MUTATION = gql`
   mutation signUp(

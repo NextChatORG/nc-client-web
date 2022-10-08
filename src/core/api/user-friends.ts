@@ -1,31 +1,7 @@
 import { gql } from '@apollo/client';
-import { User } from './users';
-
-export enum UserFriendStatus {
-  REQUESTED = 'REQUESTED',
-  ACCEPTED = 'ACCEPTED',
-}
-
-export interface UserFriend {
-  id: string;
-  date: number;
-  userOneId: string;
-  userOne?: User | null;
-  userTwoId: string;
-  userTwo?: User | null;
-  status: UserFriendStatus;
-}
-
-export interface FriendRequestVariables {
-  userId: string;
-}
-
-export interface SendFriendRequestResponse {
-  sendFriendRequest: UserFriend;
-}
 
 export const SEND_FRIEND_REQUEST_MUTATION = gql`
-  mutation sendFriendRequest($userId: String!) {
+  mutation sendFriendRequest($userId: ObjectId!) {
     sendFriendRequest(userId: $userId) {
       id
       date
@@ -36,42 +12,26 @@ export const SEND_FRIEND_REQUEST_MUTATION = gql`
   }
 `;
 
-export interface CancelFriendRequestResponse {
-  cancelFriendRequest: boolean;
-}
-
 export const CANCEL_FRIEND_REQUEST_MUTATION = gql`
-  mutation cancelFriendRequest($userId: String!) {
+  mutation cancelFriendRequest($userId: ObjectId!) {
     cancelFriendRequest(userId: $userId)
   }
 `;
 
-export interface AcceptFriendRequestResponse {
-  acceptFriendRequest: boolean;
-}
-
 export const ACCEPT_FRIEND_REQUEST_MUTATION = gql`
-  mutation acceptFriendRequest($userId: String!) {
+  mutation acceptFriendRequest($userId: ObjectId!) {
     acceptFriendRequest(userId: $userId)
   }
 `;
 
-export interface DeclineFriendRequestResponse {
-  declineFriendRequest: boolean;
-}
-
 export const DECLINE_FRIEND_REQUEST_MUTATION = gql`
-  mutation declineFriendRequest($userId: String!) {
+  mutation declineFriendRequest($userId: ObjectId!) {
     declineFriendRequest(userId: $userId)
   }
 `;
 
-export interface deleteFriendResponse {
-  deleteFriend: boolean;
-}
-
 export const DELETE_FRIEND_MUTATION = gql`
-  mutation deleteFriend($userId: String!) {
+  mutation deleteFriend($userId: ObjectId!) {
     deleteFriend(userId: $userId)
   }
 `;

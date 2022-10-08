@@ -20,7 +20,7 @@ export function Logo({
         [classes['logo--colorWhite']]: color === 'white',
       })}
     >
-      <NextChatIcon size={size === 'big' ? 120 : 48} />
+      <NextChatIcon size={size === 'big' ? 120 : 45} />
       {!onlyIcon && (
         <h1 style={{ fontSize: size === 'big' ? 108 : 36 }}>NextChat</h1>
       )}

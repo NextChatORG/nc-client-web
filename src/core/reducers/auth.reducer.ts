@@ -1,5 +1,9 @@
-import { LogInResponse, SignUpResponse, UserProfile } from '@nc-core/api';
 import { JWT_TOKEN } from '@nc-core/constants/local-storage';
+import {
+  LogInResponse,
+  SignUpResponse,
+  UserProfile,
+} from '@nc-core/interfaces/api';
 import jwtDecode from 'jwt-decode';
 
 export interface AuthReducerState {

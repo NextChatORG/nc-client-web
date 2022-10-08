@@ -1,4 +1,4 @@
-import { Message } from '@nc-core/api';
+import { ObjectId, UserMessage } from '@nc-core/interfaces/api';
 import {
   addMinutes,
   differenceInDays,
@@ -12,35 +12,34 @@ import {
 import { es } from 'date-fns/locale';
 
 export function groupMessages(
-  messages: Message[],
-): { title: string; messages: Message[][] }[] {
-  const groupedByDate = messages.reduce<{ date: Date; messages: Message[] }[]>(
-    (prev, cur) => {
-      const date = set(new Date(cur.createdAt), {
-        hours: 0,
-        minutes: 0,
-        seconds: 0,
-        milliseconds: 0,
-      });
+  messages: UserMessage[],
+): { title: string; messages: UserMessage[][] }[] {
+  const groupedByDate = messages.reduce<
+    { date: Date; messages: UserMessage[] }[]
+  >((prev, cur) => {
+    const date = set(new Date(cur.createdAt), {
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
+      milliseconds: 0,
+    });
 
-      const index = prev.findIndex((p) => isEqual(p.date, date));
-      if (index > -1) {
-        prev[index].messages.push(cur);
-        return prev;
-      }
+    const index = prev.findIndex((p) => isEqual(p.date, date));
+    if (index > -1) {
+      prev[index].messages.push(cur);
+      return prev;
+    }
 
-      return [...prev, { date, messages: [cur] }];
-    },
-    [],
-  );
+    return [...prev, { date, messages: [cur] }];
+  }, []);
 
   const grouped = groupedByDate.map((cur) => {
     const messages = cur.messages.reduce<
       {
         closed: boolean;
-        content: Message[];
-        fromUserId: string;
+        content: UserMessage[];
         read: boolean;
+        senderId: ObjectId;
         since: Date;
         to: Date;
       }[]
@@ -51,7 +50,7 @@ export function groupMessages(
         (p) =>
           !p.closed &&
           p.read === curMessage.read &&
-          p.fromUserId === curMessage.fromUserId &&
+          p.senderId === curMessage.senderId &&
           isAfter(createdAt, p.since) &&
           isBefore(createdAt, p.to),
       );
@@ -70,8 +69,8 @@ export function groupMessages(
         {
           closed: false,
           content: [curMessage],
-          fromUserId: curMessage.fromUserId,
           read: curMessage.read,
+          senderId: curMessage.senderId,
           since: subMinutes(createdAt, 5),
           to: addMinutes(createdAt, 5),
         },

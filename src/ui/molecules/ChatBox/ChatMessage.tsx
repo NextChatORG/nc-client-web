@@ -1,22 +1,22 @@
-import { Message } from '@nc-core/api';
 import { useAuth } from '@nc-core/hooks';
+import { UserMessage } from '@nc-core/interfaces/api';
 import { Avatar, Typography } from '@nc-ui';
 import clsx from 'clsx';
 import { format } from 'date-fns';
 import classes from './ChatMessage.module.sass';
 
 export interface ChatMessageProps {
-  data: Message[];
+  data: UserMessage[];
 }
 
 export function ChatMessage({ data }: ChatMessageProps): JSX.Element | null {
   const { data: meData } = useAuth();
 
-  const fromUser = data[0].fromUser;
+  const senderUser = data[0].senderUser;
 
-  if (!meData || !fromUser) return null;
+  if (!meData || !senderUser) return null;
 
-  const isMe = meData.id === data[0].fromUserId;
+  const isMe = meData.id === data[0].senderId;
 
   return (
     <div className={classes.chatMessage}>
@@ -28,7 +28,7 @@ export function ChatMessage({ data }: ChatMessageProps): JSX.Element | null {
           key={`chat_message_${message.id}_${i}`}
         >
           {!isMe && i === 0 && (
-            <Avatar url={fromUser.profileImage} size="small" />
+            <Avatar url={senderUser.profileImage} size="small" />
           )}
           <div
             className={clsx(classes.chatMessage__content__message, {
@@ -53,7 +53,7 @@ export function ChatMessage({ data }: ChatMessageProps): JSX.Element | null {
             )}
           </div>
           {isMe && i === 0 && (
-            <Avatar url={fromUser.profileImage} size="small" />
+            <Avatar url={senderUser.profileImage} size="small" />
           )}
         </div>
       ))}

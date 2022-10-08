@@ -1,5 +1,6 @@
-import { SearchResponse, SearchVariables, SEARCH_QUERY } from '@nc-core/api';
+import { SEARCH_QUERY } from '@nc-core/api';
 import { useLazyQuery } from '@nc-core/hooks';
+import { SearchResponse, SearchVariables } from '@nc-core/interfaces/api';
 import { Loading, TextField } from '@nc-ui';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';

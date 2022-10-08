@@ -1,6 +1,6 @@
 import { CompleteTasksAnimationData } from '@nc-assets/lottie';
-import { SignUpVariables } from '@nc-core/api';
 import { useAuth } from '@nc-core/hooks';
+import { SignUpVariables } from '@nc-core/interfaces/api';
 import Lottie from 'lottie-react';
 import { useForm } from 'react-hook-form';
 import { AuthTemplate } from '../../ui/templates';

@@ -1,5 +1,5 @@
-import { LogInVariables } from '@nc-core/api';
 import { useAuth } from '@nc-core/hooks';
+import { LogInVariables } from '@nc-core/interfaces/api';
 import { useForm } from 'react-hook-form';
 import { AuthTemplate } from '../../ui/templates';
 

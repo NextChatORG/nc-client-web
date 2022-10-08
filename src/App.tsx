@@ -1,6 +1,7 @@
-import { GetProfileResponse, GET_PROFILE_QUERY } from '@nc-core/api';
+import { GET_PROFILE_QUERY } from '@nc-core/api';
 import { AuthContext } from '@nc-core/contexts';
 import { useLazyQuery } from '@nc-core/hooks';
+import { GetProfileResponse } from '@nc-core/interfaces/api';
 import { authReducer, authReducerInitialState } from '@nc-core/reducers';
 import { Suspense, useEffect, useReducer, useState } from 'react';
 import { ToastContainer } from 'react-toastify';

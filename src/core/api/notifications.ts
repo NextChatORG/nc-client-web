@@ -1,63 +1,55 @@
 import { gql } from '@apollo/client';
 
-export enum NotificationType {
-  NEW_FRIEND_REQUEST = 'NEW_FRIEND_REQUEST',
-}
-
-export interface Notification {
-  id: string;
-  data: string;
-  read: boolean;
-  createdAt: number;
-  type: NotificationType;
-}
-
-export interface GetNotificationsResponse {
-  getNotifications: Notification[];
-}
-
 export const GET_NOTIFICATIONS_QUERY = gql`
   query getNotifications {
     getNotifications {
-      id
+      createdAt
       data
+      dataUser {
+        id
+        profileImage
+        username
+      }
+      id
       read
       type
-      createdAt
+      userId
     }
   }
 `;
 
-export interface NewNotificationResponse {
-  newNotification: {
-    notification: Notification;
-  };
-}
+export const READ_ALL_NOTIFICATIONS_MUTATION = gql`
+  mutation readAllNotifications {
+    readAllNotifications
+  }
+`;
+
+export const READ_NOTIFICATION_MUTATION = gql`
+  mutation readNotification($notificationId: ObjectId!) {
+    readNotification(notificationId: $notificationId)
+  }
+`;
 
 export const NEW_NOTIFICATION_SUBSCRIPTION = gql`
   subscription newNotification {
     newNotification {
-      notification {
+      createdAt
+      data
+      dataUser {
         id
-        data
-        read
-        type
-        createdAt
+        profileImage
+        username
       }
+      id
+      read
+      type
+      userId
     }
   }
 `;
 
-export interface RemoveNotificationResponse {
-  removeNotification: {
-    notificationId: string;
-  };
-}
-
 export const REMOVE_NOTIFICATION_SUBSCRIPTION = gql`
   subscription removeNotification {
-    removeNotification {
-      notificationId
-    }
+    removeNotification
   }
 `;

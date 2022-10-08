@@ -1,8 +1,6 @@
-import {
-  GetRecentMessagesResponse,
-  GET_RECENT_MESSAGES_QUERY,
-} from '@nc-core/api';
+import { GET_RECENT_CHATS_QUERY } from '@nc-core/api';
 import { useQuery } from '@nc-core/hooks';
+import { GetRecentChatsResponse } from '@nc-core/interfaces/api';
 import {
   ChatBox,
   Content,
@@ -18,10 +16,10 @@ import { useParams } from 'react-router-dom';
 export default function Chat(): JSX.Element {
   const { chatId } = useParams();
 
-  const { data, refetch: refetchRecentMessages } =
-    useQuery<GetRecentMessagesResponse>(GET_RECENT_MESSAGES_QUERY);
+  const { data, refetch: refetchRecentChats } =
+    useQuery<GetRecentChatsResponse>(GET_RECENT_CHATS_QUERY);
 
-  const recentMessages = data?.getRecentMessages ?? [];
+  const recentChats = data?.getRecentChats ?? [];
 
   return (
     <MainTemplate>
@@ -44,11 +42,11 @@ export default function Chat(): JSX.Element {
                 >
                   Conversaciones
                 </Typography>
-                {recentMessages.length > 0 ? (
-                  recentMessages.map((recentMessage, i) => (
+                {recentChats.length > 0 ? (
+                  recentChats.map((recentChat, i) => (
                     <MessagePreview
-                      data={recentMessage}
-                      key={`chat_${recentMessage.userId}_${i}`}
+                      data={recentChat}
+                      key={`chat_${recentChat.chat.id}_${i}`}
                     />
                   ))
                 ) : (
@@ -73,7 +71,7 @@ export default function Chat(): JSX.Element {
               {chatId ? (
                 <ChatBox
                   chatId={chatId}
-                  refetchRecentMessages={refetchRecentMessages}
+                  refetchRecentChats={refetchRecentChats}
                 />
               ) : (
                 <NoChatSelected />

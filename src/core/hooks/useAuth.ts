@@ -1,22 +1,24 @@
+import {
+  LOGIN_MUTATION,
+  LOGIN_TWO_FACTOR_QUERY,
+  SIGNUP_MUTATION,
+} from '@nc-core/api';
 import { JWT_TOKEN } from '@nc-core/constants/local-storage';
 import { AuthContext } from '@nc-core/contexts';
-import { useContext } from 'react';
 import {
   LogInResponse,
   LogInTwoFactorResponse,
   LogInTwoFactorVariables,
   LogInVariables,
-  LOGIN_MUTATION,
-  LOGIN_TWO_FACTOR_QUERY,
   SignUpResponse,
   SignUpVariables,
-  SIGNUP_MUTATION,
   UserProfile,
-} from '@nc-core/api';
-import { useMutation } from './useMutation';
+} from '@nc-core/interfaces/api';
 import { GraphQLParsedErrors } from '@nc-core/utils';
+import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLazyQuery } from './useLazyQuery';
+import { useMutation } from './useMutation';
 
 export interface AuthHookProps {
   onLogInTwoFactorCompleted?(): void;

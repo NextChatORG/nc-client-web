@@ -1,5 +1,5 @@
-import { LogInTwoFactorVariables } from '@nc-core/api';
 import { useAuth } from '@nc-core/hooks';
+import { LogInTwoFactorVariables } from '@nc-core/interfaces/api';
 import { capitalize } from '@nc-core/utils';
 import { LogoutIcon } from '@nc-icons';
 import { Button, Grid, Logo, Typography } from '@nc-ui';

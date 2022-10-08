@@ -1,4 +1,4 @@
-import { UserProfileAction } from '@nc-core/api';
+import { UserProfileAction } from '@nc-core/interfaces/api';
 
 export interface UserProfileActions {
   isMe: boolean;

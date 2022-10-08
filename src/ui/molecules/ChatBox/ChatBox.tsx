@@ -1,18 +1,20 @@
 import {
-  GetMessagesResponse,
-  GetMessagesVariables,
-  GET_MESSAGES_QUERY,
-  NewMessageResponse,
-  NewMessageVariables,
-  NEW_MESSAGE_SUBSCRIPTION,
+  GET_CHAT_AND_MESSAGES_QUERY,
+  NEW_PRIVATE_MESSAGE_SUBSCRIPTION,
+  READ_ALL_MESSAGES_MUTATION,
+  SEND_PRIVATE_MESSAGE_MUTATION,
+} from '@nc-core/api';
+import { useAuth, useMutation, useQuery } from '@nc-core/hooks';
+import {
+  GetChatAndMessagesResponse,
+  GetChatAndMessagesVariables,
+  NewPrivateMessageResponse,
+  NewPrivateMessageVariables,
   ReadAllMessagesResponse,
   ReadAllMessagesVariables,
-  READ_ALL_MESSAGES_MUTATION,
-  SendMessageResponse,
-  SendMessageVariables,
-  SEND_MESSAGE_MUTATION,
-} from '@nc-core/api';
-import { useMutation, useQuery } from '@nc-core/hooks';
+  SendPrivateMessageResponse,
+  SendPrivateMessageVariables,
+} from '@nc-core/interfaces/api';
 import { groupMessages } from '@nc-core/utils';
 import { MoreVertIcon } from '@nc-icons';
 import { Avatar, Content, Grid, IconButton, Loading, Typography } from '@nc-ui';
@@ -22,22 +24,24 @@ import { ChatMessage } from './ChatMessage';
 
 export interface ChatBoxProps {
   chatId: string;
-  refetchRecentMessages(): void;
+  refetchRecentChats(): void;
 }
 
 export function ChatBox({
   chatId,
-  refetchRecentMessages,
-}: ChatBoxProps): JSX.Element {
+  refetchRecentChats,
+}: ChatBoxProps): JSX.Element | null {
   const [messageContent, setMessageContent] = useState<string>('');
 
   const messagesContentRef = useRef<HTMLDivElement | null>(null);
   const messagesInputRef = useRef<HTMLInputElement | null>(null);
 
+  const { data: meData } = useAuth();
+
   const { data, loading, updateQuery, subscribeToMore } = useQuery<
-    GetMessagesResponse,
-    GetMessagesVariables
-  >(GET_MESSAGES_QUERY, {
+    GetChatAndMessagesResponse,
+    GetChatAndMessagesVariables
+  >(GET_CHAT_AND_MESSAGES_QUERY, {
     variables: { chatId },
   });
 
@@ -48,33 +52,33 @@ export function ChatBox({
     onCompleted({ readAllMessages }) {
       if (!readAllMessages) return;
 
-      refetchRecentMessages();
+      refetchRecentChats();
 
       updateQuery((prev) => ({
+        ...prev,
         messages: prev.messages.map((message) => {
-          if (!message.read && message.fromUserId === chatId) {
+          if (!message.read && message.senderId !== meData?.id) {
             return { ...message, read: true };
           }
 
           return message;
         }),
-        profile: prev.profile,
       }));
     },
   });
 
-  const [sendMessage, { loading: sendingMessage }] = useMutation<
-    SendMessageResponse,
-    SendMessageVariables
-  >(SEND_MESSAGE_MUTATION, {
-    onCompleted({ sendMessage }) {
+  const [sendPrivateMessage, { loading: sendingPrivateMessage }] = useMutation<
+    SendPrivateMessageResponse,
+    SendPrivateMessageVariables
+  >(SEND_PRIVATE_MESSAGE_MUTATION, {
+    onCompleted({ sendPrivateMessage }) {
       setMessageContent('');
 
-      refetchRecentMessages();
+      refetchRecentChats();
 
       updateQuery((prev) => ({
-        messages: [...prev.messages, sendMessage],
-        profile: prev.profile,
+        ...prev,
+        messages: [...prev.messages, sendPrivateMessage],
       }));
 
       setTimeout(() => {
@@ -93,7 +97,7 @@ export function ChatBox({
 
   function handleInputKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === 'Enter' && messageContent.length > 0) {
-      sendMessage({ variables: { chatId, content: messageContent } });
+      sendPrivateMessage({ variables: { chatId, content: messageContent } });
     }
   }
 
@@ -101,17 +105,17 @@ export function ChatBox({
   const groupedMessages = groupMessages(messages);
 
   useEffect(() => {
-    subscribeToMore<NewMessageResponse, NewMessageVariables>({
-      document: NEW_MESSAGE_SUBSCRIPTION,
+    subscribeToMore<NewPrivateMessageResponse, NewPrivateMessageVariables>({
+      document: NEW_PRIVATE_MESSAGE_SUBSCRIPTION,
       variables: { chatId },
       updateQuery(prev, { subscriptionData }) {
         if (!subscriptionData.data) return prev;
 
-        refetchRecentMessages();
+        refetchRecentChats();
 
         return {
-          messages: [...prev.messages, subscriptionData.data.newMessage],
-          profile: prev.profile,
+          ...prev,
+          messages: [...prev.messages, subscriptionData.data.newPrivateMessage],
         };
       },
     });
@@ -126,36 +130,39 @@ export function ChatBox({
     );
   }, [data]);
 
+  if (!meData) return null;
+
+  const user =
+    data?.chat.toId === meData.id ? data.chat.user : data?.chat.toUser;
+
+  if (!user) return null;
+
   return (
     <Content className={classes.chatBox} fullHeight noPadding>
-      {data?.profile && (
-        <div className={classes.chatBox__header}>
-          <Grid container alignItems="center" justifyContent="space-between">
-            <Grid item>
-              <Grid container alignItems="center" spacing={12}>
-                <Grid item>
-                  <Avatar url={data.profile.profileImage} size="small" />
-                </Grid>
-                <Grid item>
-                  <Typography variant="subtitle">
-                    {data.profile.username}
-                  </Typography>
-                </Grid>
+      <div className={classes.chatBox__header}>
+        <Grid container alignItems="center" justifyContent="space-between">
+          <Grid item>
+            <Grid container alignItems="center" spacing={12}>
+              <Grid item>
+                <Avatar url={user.profileImage} size="small" />
+              </Grid>
+              <Grid item>
+                <Typography variant="subtitle">{user.username}</Typography>
               </Grid>
             </Grid>
-            <Grid item>
-              <IconButton
-                color="white"
-                onClick={() => undefined}
-                size="small"
-                variant="transparent"
-              >
-                <MoreVertIcon />
-              </IconButton>
-            </Grid>
           </Grid>
-        </div>
-      )}
+          <Grid item>
+            <IconButton
+              color="white"
+              onClick={() => undefined}
+              size="small"
+              variant="transparent"
+            >
+              <MoreVertIcon />
+            </IconButton>
+          </Grid>
+        </Grid>
+      </div>
       <div className={classes.chatBox__content} ref={messagesContentRef}>
         {loading ? (
           <Loading id="chat-messages-loader" text="Cargando" />
@@ -165,7 +172,7 @@ export function ChatBox({
               const unreadMessages =
                 i === groupedMessages.length - 1
                   ? messages.reduce<number>((prev, acc) => {
-                      if (!acc[0].read && acc[0].fromUserId === chatId) {
+                      if (!acc[0].read && acc[0].senderId !== meData.id) {
                         return prev + acc.length;
                       }
 
@@ -197,7 +204,7 @@ export function ChatBox({
                       if (
                         unreadMessages > 0 &&
                         !message[0].read &&
-                        message[0].fromUserId === chatId &&
+                        message[0].senderId !== meData.id &&
                         !hasUnreadTitle
                       ) {
                         hasUnreadTitle = true;
@@ -236,25 +243,23 @@ export function ChatBox({
           </>
         )}
       </div>
-      {data?.profile && (
-        <div className={classes.chatBox__footer}>
-          <Grid container>
-            <Grid item xs="auto">
-              <input
-                autoComplete="off"
-                className={classes.chatBox__footer__input}
-                disabled={sendingMessage}
-                onChange={handleInputChange}
-                onFocus={handleInputFocus}
-                onKeyDown={handleInputKeyDown}
-                placeholder={`Mensaje para ${data.profile.username}`}
-                ref={messagesInputRef}
-                value={messageContent}
-              />
-            </Grid>
+      <div className={classes.chatBox__footer}>
+        <Grid container>
+          <Grid item xs="auto">
+            <input
+              autoComplete="off"
+              className={classes.chatBox__footer__input}
+              disabled={sendingPrivateMessage}
+              onChange={handleInputChange}
+              onFocus={handleInputFocus}
+              onKeyDown={handleInputKeyDown}
+              placeholder={`Mensaje para ${user.username}`}
+              ref={messagesInputRef}
+              value={messageContent}
+            />
           </Grid>
-        </div>
-      )}
+        </Grid>
+      </div>
     </Content>
   );
 }

@@ -1,29 +1,28 @@
 import {
-  AcceptFriendRequestResponse,
   ACCEPT_FRIEND_REQUEST_MUTATION,
-  DeclineFriendRequestResponse,
   DECLINE_FRIEND_REQUEST_MUTATION,
-  FriendRequestVariables,
 } from '@nc-core/api';
 import { useMutation } from '@nc-core/hooks';
+import {
+  AcceptFriendRequestResponse,
+  DeclineFriendRequestResponse,
+  FriendRequestVariables,
+  User,
+} from '@nc-core/interfaces/api';
 import { Avatar, Button, Grid, Typography } from '@nc-ui';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-export interface FriendRequestNotificationData {
-  from: {
-    id: string;
-    username: string;
-    profileImage: string;
-  };
-}
-
 export interface FriendRequestNotificationProps {
-  data: FriendRequestNotificationData;
+  className: string;
+  onClick: React.MouseEventHandler<HTMLAnchorElement>;
+  user: Pick<User, 'id' | 'profileImage' | 'username'>;
 }
 
 export function FriendRequestNotification({
-  data,
+  className,
+  onClick,
+  user,
 }: FriendRequestNotificationProps): JSX.Element {
   const [acceptFriendRequest, { loading: acceptingFriendRequest }] =
     useMutation<AcceptFriendRequestResponse, FriendRequestVariables>(
@@ -33,7 +32,7 @@ export function FriendRequestNotification({
           if (!acceptFriendRequest) return;
 
           toast.success(
-            `Has aceptado la solicitud de amistad de ${data.from.username}`,
+            `Has aceptado la solicitud de amistad de ${user.username}`,
           );
         },
       },
@@ -47,34 +46,42 @@ export function FriendRequestNotification({
           if (!declineFriendRequest) return;
 
           toast.success(
-            `Has rechazado la solicitud de amistad de ${data.from.username}`,
+            `Has rechazado la solicitud de amistad de ${user.username}`,
           );
         },
       },
     );
 
-  function handleAcceptFriendRequest() {
-    return acceptFriendRequest({ variables: { userId: data.from.id } });
+  function handleAcceptFriendRequest(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    return acceptFriendRequest({ variables: { userId: user.id } });
   }
 
-  function handleDeclineFriendRequest() {
-    return declineFriendRequest({ variables: { userId: data.from.id } });
+  function handleDeclineFriendRequest(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    return declineFriendRequest({ variables: { userId: user.id } });
   }
 
   return (
-    <div style={{ paddingTop: 24 }}>
+    <Link
+      className={className}
+      onClick={onClick}
+      to={`/profile/${user.username}`}
+    >
       <Grid container alignItems="center" spacing={12}>
         <Grid item>
-          <Link to={`/profile/${data.from.username}`}>
-            <Avatar url={data.from.profileImage} />
-          </Link>
+          <Avatar url={user.profileImage} />
         </Grid>
         <Grid item>
           <Grid container direction="column" spacing={4}>
             <Grid item>
               <Typography>
-                <strong>{data.from.username}</strong> te ha enviado una
-                solicitud de amistad
+                <strong>{user.username}</strong> te ha enviado una solicitud de
+                amistad
               </Typography>
             </Grid>
             <Grid item>
@@ -103,6 +110,6 @@ export function FriendRequestNotification({
           </Grid>
         </Grid>
       </Grid>
-    </div>
+    </Link>
   );
 }

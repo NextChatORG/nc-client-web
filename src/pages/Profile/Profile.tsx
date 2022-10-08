@@ -1,21 +1,32 @@
 import {
-  AcceptFriendRequestResponse,
   ACCEPT_FRIEND_REQUEST_MUTATION,
-  CancelFriendRequestResponse,
   CANCEL_FRIEND_REQUEST_MUTATION,
-  DeclineFriendRequestResponse,
   DECLINE_FRIEND_REQUEST_MUTATION,
-  FriendRequestVariables,
-  ProfileActionsChangedResponse,
-  ProfileActionsChangedVariables,
-  GetProfileResponse,
-  GetProfileVariables,
-  PROFILE_ACTIONS_CHANGED_SUBSCRIPTION,
+  GET_CHAT_QUERY,
   GET_PROFILE_QUERY,
-  SendFriendRequestResponse,
+  PROFILE_ACTIONS_CHANGED_SUBSCRIPTION,
   SEND_FRIEND_REQUEST_MUTATION,
 } from '@nc-core/api';
 import { useAuth, useLazyQuery, useMutation } from '@nc-core/hooks';
+import {
+  AcceptFriendRequestResponse,
+  CancelFriendRequestResponse,
+  DeclineFriendRequestResponse,
+  FriendRequestVariables,
+  GetChatResponse,
+  GetChatVariables,
+  GetProfileResponse,
+  GetProfileVariables,
+  ProfileActionsChangedResponse,
+  ProfileActionsChangedVariables,
+  SendFriendRequestResponse,
+} from '@nc-core/interfaces/api';
+import {
+  DEFAULT_USER_PROFILE_ACTIONS,
+  parseUserProfileActions,
+  UserProfileActions,
+} from '@nc-core/utils';
+import { AddCommentIcon, CloseIcon, EditIcon, PersonAddIcon } from '@nc-icons';
 import {
   Avatar,
   Button,
@@ -28,13 +39,7 @@ import {
 import { format } from 'date-fns';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { AddCommentIcon, CloseIcon, EditIcon, PersonAddIcon } from '@nc-icons';
 import classes from './Profile.module.sass';
-import {
-  DEFAULT_USER_PROFILE_ACTIONS,
-  parseUserProfileActions,
-  UserProfileActions,
-} from '@nc-core/utils';
 
 export default function Profile(): JSX.Element {
   const [actions, setActions] = useState<UserProfileActions | null>(null);
@@ -46,6 +51,11 @@ export default function Profile(): JSX.Element {
     GetProfileResponse,
     GetProfileVariables
   >(GET_PROFILE_QUERY);
+
+  const [getChat, { data: chatData }] = useLazyQuery<
+    GetChatResponse,
+    GetChatVariables
+  >(GET_CHAT_QUERY);
 
   const [sendFriendRequest, { loading: sendingFriendRequest }] = useMutation<
     SendFriendRequestResponse,
@@ -125,9 +135,10 @@ export default function Profile(): JSX.Element {
   }
 
   const profileData = username ? userData?.getProfile ?? null : meData;
+  const isMe = username === meData?.username;
 
   useEffect(() => {
-    if (username && username.length >= 4 && username !== meData?.username) {
+    if (username && username.length >= 4 && !isMe) {
       getProfile({ variables: { username } });
     }
   }, [username]);
@@ -135,11 +146,13 @@ export default function Profile(): JSX.Element {
   useEffect(() => {
     if (profileData?.actions) {
       setActions(parseUserProfileActions(profileData.actions));
+
+      if (!isMe) getChat({ variables: { userId: profileData.id } });
     }
   }, [profileData]);
 
   useEffect(() => {
-    if (username) {
+    if (username && !isMe) {
       subscribeToMore<
         ProfileActionsChangedResponse,
         ProfileActionsChangedVariables
@@ -187,11 +200,11 @@ export default function Profile(): JSX.Element {
                     >
                       Editar perfil
                     </Button>
-                  ) : actions?.canSendMessage ? (
+                  ) : actions?.canSendMessage && chatData?.getChat ? (
                     <Button
                       link
                       startIcon={<AddCommentIcon />}
-                      to={`/chat/${profileData.id}`}
+                      to={`/chat/${chatData.getChat.id}`}
                     >
                       Enviar mensaje
                     </Button>
