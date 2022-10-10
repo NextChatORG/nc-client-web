@@ -24,6 +24,7 @@ export interface SignUpVariables {
   password: string;
   confirmPassword: string;
   betaKey: string;
+  terms: boolean;
 }
 
 export interface SignUpResponse {

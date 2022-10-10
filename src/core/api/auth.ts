@@ -22,12 +22,14 @@ export const SIGNUP_MUTATION = gql`
     $password: String!
     $confirmPassword: String!
     $betaKey: String!
+    $terms: Boolean!
   ) {
     signUp(
       username: $username
       password: $password
       confirmPassword: $confirmPassword
       betaKey: $betaKey
+      terms: $terms
     ) {
       accessToken
       recoveryCodes
