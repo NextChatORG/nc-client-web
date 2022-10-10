@@ -7,11 +7,14 @@ import { Link } from 'react-router-dom';
 import { AuthTemplate } from '../../ui/templates';
 
 export default function SignUp(): JSX.Element {
-  const { clearErrors, control, handleSubmit, setError, watch } =
+  const { clearErrors, control, handleSubmit, setError, setValue, watch } =
     useForm<SignUpVariables>();
 
   const { signUp } = useAuth({
     onSignUpErrors({ fields }) {
+      setValue('confirmPassword', '');
+      setValue('betaKey', '');
+
       if (fields.length > 0) {
         for (const { field, message } of fields) {
           setError(field as keyof SignUpVariables, { message });
