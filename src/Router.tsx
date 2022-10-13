@@ -5,6 +5,7 @@ import Error404 from './pages/Error404';
 
 const Landing = lazy(() => import('./pages/auth/Landing/index'));
 const LogIn = lazy(() => import('./pages/auth/LogIn'));
+const RecoverAccount = lazy(() => import('./pages/auth/RecoverAccount'));
 const SignUp = lazy(() => import('./pages/auth/SignUp'));
 
 const Chat = lazy(() => import('./pages/Chat'));
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
       {
         element: <AuthRedirection redirectToIndex NoLogged={LogIn} />,
         path: 'login',
+      },
+      {
+        element: <AuthRedirection redirectToIndex NoLogged={RecoverAccount} />,
+        path: 'recover-account',
       },
       {
         element: <AuthRedirection redirectToIndex NoLogged={SignUp} />,

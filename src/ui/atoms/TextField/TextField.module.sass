@@ -80,10 +80,14 @@
     &__endAdorment
       padding-right: 6px
   &__helperText
-    color: rgba(black, .6)
+    color: rgba(white, .6)
     display: block
     font-size: 12px
-    letter-spacing: 0.025em
+    letter-spacing: 0.05em
     margin:
-      left: 12px
-      top: 2px
+      left: $borderRadius
+      top: 4px
+
+    & > a
+      &:hover
+        text-decoration: underline

@@ -16,6 +16,25 @@ export const LOGIN_TWO_FACTOR_QUERY = gql`
   }
 `;
 
+export const RECOVER_ACCOUNT_MUTATION = gql`
+  mutation recoverAccount(
+    $code: String!
+    $confirmPassword: String!
+    $password: String!
+    $username: String!
+  ) {
+    recoverAccount(
+      code: $code
+      confirmPassword: $confirmPassword
+      password: $password
+      username: $username
+    ) {
+      accessToken
+      recoveryCodes
+    }
+  }
+`;
+
 export const SIGNUP_MUTATION = gql`
   mutation signUp(
     $username: String!

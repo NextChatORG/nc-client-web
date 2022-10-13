@@ -19,6 +19,20 @@ export interface LogInTwoFactorResponse {
   };
 }
 
+export interface RecoverAccountVariables {
+  code: string;
+  confirmPassword: string;
+  password: string;
+  username: string;
+}
+
+export interface RecoverAccountResponse {
+  recoverAccount: {
+    accessToken: string;
+    recoveryCodes: string[];
+  };
+}
+
 export interface SignUpVariables {
   username: string;
   password: string;

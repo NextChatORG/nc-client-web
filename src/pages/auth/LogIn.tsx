@@ -1,7 +1,8 @@
 import { useAuth } from '@nc-core/hooks';
 import { LogInVariables } from '@nc-core/interfaces/api';
+import { AuthTemplate } from '@nc-ui';
 import { useForm } from 'react-hook-form';
-import { AuthTemplate } from '../../ui/templates';
+import { Link } from 'react-router-dom';
 
 export default function LogIn(): JSX.Element {
   const { control, handleSubmit } = useForm<LogInVariables>();
@@ -20,6 +21,9 @@ export default function LogIn(): JSX.Element {
         {
           control,
           defaultValue: '',
+          helperText: (
+            <Link to="/recover-account">¿Olvidaste tu contraseña?</Link>
+          ),
           name: 'password',
           placeholder: 'Contraseña',
           required: true,
