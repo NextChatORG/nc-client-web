@@ -8,6 +8,8 @@ const LogIn = lazy(() => import('./pages/auth/LogIn'));
 const RecoverAccount = lazy(() => import('./pages/auth/RecoverAccount'));
 const SignUp = lazy(() => import('./pages/auth/SignUp'));
 
+const Beta = lazy(() => import('./pages/information/Beta'));
+
 const Chat = lazy(() => import('./pages/Chat'));
 const Profile = lazy(() => import('./pages/Profile/index'));
 
@@ -29,6 +31,10 @@ const router = createBrowserRouter([
       {
         element: <AuthRedirection redirectToIndex NoLogged={SignUp} />,
         path: 'signup',
+      },
+      {
+        element: <Beta />,
+        path: 'beta',
       },
       {
         children: [
