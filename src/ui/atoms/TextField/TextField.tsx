@@ -22,7 +22,7 @@ export interface TextFieldProps<TForm extends FieldValues> {
   defaultValue?: PathValue<TForm, Path<TForm>>;
   endAdorment?: React.ReactNode;
   fullWidth?: boolean;
-  helperText?: string;
+  helperText?: React.ReactNode;
   name: Path<TForm>;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   placeholder?: string;

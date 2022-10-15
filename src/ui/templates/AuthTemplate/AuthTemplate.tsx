@@ -2,6 +2,8 @@ import { FieldValues } from 'react-hook-form';
 import {
   Button,
   ButtonPropsWithMessage,
+  Checkbox,
+  CheckboxProps,
   Footer,
   Header,
   Grid,
@@ -12,7 +14,10 @@ import {
 import classes from './AuthTemplate.module.sass';
 
 export interface AuthTemplateProps<TForm extends FieldValues> {
-  fields: TextFieldProps<TForm>[];
+  fields: (
+    | TextFieldProps<TForm>
+    | (CheckboxProps<TForm> & { type: 'checkbox' })
+  )[];
   figure: {
     caption: string;
     image: JSX.Element;
@@ -47,7 +52,11 @@ export function AuthTemplate<TForm extends FieldValues>({
                 </Grid>
                 {fields.map((props, i) => (
                   <Grid item key={`authTemplate_text_field_${i}`} xs={12}>
-                    <TextField {...props} fullWidth />
+                    {props.type === 'checkbox' ? (
+                      <Checkbox {...props} style={{ marginLeft: 16 }} />
+                    ) : (
+                      <TextField {...props} fullWidth />
+                    )}
                   </Grid>
                 ))}
                 <Grid item xs={12}>

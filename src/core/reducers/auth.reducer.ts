@@ -1,6 +1,7 @@
 import { JWT_TOKEN } from '@nc-core/constants/local-storage';
 import {
   LogInResponse,
+  RecoverAccountResponse,
   SignUpResponse,
   UserProfile,
 } from '@nc-core/interfaces/api';
@@ -25,6 +26,11 @@ interface LogInAction {
   payload: LogInResponse['logIn'];
 }
 
+interface RecoverAccountAction {
+  type: 'recover-account';
+  payload: RecoverAccountResponse['recoverAccount'];
+}
+
 interface SignUpAction {
   type: 'sign-up';
   payload: SignUpResponse['signUp'];
@@ -45,6 +51,7 @@ interface LogOutAction {
 
 export type AuthReducerActions =
   | LogInAction
+  | RecoverAccountAction
   | SignUpAction
   | SetProfileDataAction
   | ClearRecoveryCodesAction
@@ -67,6 +74,13 @@ export function authReducer(
         requireTwoFactor: !payload.twoFactorPassed && payload.twoFactorRequired,
       };
     }
+
+    case 'recover-account':
+      return {
+        ...authReducerInitialState,
+        jwt: action.payload.accessToken,
+        recoveryCodes: action.payload.recoveryCodes,
+      };
 
     case 'sign-up':
       return {

@@ -3,14 +3,18 @@ import { useAuth } from '@nc-core/hooks';
 import { SignUpVariables } from '@nc-core/interfaces/api';
 import Lottie from 'lottie-react';
 import { useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
 import { AuthTemplate } from '../../ui/templates';
 
 export default function SignUp(): JSX.Element {
-  const { clearErrors, control, handleSubmit, setError, watch } =
+  const { clearErrors, control, handleSubmit, setError, setValue, watch } =
     useForm<SignUpVariables>();
 
   const { signUp } = useAuth({
     onSignUpErrors({ fields }) {
+      setValue('confirmPassword', '');
+      setValue('betaKey', '');
+
       if (fields.length > 0) {
         for (const { field, message } of fields) {
           setError(field as keyof SignUpVariables, { message });
@@ -92,6 +96,22 @@ export default function SignUp(): JSX.Element {
           placeholder: 'Código beta',
           required: true,
           type: 'password',
+        },
+        {
+          control,
+          defaultValue: false,
+          id: 'signup-terms',
+          label: (
+            <>
+              Acepto los{' '}
+              <Link target="_blank" to="/terms">
+                Términos y Condiciones
+              </Link>
+            </>
+          ),
+          name: 'terms',
+          required: true,
+          type: 'checkbox',
         },
       ]}
       figure={{

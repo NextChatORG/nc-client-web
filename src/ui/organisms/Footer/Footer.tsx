@@ -93,7 +93,7 @@ export function Footer({ actionButton }: FooterProps): JSX.Element {
         <Grid container alignItems="center" justifyContent="space-between">
           <Grid item xs={12} sm="auto">
             <p className={classes.footer__bottom__copyright}>
-              &copy; NextChat 2022
+              &copy; NextChat 2022 ~ v0.1.0
             </p>
           </Grid>
           <Grid item xs={12} sm={3}>

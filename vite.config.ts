@@ -1,9 +1,10 @@
 import react from '@vitejs/plugin-react';
 import { fileURLToPath, URL } from 'node:url';
 import { defineConfig } from 'vite';
+import MarkdownParser from './plugins/markdown-parser';
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), MarkdownParser()],
   resolve: {
     alias: {
       '@nc-assets': fileURLToPath(new URL('./src/assets/', import.meta.url)),
