@@ -3,13 +3,16 @@ import { UserMessage } from '@nc-core/interfaces/api';
 import { Avatar, Typography } from '@nc-ui';
 import clsx from 'clsx';
 import { format } from 'date-fns';
-import classes from './ChatMessage.module.sass';
 
-export interface ChatMessageProps {
+interface ChatMessageProps {
+  classes: CSSModuleClasses;
   data: UserMessage[];
 }
 
-export function ChatMessage({ data }: ChatMessageProps): JSX.Element | null {
+export default function ChatMessage({
+  classes,
+  data,
+}: ChatMessageProps): JSX.Element | null {
   const { data: meData } = useAuth();
 
   const senderUser = data[0].senderUser;
