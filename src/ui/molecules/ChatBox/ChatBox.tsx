@@ -71,15 +71,10 @@ export function ChatBox({
     SendPrivateMessageResponse,
     SendPrivateMessageVariables
   >(SEND_PRIVATE_MESSAGE_MUTATION, {
-    onCompleted({ sendPrivateMessage }) {
+    onCompleted() {
       setMessageContent('');
 
       refetchRecentChats();
-
-      updateQuery((prev) => ({
-        ...prev,
-        messages: [...prev.messages, sendPrivateMessage],
-      }));
 
       setTimeout(() => {
         if (messagesInputRef.current) messagesInputRef.current.focus();
