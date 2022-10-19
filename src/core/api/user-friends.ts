@@ -1,5 +1,27 @@
 import { gql } from '@apollo/client';
 
+export const GET_FRIENDS_QUERY = gql`
+  query getFriends(
+    $orderBy: String
+    $orderDirection: OrderDirection
+    $page: Int!
+    $perPage: Int!
+    $userId: ObjectId
+  ) {
+    getFriends(
+      orderBy: $orderBy
+      orderDirection: $orderDirection
+      page: $page
+      perPage: $perPage
+      userId: $userId
+    ) {
+      id
+      profileImage
+      username
+    }
+  }
+`;
+
 export const SEND_FRIEND_REQUEST_MUTATION = gql`
   mutation sendFriendRequest($userId: ObjectId!) {
     sendFriendRequest(userId: $userId) {

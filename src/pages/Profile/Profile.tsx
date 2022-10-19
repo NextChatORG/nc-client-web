@@ -40,6 +40,7 @@ import { format } from 'date-fns';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import classes from './Profile.module.sass';
+import ProfileFriends from './ProfileFriends';
 
 export default function Profile(): JSX.Element {
   const [actions, setActions] = useState<UserProfileActions | null>(null);
@@ -176,113 +177,119 @@ export default function Profile(): JSX.Element {
   return (
     <MainTemplate withHeader>
       {profileData && (
-        <Grid item xs={3}>
-          <Content className={classes.profile__leftContent}>
-            <div className={classes.profile__leftContent__action}>
-              <Grid container justifyContent="center" spacing={12}>
-                <Grid item>
-                  {actions?.canAcceptFriendRequest ? (
-                    <Button
-                      loading={acceptingFriendRequest || decliningFriendRequest}
-                      onClick={handleAcceptFriendRequest}
-                      size="small"
-                    >
-                      Aceptar solicitud
-                    </Button>
-                  ) : null}
-                </Grid>
-                <Grid item>
-                  {actions?.isMe ? (
-                    <Button
-                      link
-                      startIcon={<EditIcon />}
-                      to={`/profile/${profileData.username}/settings`}
-                    >
-                      Editar perfil
-                    </Button>
-                  ) : actions?.canSendMessage && chatData?.getChat ? (
-                    <Button
-                      link
-                      startIcon={<AddCommentIcon />}
-                      to={`/chat/${chatData.getChat.id}`}
-                    >
-                      Enviar mensaje
-                    </Button>
-                  ) : actions?.canSendFriendRequest ? (
-                    <Button
-                      loading={sendingFriendRequest}
-                      onClick={handleSendFriendRequest}
-                      startIcon={<PersonAddIcon />}
-                    >
-                      Enviar solicitud
-                    </Button>
-                  ) : actions?.canUnSendFriendRequest ? (
-                    <Button
-                      color="error"
-                      loading={cancelingFriendRequest}
-                      onClick={handleUnSendFriendRequest}
-                      startIcon={<CloseIcon />}
-                    >
-                      Cancelar solicitud
-                    </Button>
-                  ) : actions?.canDeclineFriendRequest ? (
-                    <Button
-                      color="error"
-                      loading={acceptingFriendRequest || decliningFriendRequest}
-                      onClick={handleDeclineFriendRequest}
-                      size="small"
-                    >
-                      Rechazar solicitud
-                    </Button>
-                  ) : null}
-                </Grid>
-              </Grid>
-            </div>
-            <Grid container justifyContent="center" spacing={24}>
-              <Grid item xs={12}>
-                <Grid
-                  container
-                  alignItems="center"
-                  direction="column"
-                  spacing={12}
-                >
+        <>
+          <Grid item xs={3}>
+            <Content className={classes.profile__leftContent}>
+              <div className={classes.profile__leftContent__action}>
+                <Grid container justifyContent="center" spacing={12}>
                   <Grid item>
-                    <Avatar size="big" url={profileData.profileImage} />
+                    {actions?.canAcceptFriendRequest ? (
+                      <Button
+                        loading={
+                          acceptingFriendRequest || decliningFriendRequest
+                        }
+                        onClick={handleAcceptFriendRequest}
+                        size="small"
+                      >
+                        Aceptar solicitud
+                      </Button>
+                    ) : null}
                   </Grid>
                   <Grid item>
-                    <span className={classes.profile__leftContent__username}>
-                      {profileData.username}
-                    </span>
+                    {actions?.isMe ? (
+                      <Button
+                        link
+                        startIcon={<EditIcon />}
+                        to={`/profile/${profileData.username}/settings`}
+                      >
+                        Editar perfil
+                      </Button>
+                    ) : actions?.canSendMessage && chatData?.getChat ? (
+                      <Button
+                        link
+                        startIcon={<AddCommentIcon />}
+                        to={`/chat/${chatData.getChat.id}`}
+                      >
+                        Enviar mensaje
+                      </Button>
+                    ) : actions?.canSendFriendRequest ? (
+                      <Button
+                        loading={sendingFriendRequest}
+                        onClick={handleSendFriendRequest}
+                        startIcon={<PersonAddIcon />}
+                      >
+                        Enviar solicitud
+                      </Button>
+                    ) : actions?.canUnSendFriendRequest ? (
+                      <Button
+                        color="error"
+                        loading={cancelingFriendRequest}
+                        onClick={handleUnSendFriendRequest}
+                        startIcon={<CloseIcon />}
+                      >
+                        Cancelar solicitud
+                      </Button>
+                    ) : actions?.canDeclineFriendRequest ? (
+                      <Button
+                        color="error"
+                        loading={
+                          acceptingFriendRequest || decliningFriendRequest
+                        }
+                        onClick={handleDeclineFriendRequest}
+                        size="small"
+                      >
+                        Rechazar solicitud
+                      </Button>
+                    ) : null}
                   </Grid>
                 </Grid>
-              </Grid>
-              <Grid item xs={12}>
-                <Divider />
-              </Grid>
-              <Grid item xs={12}>
-                <Grid container spacing={12}>
-                  {profileData.createdAt && (
-                    <Grid item xs={12}>
-                      <Label
-                        name="Registro"
-                        value={format(
-                          new Date(profileData.createdAt),
-                          'MMMM yyyy',
-                        )}
-                      />
+              </div>
+              <Grid container justifyContent="center" spacing={24}>
+                <Grid item xs={12}>
+                  <Grid
+                    container
+                    alignItems="center"
+                    direction="column"
+                    spacing={12}
+                  >
+                    <Grid item>
+                      <Avatar size="big" url={profileData.profileImage} />
                     </Grid>
-                  )}
-                  <Grid item xs={12}>
-                    <Label
-                      name="Amigos"
-                      value={(profileData.counters?.friends ?? 0).toString()}
-                    />
+                    <Grid item>
+                      <span className={classes.profile__leftContent__username}>
+                        {profileData.username}
+                      </span>
+                    </Grid>
+                  </Grid>
+                </Grid>
+                <Grid item xs={12}>
+                  <Divider />
+                </Grid>
+                <Grid item xs={12}>
+                  <Grid container spacing={12}>
+                    {profileData.createdAt && (
+                      <Grid item xs={12}>
+                        <Label
+                          name="Registro"
+                          value={format(
+                            new Date(profileData.createdAt),
+                            'MMMM yyyy',
+                          )}
+                        />
+                      </Grid>
+                    )}
                   </Grid>
                 </Grid>
               </Grid>
-            </Grid>
-          </Content>
-        </Grid>
+            </Content>
+          </Grid>
+          <Grid item xs={9}>
+            <ProfileFriends
+              total={profileData.counters?.friends ?? 0}
+              userId={isMe ? undefined : profileData.id}
+            />
+          </Grid>
+        </>
       )}
     </MainTemplate>
   );
