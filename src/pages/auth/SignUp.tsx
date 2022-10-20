@@ -1,10 +1,11 @@
 import { CompleteTasksAnimationData } from '@nc-assets/lottie';
+import { LOG_IN_ROUTE, TERMS_ROUTE } from '@nc-core/constants/routes';
 import { useAuth } from '@nc-core/hooks';
 import { SignUpVariables } from '@nc-core/interfaces/api';
+import { AuthTemplate } from '@nc-ui';
 import Lottie from 'lottie-react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-import { AuthTemplate } from '../../ui/templates';
 
 export default function SignUp(): JSX.Element {
   const { clearErrors, control, handleSubmit, setError, setValue, watch } =
@@ -104,7 +105,7 @@ export default function SignUp(): JSX.Element {
           label: (
             <>
               Acepto los{' '}
-              <Link target="_blank" to="/terms">
+              <Link target="_blank" to={TERMS_ROUTE}>
                 Términos y Condiciones
               </Link>
             </>
@@ -126,7 +127,7 @@ export default function SignUp(): JSX.Element {
           color: 'white',
           link: true,
           message: 'Inicia sesión',
-          to: '/login',
+          to: LOG_IN_ROUTE,
           variant: 'outlined',
         },
       ]}

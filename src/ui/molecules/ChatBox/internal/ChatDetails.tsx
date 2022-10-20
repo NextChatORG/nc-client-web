@@ -1,3 +1,4 @@
+import { USER_PROFILE_ROUTE } from '@nc-core/constants/routes';
 import { User } from '@nc-core/interfaces/api';
 import { Avatar, Button, Content, Grid, Typography } from '@nc-ui';
 
@@ -28,7 +29,7 @@ export default function ChatDetails({ user }: ChatDetailsProps): JSX.Element {
             link
             color="white"
             size="small"
-            to={`/profile/${user.username}`}
+            to={USER_PROFILE_ROUTE.replace(':username', user.username)}
             variant="outlined"
           >
             Ver perfil

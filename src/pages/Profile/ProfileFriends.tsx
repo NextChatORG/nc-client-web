@@ -1,4 +1,5 @@
 import { GET_FRIENDS_QUERY } from '@nc-core/api';
+import { USER_PROFILE_ROUTE } from '@nc-core/constants/routes';
 import { useLazyQuery } from '@nc-core/hooks';
 import {
   GetFriendsResponse,
@@ -77,7 +78,7 @@ export default function ProfileFriends({
       <Grid container spacing={24}>
         {friends.map((friend, i) => (
           <Grid item key={`profile_friend_${friend.id}_${i}`}>
-            <Link to={`/profile/${friend.username}`}>
+            <Link to={USER_PROFILE_ROUTE.replace(':username', friend.username)}>
               <Grid
                 container
                 alignItems="center"

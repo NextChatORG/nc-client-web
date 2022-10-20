@@ -7,6 +7,10 @@ import {
   PROFILE_ACTIONS_CHANGED_SUBSCRIPTION,
   SEND_FRIEND_REQUEST_MUTATION,
 } from '@nc-core/api';
+import {
+  PROFILE_SETTINGS_ROUTE,
+  USER_CHAT_ROUTE,
+} from '@nc-core/constants/routes';
 import { useAuth, useLazyQuery, useMutation } from '@nc-core/hooks';
 import {
   AcceptFriendRequestResponse,
@@ -200,7 +204,10 @@ export default function Profile(): JSX.Element {
                       <Button
                         link
                         startIcon={<EditIcon />}
-                        to={`/profile/${profileData.username}/settings`}
+                        to={PROFILE_SETTINGS_ROUTE.replace(
+                          ':username',
+                          profileData.username,
+                        )}
                       >
                         Editar perfil
                       </Button>
@@ -208,7 +215,10 @@ export default function Profile(): JSX.Element {
                       <Button
                         link
                         startIcon={<AddCommentIcon />}
-                        to={`/chat/${chatData.getChat.id}`}
+                        to={USER_CHAT_ROUTE.replace(
+                          ':chatId',
+                          chatData.getChat.id.toString(),
+                        )}
                       >
                         Enviar mensaje
                       </Button>

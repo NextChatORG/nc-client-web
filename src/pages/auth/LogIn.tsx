@@ -1,3 +1,7 @@
+import {
+  RECOVER_ACCOUNT_ROUTE,
+  SIGN_UP_ROUTE,
+} from '@nc-core/constants/routes';
 import { useAuth } from '@nc-core/hooks';
 import { LogInVariables } from '@nc-core/interfaces/api';
 import { AuthTemplate } from '@nc-ui';
@@ -22,7 +26,7 @@ export default function LogIn(): JSX.Element {
           control,
           defaultValue: '',
           helperText: (
-            <Link to="/recover-account">¿Olvidaste tu contraseña?</Link>
+            <Link to={RECOVER_ACCOUNT_ROUTE}>¿Olvidaste tu contraseña?</Link>
           ),
           name: 'password',
           placeholder: 'Contraseña',
@@ -46,7 +50,7 @@ export default function LogIn(): JSX.Element {
           color: 'white',
           link: true,
           message: 'Regístrate',
-          to: '/signup',
+          to: SIGN_UP_ROUTE,
           variant: 'outlined',
         },
       ]}
