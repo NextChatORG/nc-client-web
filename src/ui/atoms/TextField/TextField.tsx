@@ -4,7 +4,7 @@ import {
   VisibilityIcon,
   VisibilityOffIcon,
 } from '@nc-icons';
-import { Button, Grid } from '@nc-ui';
+import { Button, Grid, Typography } from '@nc-ui';
 import clsx from 'clsx';
 import React, { HTMLInputTypeAttribute, useState } from 'react';
 import {
@@ -20,9 +20,11 @@ import classes from './TextField.module.sass';
 export interface TextFieldProps<TForm extends FieldValues> {
   control: Control<TForm>;
   defaultValue?: PathValue<TForm, Path<TForm>>;
+  disabled?: boolean;
   endAdorment?: React.ReactNode;
   fullWidth?: boolean;
   helperText?: React.ReactNode;
+  label?: string;
   name: Path<TForm>;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   placeholder?: string;
@@ -36,9 +38,11 @@ export interface TextFieldProps<TForm extends FieldValues> {
 export function TextField<TForm extends FieldValues>({
   control,
   defaultValue,
+  disabled = false,
   endAdorment,
   fullWidth,
   helperText,
+  label,
   name,
   onChange,
   placeholder,
@@ -99,8 +103,19 @@ export function TextField<TForm extends FieldValues>({
             className={clsx(classes.textField, {
               [classes['textField--fullWidth']]: fullWidth,
               [classes['textField--error']]: hasError,
+              [classes['textField--disabled']]: disabled,
             })}
           >
+            {label && (
+              <Typography
+                withLetterSpacing
+                className={classes.textField__labelText}
+                component="p"
+                fontWeight={500}
+              >
+                {label}
+              </Typography>
+            )}
             <Grid
               container
               className={clsx(classes.textField__field, {
@@ -142,6 +157,7 @@ export function TextField<TForm extends FieldValues>({
                     [classes['textField__field__input--withEnd']]:
                       hasEndAdorment && !hasStartAdorment,
                   })}
+                  disabled={disabled}
                   id={`${id}-field`}
                   onBlur={handleOnBlur}
                   onChange={handleOnChange}
