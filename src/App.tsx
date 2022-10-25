@@ -9,9 +9,9 @@ import { ToastContainer } from 'react-toastify';
 export default function App({
   children,
 }: React.PropsWithChildren<unknown>): JSX.Element {
-  const [loading, setLoading] = useState<boolean>(true);
-
   const [state, dispatch] = useReducer(authReducer, authReducerInitialState);
+
+  const [loading, setLoading] = useState<boolean>(!state.requireTwoFactor);
 
   const [getProfile] = useLazyQuery<GetProfileResponse>(GET_PROFILE_QUERY, {
     fetchPolicy: 'network-only',
@@ -21,7 +21,7 @@ export default function App({
   });
 
   useEffect(() => {
-    if (state.jwt && !state.profileData) {
+    if (state.jwt && !state.requireTwoFactor && !state.profileData) {
       getProfile();
       return;
     }
