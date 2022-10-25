@@ -1,26 +1,21 @@
 import { useAuth } from '@nc-core/hooks';
-import { LogInTwoFactorVariables } from '@nc-core/interfaces/api';
-import { capitalize } from '@nc-core/utils';
 import { LogoutIcon } from '@nc-icons';
-import { Button, Grid, Logo, Typography } from '@nc-ui';
-import clsx from 'clsx';
-import { CodeInput, getSegmentCssWidth } from 'rci';
+import {
+  Button,
+  Grid,
+  Logo,
+  TwoFactorCode,
+  TwoFactorCodeStates,
+  Typography,
+} from '@nc-ui';
 import { useRef, useState } from 'react';
-import { useIsFocused } from 'use-is-focused';
-import classes from './TwoFactor.module.sass';
-
-type CodeState = 'input' | 'loading' | 'error' | 'success';
 
 const spacing = 20;
-const inputSpacing = '10px';
 
 export default function TwoFactor(): JSX.Element {
-  const [state, setState] = useState<CodeState>('input');
+  const [state, setState] = useState<TwoFactorCodeStates>('input');
 
   const inputRef = useRef<HTMLInputElement>(null);
-
-  const width = getSegmentCssWidth(inputSpacing);
-  const focused = useIsFocused(inputRef);
 
   const { logInTwoFactor, logOut } = useAuth({
     onLogInTwoFactorCompleted() {
@@ -40,10 +35,6 @@ export default function TwoFactor(): JSX.Element {
       }, 500);
     },
   });
-
-  function onSubmit(variables: LogInTwoFactorVariables) {
-    return logInTwoFactor(variables);
-  }
 
   return (
     <Grid
@@ -83,43 +74,11 @@ export default function TwoFactor(): JSX.Element {
       </Grid>
       <Grid item xs={12} />
       <Grid item>
-        <CodeInput
-          autoComplete="one-time-code"
-          className={clsx(
-            classes.twoFactor__input,
-            classes[`twoFactor__input--state${capitalize(state)}`],
-            {
-              [classes['twoFactor__input--focused']]: focused,
-            },
-          )}
-          disabled={state === 'loading'}
-          id="two-factor-code"
-          inputMode="numeric"
+        <TwoFactorCode
           inputRef={inputRef}
-          length={6}
-          onChange={({ currentTarget: input }) => {
-            input.value = input.value.replace(/\D+/g, '');
-
-            if (input.value.length === 6) {
-              setState('loading');
-              onSubmit({ code: input.value });
-            }
-          }}
-          padding={inputSpacing}
-          pattern="[0-9]*"
-          readOnly={state !== 'input'}
-          renderSegment={({ state, index }) => (
-            <div
-              className={classes.twoFactor__input__segment}
-              data-state={state}
-              key={index}
-              style={{ width, height: '100%' }}
-            >
-              <div />
-            </div>
-          )}
-          spacing={inputSpacing}
-          spellCheck={false}
+          onSubmit={(code) => logInTwoFactor({ code })}
+          setState={setState}
+          state={state}
         />
       </Grid>
       <Grid item xs={12} />
