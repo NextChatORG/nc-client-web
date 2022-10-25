@@ -43,9 +43,8 @@ Para obtener un código beta debes llenar [este formulario](#beta) y esperar el 
 **Perfiles**
 
   - [x] Ver perfil de un usuario
-  - [ ] Ver las peticiones de amistad que te han enviado
-  - [ ] Ver los usuarios que tienes como amigos
-  
+  - [x] Ver los usuarios que tienes como amigos
+
 **Amigos**
 
   - [x] Enviar solicitud de amistad
@@ -54,9 +53,9 @@ Para obtener un código beta debes llenar [este formulario](#beta) y esperar el 
 
 **Configuración de la cuenta**
 
-  - [ ] Cambiar el nombre de usuario cada 60 días
+  - [x] Cambiar el nombre de usuario cada 60 días
   - [ ] Cambiar la contraseña cada 15 días
-  - [ ] Activar o desactivar la autenticación en dos factores (2FA)
+  - [x] Activar o desactivar la autenticación en dos factores (2FA)
 
 **Notificaciones**
 
@@ -69,4 +68,3 @@ Para obtener un código beta debes llenar [este formulario](#beta) y esperar el 
   - [x] Conversaciones privadas
   - [x] Mostrar mensajes no leídos
   - [x] Marcar mensajes como leídos al presionar el campo de texto
-  - [ ] Poder eliminar una conversación para ambos usuarios

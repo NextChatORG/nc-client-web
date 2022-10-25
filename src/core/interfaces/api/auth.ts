@@ -47,3 +47,27 @@ export interface SignUpResponse {
     recoveryCodes: string[];
   };
 }
+
+export interface GenerateTwoFactorQRCodeVariables {
+  currentPassword: string;
+}
+
+export interface GenerateTwoFactorQRCodeResponse {
+  generateTwoFactorQRCode: string;
+}
+
+export interface VerifyTwoFactorCodeVariables {
+  code: string;
+}
+
+export interface VerifyTwoFactorCodeResponse {
+  verifyTwoFactorCode: string;
+}
+
+export interface DisableTwoFactorVariables {
+  currentPassword: string;
+}
+
+export interface DisableTwoFactorResponse {
+  disableTwoFactor: boolean;
+}

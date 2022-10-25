@@ -42,7 +42,7 @@ import {
 } from '@nc-ui';
 import { format } from 'date-fns';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useOutlet, useParams } from 'react-router-dom';
 import classes from './Profile.module.sass';
 import ProfileFriends from './ProfileFriends';
 
@@ -51,6 +51,7 @@ export default function Profile(): JSX.Element {
 
   const { data: meData } = useAuth();
   const { username } = useParams();
+  const outlet = useOutlet();
 
   const [getProfile, { data: userData, subscribeToMore }] = useLazyQuery<
     GetProfileResponse,
@@ -180,6 +181,7 @@ export default function Profile(): JSX.Element {
 
   return (
     <MainTemplate withHeader>
+      {outlet}
       {profileData && (
         <>
           <Grid item xs={3}>

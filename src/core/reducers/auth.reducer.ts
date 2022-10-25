@@ -14,12 +14,25 @@ export interface AuthReducerState {
   requireTwoFactor: boolean;
 }
 
+const jwt = localStorage.getItem(JWT_TOKEN);
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const jwtPayload: any = jwt ? jwtDecode(jwt) : {};
+
 export const authReducerInitialState: AuthReducerState = {
-  jwt: localStorage.getItem(JWT_TOKEN),
+  jwt,
   profileData: null,
   recoveryCodes: [],
-  requireTwoFactor: false,
+  requireTwoFactor: !jwtPayload.twoFactorPassed && jwtPayload.twoFactorRequired,
 };
+
+interface ChangeAccessTokenAction {
+  type: 'change-access-token';
+  payload: {
+    accessToken: string;
+    profileData: UserProfile;
+  };
+}
 
 interface LogInAction {
   type: 'log-in';
@@ -41,6 +54,11 @@ interface SetProfileDataAction {
   payload: UserProfile;
 }
 
+interface UpdateProfileDataAction {
+  type: 'update-profile-data';
+  payload: Partial<UserProfile>;
+}
+
 interface ClearRecoveryCodesAction {
   type: 'clear-recovery-codes';
 }
@@ -50,10 +68,12 @@ interface LogOutAction {
 }
 
 export type AuthReducerActions =
+  | ChangeAccessTokenAction
   | LogInAction
   | RecoverAccountAction
   | SignUpAction
   | SetProfileDataAction
+  | UpdateProfileDataAction
   | ClearRecoveryCodesAction
   | LogOutAction;
 
@@ -62,6 +82,20 @@ export function authReducer(
   action: AuthReducerActions,
 ): AuthReducerState {
   switch (action.type) {
+    case 'change-access-token': {
+      const jwt = action.payload.accessToken;
+
+      const payload: { twoFactorPassed: boolean; twoFactorRequired: boolean } =
+        jwtDecode(jwt);
+
+      return {
+        ...authReducerInitialState,
+        jwt,
+        profileData: action.payload.profileData,
+        requireTwoFactor: !payload.twoFactorPassed && payload.twoFactorRequired,
+      };
+    }
+
     case 'log-in': {
       const jwt = action.payload.accessToken;
 
@@ -91,6 +125,25 @@ export function authReducer(
 
     case 'set-profile-data':
       return { ...state, profileData: action.payload };
+
+    case 'update-profile-data':
+      return {
+        ...state,
+        profileData: state.profileData
+          ? {
+              ...state.profileData,
+              ...action.payload,
+              counters: {
+                ...state.profileData.counters,
+                ...action.payload.counters,
+              },
+              settings: {
+                ...state.profileData.settings,
+                ...action.payload.settings,
+              },
+            }
+          : null,
+      };
 
     case 'clear-recovery-codes':
       return { ...state, recoveryCodes: authReducerInitialState.recoveryCodes };

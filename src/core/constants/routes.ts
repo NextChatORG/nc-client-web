@@ -13,6 +13,7 @@ export const EXPLORE_ROUTE = '/explore';
 export const PROFILE_ROUTE = '/profile';
 export const USER_PROFILE_ROUTE = `${PROFILE_ROUTE}/:username`;
 export const PROFILE_SETTINGS_ROUTE = `${USER_PROFILE_ROUTE}/settings`;
+export const PROFILE_SETTINGS_CHANGE_PASSWORD_ROUTE = `${PROFILE_SETTINGS_ROUTE}/change-password`;
 
 export const BETA_ROUTE = '/beta';
 

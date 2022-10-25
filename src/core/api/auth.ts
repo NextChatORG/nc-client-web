@@ -55,3 +55,21 @@ export const SIGNUP_MUTATION = gql`
     }
   }
 `;
+
+export const GENERATE_TWO_FACTOR_QR_CODE_MUTATION = gql`
+  mutation generateTwoFactorQRCode($currentPassword: String!) {
+    generateTwoFactorQRCode(currentPassword: $currentPassword)
+  }
+`;
+
+export const VERIFY_TWO_FACTOR_CODE_MUTATION = gql`
+  mutation verifyTwoFactorCode($code: String!) {
+    verifyTwoFactorCode(code: $code)
+  }
+`;
+
+export const DISABLE_TWO_FACTOR_MUTATION = gql`
+  mutation disableTwoFactor($currentPassword: String!) {
+    disableTwoFactor(currentPassword: $currentPassword)
+  }
+`;

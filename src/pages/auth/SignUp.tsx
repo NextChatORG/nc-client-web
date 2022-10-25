@@ -1,4 +1,8 @@
 import { CompleteTasksAnimationData } from '@nc-assets/lottie';
+import {
+  PASSWORD_FIELD_VALIDATIONS,
+  USERNAME_FIELD_VALIDATIONS,
+} from '@nc-core/constants/forms';
 import { LOG_IN_ROUTE, TERMS_ROUTE } from '@nc-core/constants/routes';
 import { useAuth } from '@nc-core/hooks';
 import { SignUpVariables } from '@nc-core/interfaces/api';
@@ -35,22 +39,7 @@ export default function SignUp(): JSX.Element {
           name: 'username',
           placeholder: 'Nombre de usuario',
           required: true,
-          validations: {
-            maxLength: {
-              message:
-                'El nombre de usuario debe tener entre 4 y 15 caracteres',
-              value: 15,
-            },
-            minLength: {
-              message:
-                'El nombre de usuario debe tener entre 4 y 15 caracteres',
-              value: 4,
-            },
-            pattern: {
-              message: 'El nombre de usuario no es válido',
-              value: /^[a-zA-Z0-9_]*$/,
-            },
-          },
+          validations: USERNAME_FIELD_VALIDATIONS,
         },
         {
           control,
@@ -60,22 +49,7 @@ export default function SignUp(): JSX.Element {
           placeholder: 'Contraseña',
           required: true,
           type: 'password',
-          validations: {
-            maxLength: {
-              message: 'La contraseña debe tener entre 8 y 40 caracteres',
-              value: 40,
-            },
-            minLength: {
-              message: 'La contraseña debe tener entre 8 y 40 caracteres',
-              value: 8,
-            },
-            validate(value: string) {
-              return (
-                !value.includes(' ') ||
-                'La contraseña no puede contener espacios'
-              );
-            },
-          },
+          validations: PASSWORD_FIELD_VALIDATIONS,
         },
         {
           control,
