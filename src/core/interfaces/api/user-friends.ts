@@ -8,7 +8,7 @@ export enum UserFriendStatus {
 
 export interface UserFriend {
   id: ObjectId;
-  date: number;
+  createdAt: number;
   userOneId: ObjectId;
   userOne?: User | null;
   userTwoId: ObjectId;

@@ -26,7 +26,7 @@ export const SEND_FRIEND_REQUEST_MUTATION = gql`
   mutation sendFriendRequest($userId: ObjectId!) {
     sendFriendRequest(userId: $userId) {
       id
-      date
+      createdAt
       userOneId
       userTwoId
       status
