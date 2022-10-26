@@ -12,6 +12,35 @@ export const GET_PROFILE_QUERY = gql`
         friendRequests
         friends
       }
+      settings {
+        lastPasswordChanged
+        lastUsernameChanged
+        twoFactorEnabled
+      }
+    }
+  }
+`;
+
+export const CHANGE_USERNAME_MUTATION = gql`
+  mutation changeUsername($password: String!, $username: String!) {
+    changeUsername(password: $password, username: $username) {
+      accessToken
+      profile {
+        id
+        actions
+        username
+        createdAt
+        profileImage
+        counters {
+          friendRequests
+          friends
+        }
+        settings {
+          lastPasswordChanged
+          lastUsernameChanged
+          twoFactorEnabled
+        }
+      }
     }
   }
 `;

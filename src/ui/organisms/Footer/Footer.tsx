@@ -1,3 +1,13 @@
+import {
+  BLOG_ROUTE,
+  DEV_API_ROUTE,
+  DEV_DOCS_ROUTE,
+  DEV_OPEN_SOURCE_ROUTE,
+  FAQS_ROUTE,
+  HELP_ROUTE,
+  PRIVACY_POLICY_ROUTE,
+  TERMS_ROUTE,
+} from '@nc-core/constants/routes';
 import { Button, ButtonProps, Grid, Logo } from '@nc-ui';
 import { Link } from 'react-router-dom';
 import classes from './Footer.module.sass';
@@ -23,7 +33,7 @@ export function Footer({ actionButton }: FooterProps): JSX.Element {
                 <Link to="/team">Nuestro equipo</Link>
               </Grid>
               <Grid item>
-                <Link to="/blog">Blog</Link>
+                <Link to={BLOG_ROUTE}>Blog</Link>
               </Grid>
               <Grid item>
                 <Link to="/feedback">Opiniones</Link>
@@ -36,13 +46,13 @@ export function Footer({ actionButton }: FooterProps): JSX.Element {
                 <p className={classes.footer__top__title}>Desarrolladores</p>
               </Grid>
               <Grid item>
-                <Link to="/dev/docs">Documentación</Link>
+                <Link to={DEV_DOCS_ROUTE}>Documentación</Link>
               </Grid>
               <Grid item>
-                <Link to="/dev/api">Referencias del API</Link>
+                <Link to={DEV_API_ROUTE}>Referencias del API</Link>
               </Grid>
               <Grid item>
-                <Link to="/dev/open-source">Código abierto</Link>
+                <Link to={DEV_OPEN_SOURCE_ROUTE}>Código abierto</Link>
               </Grid>
             </Grid>
           </Grid>
@@ -52,13 +62,13 @@ export function Footer({ actionButton }: FooterProps): JSX.Element {
                 <p className={classes.footer__top__title}>Recursos</p>
               </Grid>
               <Grid item>
-                <Link to="/faq">Preguntas frecuentes</Link>
+                <Link to={FAQS_ROUTE}>Preguntas frecuentes</Link>
               </Grid>
               <Grid item>
                 <Link to="/support">Soporte técnico</Link>
               </Grid>
               <Grid item>
-                <Link to="/help-center">Centro de Ayuda</Link>
+                <Link to={HELP_ROUTE}>Centro de Ayuda</Link>
               </Grid>
             </Grid>
           </Grid>
@@ -99,10 +109,10 @@ export function Footer({ actionButton }: FooterProps): JSX.Element {
           <Grid item xs={12} sm={3}>
             <Grid container justifyContent="flex-end" spacing={12}>
               <Grid item xs={12} sm="auto">
-                <Link to="/terms">Términos y Condiciones</Link>
+                <Link to={TERMS_ROUTE}>Términos y Condiciones</Link>
               </Grid>
               <Grid item xs={12} sm="auto">
-                <Link to="/privacy">Políticas de Privacidad</Link>
+                <Link to={PRIVACY_POLICY_ROUTE}>Políticas de Privacidad</Link>
               </Grid>
             </Grid>
           </Grid>

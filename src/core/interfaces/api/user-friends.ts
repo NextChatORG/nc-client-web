@@ -1,4 +1,4 @@
-import { ObjectId } from './common';
+import { ObjectId, Pagination } from './common';
 import { User } from './users';
 
 export enum UserFriendStatus {
@@ -14,6 +14,14 @@ export interface UserFriend {
   userTwoId: ObjectId;
   userTwo?: User | null;
   status: UserFriendStatus;
+}
+
+export interface GetFriendsVariables extends Pagination {
+  userId?: ObjectId;
+}
+
+export interface GetFriendsResponse {
+  getFriends: User[];
 }
 
 export interface FriendRequestVariables {

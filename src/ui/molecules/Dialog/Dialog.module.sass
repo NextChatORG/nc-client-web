@@ -1,0 +1,40 @@
+@import '@nc-core/styles/common/variables.sass'
+  
+.dialog
+  align-items: center
+  display: flex
+  height: 100vh
+  justify-content: center
+  left: 0
+  position: fixed
+  top: 0
+  width: 100%
+  z-index: 1000
+
+  &__bg
+    background-color: rgba(black, .4)
+    backdrop-filter: blur(4px)
+    cursor: pointer
+    height: 100%
+    width: 100%
+    position: absolute
+    transition: .4s background-color ease-in-out
+    z-index: -1
+
+    &:hover
+      background-color: rgba(black, .5)
+  &__content
+    background-color: $dark600
+    border-radius: 12px
+    padding-bottom: 16px
+    padding-top: 24px
+    min-width: 400px
+
+    &__title, &__content
+      padding: 0 24px
+    &__title
+      display: block
+      margin-bottom: 20px
+    &__actions
+      padding-top: 12px
+      padding-right: 16px

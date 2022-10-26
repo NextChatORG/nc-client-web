@@ -4,6 +4,7 @@ import {
   SIGNUP_MUTATION,
 } from '@nc-core/api';
 import { JWT_TOKEN } from '@nc-core/constants/local-storage';
+import { CHAT_ROUTE } from '@nc-core/constants/routes';
 import { AuthContext } from '@nc-core/contexts';
 import {
   LogInResponse,
@@ -48,7 +49,7 @@ export function useAuth(props?: AuthHookProps): AuthHook {
       if (!dispatch) return;
 
       dispatch({ type: 'log-in', payload: { accessToken } });
-      navigate('/', { replace: true });
+      navigate(CHAT_ROUTE, { replace: true });
     },
   });
 
@@ -77,7 +78,7 @@ export function useAuth(props?: AuthHookProps): AuthHook {
         if (!dispatch) return;
 
         dispatch({ type: 'sign-up', payload: signUp });
-        navigate('/', { replace: true });
+        navigate(CHAT_ROUTE, { replace: true });
       },
       onError: props?.onSignUpErrors,
     },

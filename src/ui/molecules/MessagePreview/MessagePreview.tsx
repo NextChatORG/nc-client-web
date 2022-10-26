@@ -1,3 +1,4 @@
+import { USER_CHAT_ROUTE } from '@nc-core/constants/routes';
 import { useAuth } from '@nc-core/hooks';
 import { RecentChat } from '@nc-core/interfaces/api';
 import { Avatar, Badge, Grid, Typography } from '@nc-ui';
@@ -25,9 +26,10 @@ export function MessagePreview({
     <Link
       className={clsx(classes.messagePreview, {
         [classes['messagePreview--active']]:
-          location.pathname === `/chat/${data.chat.id}`,
+          location.pathname ===
+          USER_CHAT_ROUTE.replace(':chatId', data.chat.id.toString()),
       })}
-      to={`/chat/${data.chat.id}`}
+      to={USER_CHAT_ROUTE.replace(':chatId', data.chat.id.toString())}
     >
       <Grid container alignItems="center" spacing={24}>
         <Grid item>

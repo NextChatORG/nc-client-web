@@ -3,17 +3,20 @@ import clsx from 'clsx';
 import classes from './Avatar.module.sass';
 
 export interface AvatarProps {
+  clickable?: boolean;
   size?: 'big' | 'normal' | 'small';
   url?: string;
 }
 
-export function Avatar({ size = 'normal', url }: AvatarProps): JSX.Element {
+export function Avatar({
+  clickable = false,
+  size = 'normal',
+  url,
+}: AvatarProps): JSX.Element {
   return (
     <div
-      className={clsx(classes.avatar, {
-        [classes['avatar--big']]: size === 'big',
-        [classes['avatar--normal']]: size === 'normal',
-        [classes['avatar--small']]: size === 'small',
+      className={clsx(classes.avatar, classes[`avatar--${size}`], {
+        [classes['avatar--clickable']]: clickable,
         [classes['avatar--icon']]: !url,
       })}
     >

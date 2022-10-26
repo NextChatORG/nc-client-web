@@ -12,6 +12,7 @@ const Beta = lazy(() => import('./pages/information/Beta'));
 
 const Chat = lazy(() => import('./pages/Chat'));
 const Profile = lazy(() => import('./pages/Profile/index'));
+const Settings = lazy(() => import('./pages/Profile/Settings/index'));
 
 const router = createBrowserRouter([
   {
@@ -56,6 +57,12 @@ const router = createBrowserRouter([
             index: true,
           },
           {
+            children: [
+              {
+                element: <AuthRedirection redirectToIndex Logged={Settings} />,
+                path: 'settings',
+              },
+            ],
             element: <AuthRedirection redirectToIndex Logged={Profile} />,
             path: ':username',
           },

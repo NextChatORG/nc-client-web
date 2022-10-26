@@ -28,10 +28,17 @@ export interface UserProfileCounters {
   friendRequests?: number;
 }
 
+export interface UserProfileSettings {
+  lastPasswordChanged?: number;
+  lastUsernameChanged?: number;
+  twoFactorEnabled?: boolean;
+}
+
 export interface UserProfile
   extends Pick<User, 'id' | 'createdAt' | 'profileImage' | 'username'> {
   actions: UserProfileAction[];
   counters?: UserProfileCounters;
+  settings?: UserProfileSettings;
 }
 
 export interface GetProfileVariables {
@@ -40,6 +47,18 @@ export interface GetProfileVariables {
 
 export interface GetProfileResponse {
   getProfile: UserProfile;
+}
+
+export interface ChangeUsernameVariables {
+  password: string;
+  username: string;
+}
+
+export interface ChangeUsernameResponse {
+  changeUsername: {
+    accessToken: string;
+    profile: UserProfile;
+  };
 }
 
 export interface ProfileActionsChangedVariables {

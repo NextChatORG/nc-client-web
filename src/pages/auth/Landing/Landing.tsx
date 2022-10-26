@@ -3,6 +3,12 @@ import {
   LockAnimationData,
   UsingKeyToUnlockAnimationData,
 } from '@nc-assets/lottie';
+import {
+  BETA_ROUTE,
+  LOG_IN_ROUTE,
+  PRIVACY_POLICY_ROUTE,
+  SIGN_UP_ROUTE,
+} from '@nc-core/constants/routes';
 import { OpenInNewIcon } from '@nc-icons';
 import { Button, Footer, Header, LandingFeature } from '@nc-ui';
 import Lottie from 'lottie-react';
@@ -19,14 +25,14 @@ export default function LandingView(): JSX.Element {
                 color: 'white',
                 link: true,
                 message: 'Inicia sesión',
-                to: '/login',
+                to: LOG_IN_ROUTE,
                 variant: 'text',
               },
               {
                 color: 'white',
                 link: true,
                 message: 'Regístrate',
-                to: '/signup',
+                to: SIGN_UP_ROUTE,
                 variant: 'outlined',
               },
             ],
@@ -39,7 +45,7 @@ export default function LandingView(): JSX.Element {
             link
             color="white"
             startIcon={<OpenInNewIcon />}
-            to="/beta"
+            to={BETA_ROUTE}
             variant="outlined"
           >
             Conoce el programa Beta
@@ -57,7 +63,7 @@ export default function LandingView(): JSX.Element {
             link: true,
             message: 'Políticas de Privacidad',
             startIcon: <OpenInNewIcon />,
-            to: '/privacy',
+            to: PRIVACY_POLICY_ROUTE,
             variant: 'outlined',
           }}
           description="Tus mensajes son alojados en nuestros servidores con el sistema criptográfico EdDSA para brindarte la seguridad de que tus mensajes no serán leídos por ningún integrante de nuestro equipo."
@@ -77,7 +83,7 @@ export default function LandingView(): JSX.Element {
             link: true,
             message: 'Conoce más',
             startIcon: <OpenInNewIcon />,
-            to: '/beta',
+            to: BETA_ROUTE,
             variant: 'outlined',
           }}
           description="¡Sé una de las personas elegidas para probar la aplicación! Solo debes hacer click en el botón de abajo para conocer más información."
@@ -90,7 +96,7 @@ export default function LandingView(): JSX.Element {
           color: 'white',
           link: true,
           message: 'Regístrate',
-          to: '/signup',
+          to: SIGN_UP_ROUTE,
           variant: 'outlined',
         }}
       />

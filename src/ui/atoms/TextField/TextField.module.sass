@@ -13,6 +13,24 @@
       border-color: var(--color-error) !important
     & #{ $self }__helperText
       color: var(--color-error)
+  &--disabled
+    color: var(--color-text)
+
+    & #{ $self }__field
+      cursor: not-allowed
+
+      &--outlined
+        border-color: rgba(white, .1)
+
+        &:hover
+          border-color: rgba(white, .1)
+      &__input
+        cursor: not-allowed
+  &__labelText
+    color: var(--color-text)
+    margin:
+      bottom: 6px
+      left: $borderRadius
   &__field
     $field: &
 

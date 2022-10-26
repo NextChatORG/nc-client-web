@@ -1,5 +1,6 @@
 import { LockAnimationData } from '@nc-assets/lottie';
 import { RECOVER_ACCOUNT_MUTATION } from '@nc-core/api';
+import { LOG_IN_ROUTE, SIGN_UP_ROUTE } from '@nc-core/constants/routes';
 import { AuthContext } from '@nc-core/contexts';
 import { useMutation } from '@nc-core/hooks';
 import {
@@ -76,14 +77,14 @@ export default function RecoverAccount(): JSX.Element {
           color: 'white',
           link: true,
           message: 'Inicia sesión',
-          to: '/login',
+          to: LOG_IN_ROUTE,
           variant: 'text',
         },
         {
           color: 'white',
           link: true,
           message: 'Regístrate',
-          to: '/signup',
+          to: SIGN_UP_ROUTE,
           variant: 'outlined',
         },
       ]}
