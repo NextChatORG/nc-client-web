@@ -18,6 +18,9 @@ export default function App({
     onCompleted({ getProfile }) {
       dispatch({ type: 'set-profile-data', payload: getProfile });
     },
+    onError() {
+      setLoading(false);
+    },
   });
 
   useEffect(() => {
