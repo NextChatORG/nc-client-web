@@ -3,6 +3,7 @@ import { AuthContext } from '@nc-core/contexts';
 import { useLazyQuery } from '@nc-core/hooks';
 import { GetProfileResponse } from '@nc-core/interfaces/api';
 import { authReducer, authReducerInitialState } from '@nc-core/reducers';
+import { Loader } from '@nc-ui';
 import { Suspense, useEffect, useReducer, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 
@@ -36,7 +37,11 @@ export default function App({
 
   return (
     <AuthContext.Provider value={{ dispatch, state }}>
-      {loading ? <div>Loading</div> : <Suspense>{children}</Suspense>}
+      {loading ? (
+        <Loader />
+      ) : (
+        <Suspense fallback={<Loader />}>{children}</Suspense>
+      )}
       <ToastContainer
         hideProgressBar
         position="bottom-center"

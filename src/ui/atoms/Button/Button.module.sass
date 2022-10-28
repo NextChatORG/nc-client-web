@@ -145,6 +145,14 @@
     padding: 4px 8px
   &--small
     padding: 8px 16px
+  &--disabled
+    &#{ $self }--contained
+      background-color: $dark500
+      color: white
+      cursor: not-allowed
+
+      &:hover
+        background-color: $dark500
   &--fullWidth
     width: 100%
   &__rippleEffect

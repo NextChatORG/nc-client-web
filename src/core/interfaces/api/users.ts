@@ -49,6 +49,17 @@ export interface GetProfileResponse {
   getProfile: UserProfile;
 }
 
+export interface ChangePasswordVariables {
+  code?: string;
+  confirmNewPassword: string;
+  currentPassword: string;
+  newPassword: string;
+}
+
+export interface ChangePasswordResponse {
+  changePassword: string;
+}
+
 export interface ChangeUsernameVariables {
   password: string;
   username: string;

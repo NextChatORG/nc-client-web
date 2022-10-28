@@ -4,12 +4,14 @@ import classes from './Logo.module.sass';
 
 export interface LogoProps {
   color?: 'primary' | 'white';
+  id?: string;
   onlyIcon?: boolean;
   size?: 'big' | 'small';
 }
 
 export function Logo({
   color = 'primary',
+  id,
   onlyIcon = false,
   size = 'small',
 }: LogoProps): JSX.Element {
@@ -19,10 +21,13 @@ export function Logo({
         [classes['logo--colorPrimary']]: color === 'primary',
         [classes['logo--colorWhite']]: color === 'white',
       })}
+      id={id}
     >
-      <NextChatIcon size={size === 'big' ? 120 : 45} />
+      <NextChatIcon id={`${id}-icon`} size={size === 'big' ? 120 : 45} />
       {!onlyIcon && (
-        <h1 style={{ fontSize: size === 'big' ? 108 : 36 }}>NextChat</h1>
+        <h1 id={`${id}-text`} style={{ fontSize: size === 'big' ? 108 : 36 }}>
+          NextChat
+        </h1>
       )}
     </div>
   );

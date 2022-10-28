@@ -6,7 +6,7 @@ import {
 } from '@apollo/client';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { setContext } from '@apollo/client/link/context';
-import { VITE_API_URL } from '@nc-core/constants/environment';
+import { VITE_API_URL, VITE_WS_API_URL } from '@nc-core/constants/environment';
 import { JWT_TOKEN } from '@nc-core/constants/local-storage';
 import { createClient } from 'graphql-ws';
 import { getMainDefinition } from '@apollo/client/utilities';
@@ -28,7 +28,7 @@ const wsLink = new GraphQLWsLink(
         Authorization: `Bearer ${jwt}`,
       };
     },
-    url: 'ws://localhost:3001/graphql',
+    url: VITE_WS_API_URL,
   }),
 );
 
