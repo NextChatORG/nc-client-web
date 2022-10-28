@@ -1,15 +1,7 @@
-import { WatchQueryOptions } from '@apollo/client';
+import { SEND_PRIVATE_MESSAGE_MUTATION } from '@nc-core/api';
+import { useAuth, useMessages, useMutation } from '@nc-core/hooks';
 import {
-  READ_ALL_MESSAGES_MUTATION,
-  SEND_PRIVATE_MESSAGE_MUTATION,
-} from '@nc-core/api';
-import { useAuth, useMutation } from '@nc-core/hooks';
-import {
-  GetChatAndMessagesResponse,
-  GetChatAndMessagesVariables,
   ObjectId,
-  ReadAllMessagesResponse,
-  ReadAllMessagesVariables,
   SendPrivateMessageResponse,
   SendPrivateMessageVariables,
   User,
@@ -21,55 +13,19 @@ interface ChatFooterProps {
   chatId: ObjectId;
   classes: CSSModuleClasses;
   user: User;
-  refetchRecentChats(): void;
-  updateMessages(
-    mapFn: (
-      previousQueryResult: GetChatAndMessagesResponse,
-      options: Pick<
-        WatchQueryOptions<
-          GetChatAndMessagesVariables,
-          GetChatAndMessagesResponse
-        >,
-        'variables'
-      >,
-    ) => GetChatAndMessagesResponse,
-  ): void;
 }
 
 export default function ChatFooter({
   chatId,
   classes,
-  refetchRecentChats,
-  updateMessages,
   user,
 }: ChatFooterProps): JSX.Element {
   const [messageContent, setMessageContent] = useState<string>('');
 
   const messagesInputRef = useRef<HTMLInputElement | null>(null);
 
+  const { loadRecentChats, readAllMessages } = useMessages();
   const { data: meData } = useAuth();
-
-  const [readAllMessages] = useMutation<
-    ReadAllMessagesResponse,
-    ReadAllMessagesVariables
-  >(READ_ALL_MESSAGES_MUTATION, {
-    onCompleted({ readAllMessages }) {
-      if (!readAllMessages) return;
-
-      refetchRecentChats();
-
-      updateMessages((prev) => ({
-        ...prev,
-        messages: prev.messages.map((message) => {
-          if (!message.read && message.senderId !== meData?.id) {
-            return { ...message, read: true };
-          }
-
-          return message;
-        }),
-      }));
-    },
-  });
 
   const [sendPrivateMessage, { loading: sendingPrivateMessage }] = useMutation<
     SendPrivateMessageResponse,
@@ -78,7 +34,7 @@ export default function ChatFooter({
     onCompleted() {
       setMessageContent('');
 
-      refetchRecentChats();
+      loadRecentChats();
 
       setTimeout(() => {
         if (messagesInputRef.current) messagesInputRef.current.focus();
@@ -91,7 +47,7 @@ export default function ChatFooter({
   }
 
   function handleInputFocus() {
-    readAllMessages({ variables: { chatId } });
+    if (meData) readAllMessages(chatId, meData.id);
   }
 
   function handleInputKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {

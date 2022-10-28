@@ -1,14 +1,4 @@
-import {
-  GET_CHAT_AND_MESSAGES_QUERY,
-  NEW_PRIVATE_MESSAGE_SUBSCRIPTION,
-} from '@nc-core/api';
-import { useAuth, useQuery } from '@nc-core/hooks';
-import {
-  GetChatAndMessagesResponse,
-  GetChatAndMessagesVariables,
-  NewPrivateMessageResponse,
-  NewPrivateMessageVariables,
-} from '@nc-core/interfaces/api';
+import { useAuth, useMessages } from '@nc-core/hooks';
 import { Content, Grid } from '@nc-ui';
 import { useEffect, useRef, useState } from 'react';
 import classes from './ChatBox.module.sass';
@@ -16,72 +6,42 @@ import { ChatContent, ChatDetails, ChatFooter, ChatHeader } from './internal';
 
 export interface ChatBoxProps {
   chatId: string;
-  refetchRecentChats(): void;
 }
 
-export function ChatBox({
-  chatId,
-  refetchRecentChats,
-}: ChatBoxProps): JSX.Element | null {
+export function ChatBox({ chatId }: ChatBoxProps): JSX.Element | null {
   const [detailsOpened, setDetailsStatus] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const messagesContentRef = useRef<HTMLDivElement | null>(null);
 
+  const { chats, loadChat } = useMessages();
   const { data: meData } = useAuth();
 
-  const { data, loading, updateQuery, subscribeToMore } = useQuery<
-    GetChatAndMessagesResponse,
-    GetChatAndMessagesVariables
-  >(GET_CHAT_AND_MESSAGES_QUERY, {
-    variables: { chatId },
-  });
+  const currentChat = chats[chatId];
 
   useEffect(() => {
-    subscribeToMore<NewPrivateMessageResponse, NewPrivateMessageVariables>({
-      document: NEW_PRIVATE_MESSAGE_SUBSCRIPTION,
-      variables: { chatId },
-      updateQuery(prev, { subscriptionData }) {
-        if (!subscriptionData.data) return prev;
+    if (currentChat?.chat) return;
 
-        refetchRecentChats();
+    setLoading(true);
 
-        const message = subscriptionData.data.newPrivateMessage;
-        if (message.senderId !== meData?.id) {
-          const sound = document.createElement('audio');
-
-          sound.src = '/sounds/new_message.mp3';
-          sound.style.display = 'none';
-
-          sound.addEventListener('ended', function () {
-            sound.remove();
-          });
-
-          document.body.appendChild(sound);
-
-          sound.play();
-        }
-
-        return {
-          ...prev,
-          messages: [...prev.messages, message],
-        };
-      },
-    });
-  }, []);
+    loadChat(chatId).finally(() => setLoading(false));
+  }, [chatId]);
 
   useEffect(() => {
-    if (!messagesContentRef.current || !data?.messages) return;
+    if (!messagesContentRef.current || !currentChat?.messages) return;
 
     messagesContentRef.current.scrollTo(
       0,
       messagesContentRef.current.scrollHeight,
     );
-  }, [data]);
+  }, [currentChat]);
 
-  if (!meData) return null;
+  if (!currentChat?.chat || !meData) return null;
 
   const user =
-    data?.chat.toId === meData.id ? data.chat.user : data?.chat.toUser;
+    currentChat.chat.toId === meData.id
+      ? currentChat.chat.user
+      : currentChat.chat.toUser;
 
   if (!user) return null;
 
@@ -103,16 +63,10 @@ export function ChatBox({
               chatId={chatId}
               classes={classes}
               loading={loading}
-              messages={data?.messages ?? []}
+              messages={currentChat.messages}
             />
           </div>
-          <ChatFooter
-            chatId={chatId}
-            classes={classes}
-            refetchRecentChats={refetchRecentChats}
-            updateMessages={updateQuery}
-            user={user}
-          />
+          <ChatFooter chatId={chatId} classes={classes} user={user} />
         </Content>
       </Grid>
       {detailsOpened && (

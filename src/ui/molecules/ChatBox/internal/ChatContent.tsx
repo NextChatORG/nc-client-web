@@ -20,12 +20,11 @@ export default function ChatContent({
 }: ChatContentProps): JSX.Element {
   const { data: meData } = useAuth();
 
-  if (loading) return <Loading id="chat-messages-loader" text="Cargando" />;
-
   const groupedMessages = groupMessages(messages);
 
   return (
     <>
+      {loading && <Loading id="chat-messages-loader" text="Cargando" />}
       {groupedMessages.map(({ messages, title }, i) => {
         const unreadMessages =
           i === groupedMessages.length - 1
