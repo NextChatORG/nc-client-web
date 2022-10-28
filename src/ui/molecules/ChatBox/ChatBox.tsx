@@ -45,9 +45,25 @@ export function ChatBox({
 
         refetchRecentChats();
 
+        const message = subscriptionData.data.newPrivateMessage;
+        if (message.senderId !== meData?.id) {
+          const sound = document.createElement('audio');
+
+          sound.src = '/sounds/new_message.mp3';
+          sound.style.display = 'none';
+
+          sound.addEventListener('ended', function () {
+            sound.remove();
+          });
+
+          document.body.appendChild(sound);
+
+          sound.play();
+        }
+
         return {
           ...prev,
-          messages: [...prev.messages, subscriptionData.data.newPrivateMessage],
+          messages: [...prev.messages, message],
         };
       },
     });
