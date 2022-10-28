@@ -96,8 +96,8 @@ export const SEND_PRIVATE_MESSAGE_MUTATION = gql`
 `;
 
 export const NEW_PRIVATE_MESSAGE_SUBSCRIPTION = gql`
-  subscription newPrivateMessage($chatId: ObjectId!) {
-    newPrivateMessage(chatId: $chatId) {
+  subscription newPrivateMessage {
+    newPrivateMessage {
       chatId
       content
       createdAt

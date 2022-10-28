@@ -19,7 +19,7 @@ const jwt = localStorage.getItem(JWT_TOKEN);
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const jwtPayload: any = jwt ? jwtDecode(jwt) : {};
 
-export const authReducerInitialState: AuthReducerState = {
+export const AUTH_REDUCER_INITIAL_STATE: AuthReducerState = {
   jwt,
   profileData: null,
   recoveryCodes: [],
@@ -92,7 +92,7 @@ export function authReducer(
         jwtDecode(jwt);
 
       return {
-        ...authReducerInitialState,
+        ...AUTH_REDUCER_INITIAL_STATE,
         jwt,
         profileData: action.payload.profileData,
         requireTwoFactor: !payload.twoFactorPassed && payload.twoFactorRequired,
@@ -106,7 +106,7 @@ export function authReducer(
         jwtDecode(jwt);
 
       return {
-        ...authReducerInitialState,
+        ...AUTH_REDUCER_INITIAL_STATE,
         jwt,
         requireTwoFactor: !payload.twoFactorPassed && payload.twoFactorRequired,
       };
@@ -114,14 +114,14 @@ export function authReducer(
 
     case 'recover-account':
       return {
-        ...authReducerInitialState,
+        ...AUTH_REDUCER_INITIAL_STATE,
         jwt: action.payload.accessToken,
         recoveryCodes: action.payload.recoveryCodes,
       };
 
     case 'sign-up':
       return {
-        ...authReducerInitialState,
+        ...AUTH_REDUCER_INITIAL_STATE,
         jwt: action.payload.accessToken,
         recoveryCodes: action.payload.recoveryCodes,
       };
@@ -159,10 +159,13 @@ export function authReducer(
     }
 
     case 'clear-recovery-codes':
-      return { ...state, recoveryCodes: authReducerInitialState.recoveryCodes };
+      return {
+        ...state,
+        recoveryCodes: AUTH_REDUCER_INITIAL_STATE.recoveryCodes,
+      };
 
     case 'logout':
-      return authReducerInitialState;
+      return AUTH_REDUCER_INITIAL_STATE;
 
     default:
       return state;

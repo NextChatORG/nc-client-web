@@ -3,7 +3,8 @@ import client from '@nc-core/api';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
-import App from './App';
+import { ToastContainer } from 'react-toastify';
+import App, { AppContexts } from './App';
 import router from './Router';
 
 import '@nc-core/styles/global.sass';
@@ -15,10 +16,17 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <ApolloProvider client={client}>
-      <App>
-        <RouterProvider router={router} />
-      </App>
-    </ApolloProvider>
+    <AppContexts>
+      <ApolloProvider client={client}>
+        <App>
+          <RouterProvider router={router} />
+          <ToastContainer
+            hideProgressBar
+            position="bottom-center"
+            theme="colored"
+          />
+        </App>
+      </ApolloProvider>
+    </AppContexts>
   </React.StrictMode>,
 );

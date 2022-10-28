@@ -70,10 +70,6 @@ export interface SendPrivateMessageResponse {
   sendPrivateMessage: UserMessage;
 }
 
-export interface NewPrivateMessageVariables {
-  chatId: ObjectId;
-}
-
 export interface NewPrivateMessageResponse {
   newPrivateMessage: UserMessage;
 }
