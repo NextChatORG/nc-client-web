@@ -149,8 +149,8 @@ export default function SettingsGeneralTab(): JSX.Element {
       if (!disableTwoFactor || !dispatch) return;
 
       dispatch({
-        type: 'update-profile-data',
-        payload: { settings: { twoFactorEnabled: false } },
+        type: 'update-data',
+        payload: { profile: { settings: { twoFactorEnabled: false } } },
       });
 
       setAction(null);

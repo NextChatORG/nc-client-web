@@ -54,9 +54,12 @@ interface SetProfileDataAction {
   payload: UserProfile;
 }
 
-interface UpdateProfileDataAction {
-  type: 'update-profile-data';
-  payload: Partial<UserProfile>;
+interface UpdateDataAction {
+  type: 'update-data';
+  payload: {
+    accessToken?: string;
+    profile?: Partial<UserProfile>;
+  };
 }
 
 interface ClearRecoveryCodesAction {
@@ -73,7 +76,7 @@ export type AuthReducerActions =
   | RecoverAccountAction
   | SignUpAction
   | SetProfileDataAction
-  | UpdateProfileDataAction
+  | UpdateDataAction
   | ClearRecoveryCodesAction
   | LogOutAction;
 
@@ -126,24 +129,34 @@ export function authReducer(
     case 'set-profile-data':
       return { ...state, profileData: action.payload };
 
-    case 'update-profile-data':
+    case 'update-data': {
+      const jwt = action.payload.accessToken ?? state.jwt;
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const payload: any = jwtDecode(jwt ?? '');
+
       return {
         ...state,
+        jwt,
         profileData: state.profileData
           ? {
               ...state.profileData,
-              ...action.payload,
+              ...action.payload.profile,
               counters: {
                 ...state.profileData.counters,
-                ...action.payload.counters,
+                ...action.payload.profile?.counters,
               },
               settings: {
                 ...state.profileData.settings,
-                ...action.payload.settings,
+                ...action.payload.profile?.settings,
               },
             }
           : null,
+        requireTwoFactor: jwt
+          ? !payload.twoFactorPassed && payload.twoFactorRequired
+          : false,
       };
+    }
 
     case 'clear-recovery-codes':
       return { ...state, recoveryCodes: authReducerInitialState.recoveryCodes };

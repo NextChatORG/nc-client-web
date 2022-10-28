@@ -13,6 +13,9 @@ const Beta = lazy(() => import('./pages/information/Beta'));
 const Chat = lazy(() => import('./pages/Chat'));
 const Profile = lazy(() => import('./pages/Profile/index'));
 const Settings = lazy(() => import('./pages/Profile/Settings/index'));
+const SettingsChangePassword = lazy(
+  () => import('./pages/Profile/Settings/tabs/SettingsChangePasswordTab'),
+);
 
 const router = createBrowserRouter([
   {
@@ -59,6 +62,17 @@ const router = createBrowserRouter([
           {
             children: [
               {
+                children: [
+                  {
+                    element: (
+                      <AuthRedirection
+                        redirectToIndex
+                        Logged={SettingsChangePassword}
+                      />
+                    ),
+                    path: 'change-password',
+                  },
+                ],
                 element: <AuthRedirection redirectToIndex Logged={Settings} />,
                 path: 'settings',
               },

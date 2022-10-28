@@ -21,6 +21,22 @@ export const GET_PROFILE_QUERY = gql`
   }
 `;
 
+export const CHANGE_PASSWORD_MUTATION = gql`
+  mutation changePassword(
+    $code: String
+    $confirmNewPassword: String!
+    $currentPassword: String!
+    $newPassword: String!
+  ) {
+    changePassword(
+      code: $code
+      confirmNewPassword: $confirmNewPassword
+      currentPassword: $currentPassword
+      newPassword: $newPassword
+    )
+  }
+`;
+
 export const CHANGE_USERNAME_MUTATION = gql`
   mutation changeUsername($password: String!, $username: String!) {
     changeUsername(password: $password, username: $username) {
