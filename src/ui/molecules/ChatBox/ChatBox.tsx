@@ -45,9 +45,25 @@ export function ChatBox({
 
         refetchRecentChats();
 
+        const message = subscriptionData.data.newPrivateMessage;
+        if (message.senderId !== meData?.id) {
+          const sound = document.createElement('audio');
+
+          sound.src = '/sounds/new_message.mp3';
+          sound.style.display = 'none';
+
+          sound.addEventListener('ended', function () {
+            sound.remove();
+          });
+
+          document.body.appendChild(sound);
+
+          sound.play();
+        }
+
         return {
           ...prev,
-          messages: [...prev.messages, subscriptionData.data.newPrivateMessage],
+          messages: [...prev.messages, message],
         };
       },
     });
@@ -70,9 +86,13 @@ export function ChatBox({
   if (!user) return null;
 
   return (
-    <Grid container spacing={12} style={{ height: 'calc(100% + 12px)' }}>
-      <Grid item xs={detailsOpened ? 9 : 12}>
-        <Content className={classes.chatBox} fullHeight noPadding>
+    <Grid container spacing={12}>
+      <Grid
+        item
+        style={{ height: 'calc(100vh - 48px - 50px)' }}
+        xs={detailsOpened ? 9 : 12}
+      >
+        <Content fullHeight noPadding className={classes.chatBox}>
           <ChatHeader
             classes={classes}
             onClick={() => setDetailsStatus(!detailsOpened)}

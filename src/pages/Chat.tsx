@@ -61,13 +61,7 @@ export default function Chat(): JSX.Element {
           </Grid>
           <Grid item xs="auto">
             <Search />
-            <div
-              style={{
-                height: '100%',
-                marginTop: 12,
-                maxHeight: 'calc(100vh - 48px - 62px)',
-              }}
-            >
+            <div style={{ marginTop: 12 }}>
               {chatId ? (
                 <ChatBox
                   chatId={chatId}
