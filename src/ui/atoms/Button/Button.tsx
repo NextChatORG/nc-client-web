@@ -53,10 +53,10 @@ export function Button(
 
     setRipplePos([e.clientX - rect.left, e.clientY - rect.top]);
 
-    if (props.link) {
-      if (props.external) window.open(props.to, '_blank');
-      else navigate(props.to);
-    } else props.onClick(e);
+    if (!props.link) return props.onClick(e);
+    if (!props.external) return navigate(props.to);
+
+    window.open(props.to, '_blank');
   }
 
   useEffect(() => {
@@ -80,6 +80,7 @@ export function Button(
         classes[`button--${size}`],
         classes[`button--${variant}`],
         {
+          [classes['button--disabled']]: props.disabled || props.loading,
           [classes['button--fullWidth']]: props.fullWidth,
         },
       )}
