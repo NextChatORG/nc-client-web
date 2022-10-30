@@ -5,7 +5,7 @@ import {
   PROFILE_ROUTE,
   PROFILE_SETTINGS_ROUTE,
 } from '@nc-core/constants/routes';
-import { useAuth } from '@nc-core/hooks';
+import { useAuth, useMessages } from '@nc-core/hooks';
 import {
   DashboardFilledIcon,
   DashboardOutlinedIcon,
@@ -17,7 +17,14 @@ import {
   SettingsFilledIcon,
   SettingsOutlinedIcon,
 } from '@nc-icons';
-import { Avatar, Grid, IconButton, Logo, NotificationsBox } from '@nc-ui';
+import {
+  Avatar,
+  Badge,
+  Grid,
+  IconButton,
+  Logo,
+  NotificationsBox,
+} from '@nc-ui';
 import clsx from 'clsx';
 import { Link, useLocation } from 'react-router-dom';
 import classes from './Sidebar.module.sass';
@@ -28,6 +35,7 @@ export interface SidebarProps {
 
 export function Sidebar({ withHeader }: SidebarProps): JSX.Element {
   const { data: meData, logOut } = useAuth();
+  const { unreadChats } = useMessages();
   const location = useLocation();
 
   function isActive(pathname: string): boolean {
@@ -67,7 +75,13 @@ export function Sidebar({ withHeader }: SidebarProps): JSX.Element {
                 {isActive(CHAT_ROUTE) ? (
                   <DashboardFilledIcon />
                 ) : (
-                  <DashboardOutlinedIcon />
+                  <>
+                    <Badge
+                      className={classes.sidebar__nav__item__badge}
+                      counter={unreadChats}
+                    />
+                    <DashboardOutlinedIcon />
+                  </>
                 )}
               </Link>
             </li>
