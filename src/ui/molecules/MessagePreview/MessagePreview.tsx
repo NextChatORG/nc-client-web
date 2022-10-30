@@ -53,7 +53,7 @@ export function MessagePreview({
                 {messageDateDaysDiff === -1
                   ? 'Ayer'
                   : format(
-                      messageDate,
+                      new Date(data.lastMessage.createdAt),
                       messageDateDaysDiff === 0
                         ? 'hh:mm a'
                         : `dd/MM${messageDateYearsDiff === 0 ? '' : '/yy'}`,
