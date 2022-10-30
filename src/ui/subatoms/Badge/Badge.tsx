@@ -13,7 +13,9 @@ export function Badge({
   color = 'primary',
   counter,
   style,
-}: BadgeProps): JSX.Element {
+}: BadgeProps): JSX.Element | null {
+  if (counter === 0) return null;
+
   return (
     <div
       className={clsx(
