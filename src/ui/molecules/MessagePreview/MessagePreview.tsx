@@ -22,9 +22,11 @@ export function MessagePreview({
   const user = data.chat.toId === meData.id ? data.chat.user : data.chat.toUser;
   if (!user) return null;
 
-  const messageDate = new Date(data.lastMessage.createdAt);
-  const messageDateDaysDiff = differenceInDays(messageDate, new Date());
-  const messageDateYearsDiff = differenceInYears(messageDate, new Date());
+  const messageDate = new Date(data.lastMessage.createdAt).setHours(0, 0, 0, 0);
+  const currentDate = new Date().setHours(0, 0, 0, 0);
+
+  const messageDateDaysDiff = differenceInDays(messageDate, currentDate);
+  const messageDateYearsDiff = differenceInYears(messageDate, currentDate);
 
   return (
     <Link
@@ -48,7 +50,7 @@ export function MessagePreview({
             </Grid>
             <Grid item>
               <Typography fontSize={12}>
-                {messageDateDaysDiff === 1
+                {messageDateDaysDiff === -1
                   ? 'Ayer'
                   : format(
                       messageDate,
