@@ -3,7 +3,7 @@ import { useAuth } from '@nc-core/hooks';
 import { RecentChat } from '@nc-core/interfaces/api';
 import { Avatar, Badge, Grid, Typography } from '@nc-ui';
 import clsx from 'clsx';
-import { format } from 'date-fns';
+import { differenceInDays, differenceInYears, format } from 'date-fns';
 import { Link, useLocation } from 'react-router-dom';
 import classes from './MessagePreview.module.sass';
 
@@ -21,6 +21,10 @@ export function MessagePreview({
 
   const user = data.chat.toId === meData.id ? data.chat.user : data.chat.toUser;
   if (!user) return null;
+
+  const messageDate = new Date(data.lastMessage.createdAt);
+  const messageDateDaysDiff = differenceInDays(messageDate, new Date());
+  const messageDateYearsDiff = differenceInYears(messageDate, new Date());
 
   return (
     <Link
@@ -44,7 +48,14 @@ export function MessagePreview({
             </Grid>
             <Grid item>
               <Typography fontSize={12}>
-                {format(new Date(data.lastMessage.createdAt), 'hh:mm a')}
+                {messageDateDaysDiff === 1
+                  ? 'Ayer'
+                  : format(
+                      messageDate,
+                      messageDateDaysDiff === 0
+                        ? 'hh:mm a'
+                        : `dd/MM${messageDateYearsDiff === 0 ? '' : '/yy'}`,
+                    )}
               </Typography>
             </Grid>
             <Grid item xs={10}>
