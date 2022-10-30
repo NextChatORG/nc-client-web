@@ -1,5 +1,6 @@
 import { useMessages } from '@nc-core/hooks';
 import {
+  Badge,
   ChatBox,
   Content,
   Grid,
@@ -12,7 +13,7 @@ import {
 import { useParams } from 'react-router-dom';
 
 export default function Chat(): JSX.Element {
-  const { recentChats } = useMessages();
+  const { recentChats, unreadChats } = useMessages();
   const { chatId } = useParams();
 
   return (
@@ -31,10 +32,16 @@ export default function Chat(): JSX.Element {
                 <Typography
                   withLetterSpacing
                   component="h3"
-                  style={{ padding: '16px 24px' }}
+                  style={{
+                    alignItems: 'center',
+                    display: 'flex',
+                    gap: 8,
+                    padding: '16px 24px',
+                  }}
                   variant="title"
                 >
                   Conversaciones
+                  <Badge counter={unreadChats} />
                 </Typography>
                 {recentChats.length > 0 ? (
                   recentChats.map((recentChat, i) => (
