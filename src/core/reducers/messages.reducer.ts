@@ -8,11 +8,13 @@ import {
 export interface MessagesReducerState {
   chats: { [key: ObjectId]: { chat?: UserChat; messages: UserMessage[] } };
   recentChats: RecentChat[];
+  serviceWorker: ServiceWorkerRegistration | null;
 }
 
 export const MESSAGES_REDUCER_INITIAL_STATE: MessagesReducerState = {
   chats: {},
   recentChats: [],
+  serviceWorker: null,
 };
 
 interface AppendUserChatAction {
@@ -35,11 +37,22 @@ interface SetRecentChatsAction {
   payload: RecentChat[];
 }
 
+interface SetServiceWorkerAction {
+  type: 'set-service-worker';
+  payload: ServiceWorkerRegistration | null;
+}
+
+interface ResetAction {
+  type: 'reset';
+}
+
 export type MessagesReducerActions =
   | AppendUserChatAction
   | AppendUserMessageAction
   | ReadAllMessagesAction
-  | SetRecentChatsAction;
+  | SetRecentChatsAction
+  | SetServiceWorkerAction
+  | ResetAction;
 
 export function messagesReducer(
   state: MessagesReducerState,
@@ -101,6 +114,12 @@ export function messagesReducer(
 
     case 'set-recent-chats':
       return { ...state, recentChats: action.payload };
+
+    case 'set-service-worker':
+      return { ...state, serviceWorker: action.payload };
+
+    case 'reset':
+      return MESSAGES_REDUCER_INITIAL_STATE;
 
     default:
       return state;
