@@ -77,10 +77,10 @@ export interface ChangeUsernameResponse {
 }
 
 export interface CreatePushVariables {
-  auth_key: string;
+  authKey: string;
   endpoint: string;
   expirationTime?: number;
-  p256dh_key: string;
+  p256dhKey: string;
 }
 
 export interface CreatePushResponse {

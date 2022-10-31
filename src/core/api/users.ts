@@ -69,16 +69,16 @@ export const CHANGE_USERNAME_MUTATION = gql`
 
 export const CREATE_PUSH_MUTATION = gql`
   mutation createPush(
-    $auth_key: String!
+    $authKey: String!
     $endpoint: String!
     $expirationTime: Float
-    $p256dh_key: String!
+    $p256dhKey: String!
   ) {
     createPush(
-      auth_key: $auth_key
+      authKey: $authKey
       endpoint: $endpoint
       expirationTime: $expirationTime
-      p256dh_key: $p256dh_key
+      p256dhKey: $p256dhKey
     ) {
       endpoint
     }
