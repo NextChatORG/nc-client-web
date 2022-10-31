@@ -105,11 +105,11 @@ export default function App({
                   if (data.keys) {
                     createPush({
                       variables: {
-                        auth_key: data.keys['auth'],
+                        authKey: data.keys['auth'],
                         endpoint: subscription.endpoint,
                         expirationTime:
                           subscription.expirationTime ?? undefined,
-                        p256dh_key: data.keys['p256dh'],
+                        p256dhKey: data.keys['p256dh'],
                       },
                     });
                   }
