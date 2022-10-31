@@ -1,10 +1,13 @@
 import {
+  DELETE_PUSH_BY_ENDPOINT_MUTATION,
   GET_CHAT_AND_MESSAGES_QUERY,
   GET_RECENT_CHATS_QUERY,
   READ_ALL_MESSAGES_MUTATION,
 } from '@nc-core/api';
 import { MessagesContext } from '@nc-core/contexts';
 import {
+  DeletePushByEndpointResponse,
+  DeletePushByEndpointVariables,
   GetChatAndMessagesResponse,
   GetChatAndMessagesVariables,
   GetRecentChatsResponse,
@@ -25,9 +28,11 @@ export interface MessagesHookProps {
 
 export interface MessagesHook {
   chats: { [key: ObjectId]: { chat?: UserChat; messages: UserMessage[] } };
+  serviceWorker: ServiceWorkerRegistration | null;
   recentChats: RecentChat[];
   unreadChats: number;
   appendMessage(message: UserMessage): void;
+  dispose(): Promise<void>;
   loadChat(chatId: ObjectId): Promise<GetChatAndMessagesResponse | undefined>;
   loadRecentChats(): Promise<void>;
   readAllMessages(chatId: ObjectId, userId: ObjectId): Promise<void>;
@@ -78,9 +83,15 @@ export function useMessages(props?: MessagesHookProps): MessagesHook {
     },
   });
 
+  const [deletePushByEndpoint] = useMutation<
+    DeletePushByEndpointResponse,
+    DeletePushByEndpointVariables
+  >(DELETE_PUSH_BY_ENDPOINT_MUTATION);
+
   return {
     chats: state.chats,
     recentChats: state.recentChats,
+    serviceWorker: state.serviceWorker,
     unreadChats: state.recentChats.reduce(
       (prev, cur) => prev + (cur.unread > 0 ? 1 : 0),
       0,
@@ -89,6 +100,17 @@ export function useMessages(props?: MessagesHookProps): MessagesHook {
       if (!dispatch) return;
 
       dispatch({ type: 'append-user-message', payload });
+    },
+    async dispose() {
+      if (state.serviceWorker) {
+        const sub = await state.serviceWorker.pushManager.getSubscription();
+        if (sub?.endpoint) {
+          await deletePushByEndpoint({ variables: { endpoint: sub.endpoint } });
+          await sub.unsubscribe();
+        }
+      }
+
+      if (dispatch) dispatch({ type: 'reset' });
     },
     async loadChat(chatId) {
       const { data } = await fetchChatAndMessages({ variables: { chatId } });

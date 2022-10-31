@@ -49,6 +49,10 @@ export interface GetProfileResponse {
   getProfile: UserProfile;
 }
 
+export interface GetWebPushPublicKeyResponse {
+  getWebPushPublicKey: string;
+}
+
 export interface ChangePasswordVariables {
   code?: string;
   confirmNewPassword: string;
@@ -70,6 +74,25 @@ export interface ChangeUsernameResponse {
     accessToken: string;
     profile: UserProfile;
   };
+}
+
+export interface CreatePushVariables {
+  auth_key: string;
+  endpoint: string;
+  expirationTime?: number;
+  p256dh_key: string;
+}
+
+export interface CreatePushResponse {
+  createPush: { endpoint: string };
+}
+
+export interface DeletePushByEndpointVariables {
+  endpoint: string;
+}
+
+export interface DeletePushByEndpointResponse {
+  deletePushByEndpoint: boolean;
 }
 
 export interface ProfileActionsChangedVariables {

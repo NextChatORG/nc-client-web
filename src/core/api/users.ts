@@ -21,6 +21,12 @@ export const GET_PROFILE_QUERY = gql`
   }
 `;
 
+export const GET_WEB_PUSH_PUBLIC_KEY_QUERY = gql`
+  query getWebPushPublicKey {
+    getWebPushPublicKey
+  }
+`;
+
 export const CHANGE_PASSWORD_MUTATION = gql`
   mutation changePassword(
     $code: String
@@ -58,6 +64,30 @@ export const CHANGE_USERNAME_MUTATION = gql`
         }
       }
     }
+  }
+`;
+
+export const CREATE_PUSH_MUTATION = gql`
+  mutation createPush(
+    $auth_key: String!
+    $endpoint: String!
+    $expirationTime: Float
+    $p256dh_key: String!
+  ) {
+    createPush(
+      auth_key: $auth_key
+      endpoint: $endpoint
+      expirationTime: $expirationTime
+      p256dh_key: $p256dh_key
+    ) {
+      endpoint
+    }
+  }
+`;
+
+export const DELETE_PUSH_BY_ENDPOINT_MUTATION = gql`
+  mutation deletePushByEndpoint($endpoint: String!) {
+    deletePushByEndpoint(endpoint: $endpoint)
   }
 `;
 

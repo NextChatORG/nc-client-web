@@ -19,6 +19,7 @@ import { GraphQLParsedErrors } from '@nc-core/utils';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLazyQuery } from './useLazyQuery';
+import { useMessages } from './useMessages';
 import { useMutation } from './useMutation';
 
 export interface AuthHookProps {
@@ -40,6 +41,7 @@ export interface AuthHook {
 
 export function useAuth(props?: AuthHookProps): AuthHook {
   const { dispatch, state } = useContext(AuthContext);
+  const { dispose: disposeMessages } = useMessages();
   const navigate = useNavigate();
 
   const [logIn] = useMutation<LogInResponse, LogInVariables>(LOGIN_MUTATION, {
@@ -98,7 +100,9 @@ export function useAuth(props?: AuthHookProps): AuthHook {
     async logInTwoFactor(variables) {
       await logInTwoFactor({ variables });
     },
-    logOut() {
+    async logOut() {
+      disposeMessages();
+
       localStorage.removeItem(JWT_TOKEN);
 
       if (!dispatch) return;
