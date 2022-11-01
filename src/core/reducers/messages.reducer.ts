@@ -59,58 +59,83 @@ export function messagesReducer(
   action: MessagesReducerActions,
 ): MessagesReducerState {
   switch (action.type) {
-    case 'append-user-chat':
+    case 'append-user-chat': {
+      const chatId = action.payload.chat.id;
+
+      if (state.chats[chatId]) {
+        const chats = Object.entries(state.chats).reduce(
+          (prev, [currentChatId, { chat, messages }]) => {
+            if (chatId === currentChatId) {
+              chat = action.payload.chat;
+              messages = action.payload.messages.concat(messages);
+            }
+
+            return {
+              ...prev,
+              [currentChatId]: { chat, messages },
+            };
+          },
+          {},
+        );
+
+        return { ...state, chats };
+      }
+
+      return { ...state, chats: { ...state.chats, [chatId]: action.payload } };
+    }
+
+    case 'append-user-message': {
+      const { chatId } = action.payload;
+
+      if (state.chats[chatId]) {
+        const chats = Object.entries(state.chats).reduce(
+          (prev, [currentChatId, { chat, messages }]) => {
+            if (chatId === currentChatId) {
+              return {
+                ...prev,
+                [currentChatId]: {
+                  chat,
+                  messages: [...messages, action.payload],
+                },
+              };
+            }
+
+            return { ...prev, [currentChatId]: { chat, messages } };
+          },
+          {},
+        );
+
+        return { ...state, chats };
+      }
+
       return {
         ...state,
-        chats: {
-          ...state.chats,
-          [action.payload.chat.id]: {
-            chat: action.payload.chat,
-            messages: [
-              ...action.payload.messages,
-              ...(state.chats[action.payload.chat.id]?.messages ?? []),
-            ],
-          },
-        },
+        chats: { ...state.chats, [chatId]: { messages: [action.payload] } },
       };
+    }
 
-    case 'append-user-message':
-      return {
-        ...state,
-        chats: {
-          ...state.chats,
-          [action.payload.chatId]: {
-            chat: state.chats[action.payload.chatId]?.chat,
-            messages: [
-              ...(state.chats[action.payload.chatId]?.messages ?? []),
-              action.payload,
-            ],
-          },
+    case 'read-all-messages': {
+      const { chatId } = action.payload;
+
+      const chats = Object.entries(state.chats).reduce(
+        (prev, [currentChatId, { chat, messages }]) => {
+          if (chatId === currentChatId) {
+            messages = messages.map((message) => {
+              if (!message.read && message.senderId !== action.payload.userId) {
+                message.read = true;
+              }
+
+              return message;
+            });
+          }
+
+          return { ...prev, [currentChatId]: { chat, messages } };
         },
-      };
+        {},
+      );
 
-    case 'read-all-messages':
-      return {
-        ...state,
-        chats: {
-          ...state.chats,
-          [action.payload.chatId]: {
-            chat: state.chats[action.payload.chatId]?.chat,
-            messages: (state.chats[action.payload.chatId]?.messages ?? []).map(
-              (message) => {
-                if (
-                  !message.read &&
-                  message.senderId !== action.payload.userId
-                ) {
-                  return { ...message, read: true };
-                }
-
-                return message;
-              },
-            ),
-          },
-        },
-      };
+      return { ...state, chats };
+    }
 
     case 'set-recent-chats':
       return { ...state, recentChats: action.payload };
