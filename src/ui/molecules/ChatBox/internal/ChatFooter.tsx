@@ -35,10 +35,6 @@ export default function ChatFooter({
       setMessageContent('');
 
       loadRecentChats();
-
-      setTimeout(() => {
-        if (messagesInputRef.current) messagesInputRef.current.focus();
-      }, 100);
     },
   });
 
@@ -51,9 +47,11 @@ export default function ChatFooter({
   }
 
   function handleInputKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (e.key === 'Enter' && messageContent.length > 0) {
-      sendPrivateMessage({ variables: { chatId, content: messageContent } });
+    if (e.key !== 'Enter' || sendingPrivateMessage || !messageContent) {
+      return;
     }
+
+    sendPrivateMessage({ variables: { chatId, content: messageContent } });
   }
 
   return (
@@ -63,7 +61,6 @@ export default function ChatFooter({
           <input
             autoComplete="off"
             className={classes.chatBox__footer__input}
-            disabled={sendingPrivateMessage}
             onChange={handleInputChange}
             onFocus={handleInputFocus}
             onKeyDown={handleInputKeyDown}
