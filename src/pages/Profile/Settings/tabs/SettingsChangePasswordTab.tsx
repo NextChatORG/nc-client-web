@@ -74,8 +74,8 @@ export default function SettingsChangePasswordTab(): JSX.Element {
 
   const changePasswordDiff = meData?.settings?.lastPasswordChanged
     ? differenceInDays(
-        new Date(meData.settings.lastPasswordChanged),
         new Date(),
+        new Date(meData.settings.lastPasswordChanged),
       )
     : 16;
 

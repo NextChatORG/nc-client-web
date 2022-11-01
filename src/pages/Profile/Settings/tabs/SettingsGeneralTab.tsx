@@ -207,8 +207,8 @@ export default function SettingsGeneralTab(): JSX.Element {
 
   const changeUsernameDiff = meData?.settings?.lastUsernameChanged
     ? differenceInDays(
-        new Date(meData.settings.lastUsernameChanged),
         new Date(),
+        new Date(meData.settings.lastUsernameChanged),
       )
     : 60;
 

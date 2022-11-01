@@ -187,7 +187,7 @@ export default function Profile(): JSX.Element {
   return (
     <MainTemplate withHeader>
       {outlet}
-      {profileData && (
+      {profileData && !outlet && (
         <>
           <Grid item xs={3}>
             <Content className={classes.profile__leftContent}>
