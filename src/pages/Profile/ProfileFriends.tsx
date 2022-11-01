@@ -30,7 +30,7 @@ export default function ProfileFriends({
   const [getFriends, { loading }] = useLazyQuery<
     GetFriendsResponse,
     GetFriendsVariables
-  >(GET_FRIENDS_QUERY);
+  >(GET_FRIENDS_QUERY, { fetchPolicy: 'network-only' });
 
   async function fetchMoreFriends(page: number) {
     const { data } = await getFriends({
@@ -69,6 +69,14 @@ export default function ProfileFriends({
   useEffect(() => {
     fetchMoreFriends(0);
   }, []);
+
+  useEffect(() => {
+    setInfiniteScrollStatus(false);
+    setFriends([]);
+    setPage(0);
+
+    fetchMoreFriends(0);
+  }, [userId]);
 
   return (
     <Content>
