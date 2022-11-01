@@ -53,7 +53,7 @@ export default function App({
 
   const [loading, setLoading] = useState<boolean>(!authState.requireTwoFactor);
 
-  const { appendMessage, loadRecentChats } = useMessages();
+  const { appendMessage, loadRecentChats, serviceWorker } = useMessages();
 
   const [generateWebPushPublicKey] = useLazyQuery<GetWebPushPublicKeyResponse>(
     GET_WEB_PUSH_PUBLIC_KEY_QUERY,
@@ -115,7 +115,19 @@ export default function App({
                   }
                 }
               })
-              .catch(console.error);
+              .catch((err) => {
+                if (
+                  err instanceof DOMException &&
+                  err.message.includes('Registration failed')
+                ) {
+                  console.warn(
+                    'Using Notification API - Push Manager does not work',
+                  );
+                  return;
+                }
+
+                console.error(err);
+              });
           }
         }
 
@@ -132,6 +144,16 @@ export default function App({
             appendMessage(message);
 
             if (message.senderId !== prev.getProfile.id) {
+              if (!serviceWorker) {
+                new Notification(
+                  `${message.senderUser?.username} te ha enviado un mensaje`,
+                  {
+                    body: message.content,
+                    icon: message.senderUser?.profileImage,
+                  },
+                );
+              }
+
               const sound = document.createElement('audio');
 
               sound.src = '/sounds/new_message.mp3';
