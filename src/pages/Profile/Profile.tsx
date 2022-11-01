@@ -140,8 +140,13 @@ export default function Profile(): JSX.Element {
     return declineFriendRequest({ variables: { userId: profileData.id } });
   }
 
-  const profileData = username ? userData?.getProfile ?? null : meData;
   const isMe = username === meData?.username;
+
+  const profileData = username
+    ? isMe
+      ? meData
+      : userData?.getProfile ?? null
+    : meData;
 
   useEffect(() => {
     if (username && username.length >= 4 && !isMe) {
