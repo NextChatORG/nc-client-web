@@ -1,9 +1,8 @@
 import { useAuth } from '@nc-core/hooks';
-import { Footer, Grid, Header, Typography } from '@nc-ui';
+import { Footer, Header } from '@nc-ui';
 import clsx from 'clsx';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MainTemplate } from '../';
-import classes from './InformationTemplate.module.sass';
 
 interface TOCData {
   children: TOCData[];
@@ -46,20 +45,14 @@ export function InformationTemplate({
 
   function renderTitle(title: TOCData, i: number): React.ReactElement {
     return (
-      <li
-        className={classes.informationTemplate__nav__ul__li}
-        key={`nav_item_${i}_${title.id}`}
-      >
+      <li key={`nav_item_${i}_${title.id}`}>
         <a
-          className={classes.informationTemplate__nav__ul__li__a}
+          className="block tracking-wide hover:font-bold hover:no-underline"
           dangerouslySetInnerHTML={{ __html: title.content }}
           href={`#${title.id}`}
         />
         {title.children.length > 0 && (
-          <ul
-            className={classes.informationTemplate__nav__ul}
-            data-level={title.level + 1}
-          >
+          <ul className="flex flex-col gap-[8px] pl-1 not-first:mt-[8px]">
             {title.children.map(renderTitle)}
           </ul>
         )}
@@ -69,44 +62,32 @@ export function InformationTemplate({
 
   const content = (
     <div
-      className={clsx(classes.informationTemplate, {
-        [classes['informationTemplate--logged']]: isLogged,
-      })}
+      className={clsx(
+        '<md:(flex flex-wrap gap-y-2) lg:(flex flex-wrap items-start)',
+        isLogged ? 'p-4' : 'px-2 sm:px-5 pb-3 sm:pb-6 pt-1 sm:pt-2',
+      )}
     >
-      <Grid
-        container
-        direction={isLogged ? 'row-reverse' : undefined}
-        spacing={isLogged ? 48 : 60}
+      <nav
+        className={clsx(
+          'basis-full @md:(float-left mr-3 mb-2) bg-black/25 rounded-2xl p-2',
+          'lg:(basis-1/3 sticky top-2) xl:basis-1/4',
+        )}
       >
-        <Grid item xs={3}>
-          <nav className={classes.informationTemplate__nav}>
-            <Typography
-              withLetterSpacing
-              className={classes.informationTemplate__nav__title}
-              variant="title"
-            >
-              Navegación
-            </Typography>
-            <ul className={classes.informationTemplate__nav__ul} data-level="1">
-              {titles.map(renderTitle)}
-            </ul>
-          </nav>
-        </Grid>
-        <Grid item xs={9}>
-          <div className={classes.informationTemplate__markdown}>
-            {markdown}
-          </div>
-        </Grid>
-      </Grid>
+        <h2 className="block text-title text-center tracking-wide border-b-1 border-white/10 pb-[18px] mb-2">
+          Navegación
+        </h2>
+        <ul className="flex flex-col gap-[8px]">{titles.map(renderTitle)}</ul>
+      </nav>
+      <div className="markdown basis-full <lg:px-1 lg:(basis-2/3 pl-3 pt-1) xl:basis-3/4">
+        {markdown}
+      </div>
     </div>
   );
 
   if (isLogged) {
     return (
       <MainTemplate noPadding>
-        <Grid item xs={12}>
-          {content}
-        </Grid>
+        <section className="basis-full">{content}</section>
         <Footer />
       </MainTemplate>
     );

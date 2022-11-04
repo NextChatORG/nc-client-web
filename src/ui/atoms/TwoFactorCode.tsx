@@ -37,7 +37,7 @@ export function TwoFactorCode({
       })}
       disabled={state === 'loading'}
       id="two-factor-code"
-      inputClassName="twoFactorCode caret-transparent"
+      inputClassName="caret-transparent selection:bg-transparent"
       inputMode="numeric"
       inputRef={inputRef}
       length={6}
