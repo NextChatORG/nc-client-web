@@ -11,13 +11,19 @@ import {
 } from '@nc-core/constants/routes';
 import { OpenInNewIcon } from '@nc-icons';
 import { Button, Footer, Header, LandingFeature } from '@nc-ui';
+import clsx from 'clsx';
 import Lottie from 'lottie-react';
-import classes from './Landing.module.sass';
 
 export default function LandingView(): JSX.Element {
   return (
-    <div className={classes.landing}>
-      <section className={classes.landing__firstSection}>
+    <>
+      <section
+        className={clsx(
+          'relative bg-primary sm:rounded-bl-[50%_20%] sm:rounded-br-[50%_20%]',
+          'h-[450px] sm:h-[520px] xl:h-[550px]',
+          'mb-[22%] sm:mb-[23%] lg:mb-[27%] xl:mb-[20.5%]',
+        )}
+      >
         <Header
           auth={{
             navButtons: [
@@ -38,8 +44,21 @@ export default function LandingView(): JSX.Element {
             ],
           }}
         />
-        <div className={classes.landing__firstSection__content}>
-          <p>¡Conecta con otras personas alrededor del mundo!</p>
+        <div
+          className={clsx(
+            'relative flex flex-col items-center justify-center gap-2 px-2 z-[2]',
+            'mt-1 sm:mt-2',
+          )}
+        >
+          <p
+            className={clsx(
+              'text-[20px] text-center font-medium',
+              'sm:text-[30px] sm:max-w-[60%] lg:max-w-[40%]',
+              'xl:text-[32px] xl:max-w-[40%]',
+            )}
+          >
+            ¡Conecta con otras personas alrededor del mundo!
+          </p>
           <Button
             external
             link
@@ -51,11 +70,20 @@ export default function LandingView(): JSX.Element {
             Conoce el programa Beta
           </Button>
         </div>
-        <div className={classes.landing__firstSection__previews}>
-          <div className={classes.landing__firstSection__previews__desktop} />
+        <div
+          className={clsx(
+            'absolute w-full flex items-center justify-center z-[2]',
+            'mt-4 lg:mt-6',
+          )}
+        >
+          <img
+            alt="NextChat Desktop preview"
+            className="rounded-xl shadow-md shadow-black/75 w-[90%] sm:w-[85%] lg:w-[80%] xl:w-[60%]"
+            src="/images/screenshots/chat_desktop_screenshot.jpeg"
+          />
         </div>
       </section>
-      <section className={classes.landing__secondSection}>
+      <section className="flex flex-col items-center gap-6 px-2 sm:px-4 pb-6">
         <LandingFeature
           action={{
             color: 'white',
@@ -100,6 +128,6 @@ export default function LandingView(): JSX.Element {
           variant: 'outlined',
         }}
       />
-    </div>
+    </>
   );
 }

@@ -7,8 +7,9 @@ import { ToastContainer } from 'react-toastify';
 import App, { AppContexts } from './App';
 import router from './Router';
 
-import '@nc-core/styles/global.sass';
+import '@nc-core/styles/global.css';
 import 'react-toastify/dist/ReactToastify.min.css';
+import 'virtual:windi.css';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,

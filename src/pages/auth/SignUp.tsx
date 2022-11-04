@@ -92,8 +92,12 @@ export default function SignUp(): JSX.Element {
       figure={{
         caption:
           'Deberás recordar muy bien tu contraseña, solo podrás recuperarla con uno de los códigos que te daremos al finalizar el registro.',
-        image: <Lottie animationData={CompleteTasksAnimationData} />,
-        xs: 8,
+        image: (
+          <Lottie
+            animationData={CompleteTasksAnimationData}
+            className="-mb-4 sm:-mb-2 lg:-mb-4 xl:-mb-6 -mt-4 sm:-mt-2 lg:-mt-4 xl:-mt-6"
+          />
+        ),
       }}
       handleSubmit={handleSubmit(signUp)}
       navButtons={[

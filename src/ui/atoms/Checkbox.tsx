@@ -7,7 +7,6 @@ import {
   Path,
   PathValue,
 } from 'react-hook-form';
-import classes from './Checkbox.module.sass';
 
 export interface CheckboxProps<TForm extends FieldValues> {
   control: Control<TForm>;
@@ -49,37 +48,33 @@ export function Checkbox<TForm extends FieldValues>({
         required: { message: 'Campo requerido', value: required },
       }}
       render={({ field: { onChange, value }, fieldState: { error } }) => (
-        <div
-          className={clsx(classes.checkbox, {
-            [classes['checkbox--error']]: Boolean(error?.message),
-          })}
-          id={id}
-          style={style}
-        >
+        <div className="flex items-center gap-[8px]" id={id} style={style}>
           <input
             readOnly
             checked={value}
-            className={classes.checkbox__input}
+            className="checkbox__input hidden"
             id={`${id}-input`}
             type="checkbox"
           />
           <button
-            className={classes.checkbox__check}
+            className="checkbox__input__check transition-colors bg-white leading-[0.5] rounded-[6px] cursor-pointer h-[20px] w-[20px]"
             onClick={handleCheckboxClick(onChange, value)}
             type="button"
           >
             ✔
           </button>
-          <div className={classes.checkbox__text}>
+          <div
+            className={clsx('flex items-center gap-[0.05em]', {
+              'text-red-500': Boolean(error),
+            })}
+          >
             <label
-              className={classes.checkbox__text__label}
+              className="text-[13px] leading-[0.05em]"
               htmlFor={`${id}-input`}
             >
               {label}
             </label>
-            {required && (
-              <span className={classes.checkbox__text__required}>*</span>
-            )}
+            {required && <span>*</span>}
           </div>
         </div>
       )}

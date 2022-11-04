@@ -39,8 +39,8 @@ export default function LogIn(): JSX.Element {
         image: (
           <img
             alt="Planeta con las 4 estaciones (Primavera, verano, otoño, invierno) y un océano en un fondo estrellado con una luna menguante"
+            className="mb-1 lg:mb-2"
             src="/images/planet.png"
-            style={{ marginBottom: 32 }}
           />
         ),
       }}

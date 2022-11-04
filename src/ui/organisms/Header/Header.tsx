@@ -8,6 +8,7 @@ import {
   NotificationsBox,
   Search,
 } from '@nc-ui';
+import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 import classes from './Header.module.sass';
 
@@ -24,27 +25,24 @@ export function Header({ auth }: HeaderProps): JSX.Element {
     const { navButtons } = auth;
 
     return (
-      <header className={classes.authHeader}>
-        <Grid container alignItems="center" justifyContent="space-between">
-          <Grid item>
-            <Link to="/">
-              <Logo color="white" />
-            </Link>
-          </Grid>
-          <Grid item>
-            {navButtons && navButtons.length > 0 && (
-              <nav className={classes.authHeader__nav}>
-                <ul className={classes.authHeader__nav__items}>
-                  {navButtons.map((props, i) => (
-                    <Button {...props} key={`nav_button_${i}`}>
-                      {props.message}
-                    </Button>
-                  ))}
-                </ul>
-              </nav>
-            )}
-          </Grid>
-        </Grid>
+      <header
+        className={clsx(
+          'p-2 flex flex-col items-center justify-center gap-1',
+          'sm:flex-row sm:justify-between md:px-5',
+        )}
+      >
+        <Link className="!no-underline" to="/">
+          <Logo color="white" />
+        </Link>
+        {navButtons && navButtons.length > 0 && (
+          <nav className="flex items-center gap-1">
+            {navButtons.map((props, i) => (
+              <Button {...props} key={`nav_button_${i}`}>
+                {props.message}
+              </Button>
+            ))}
+          </nav>
+        )}
       </header>
     );
   }

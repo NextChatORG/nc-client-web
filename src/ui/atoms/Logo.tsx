@@ -1,6 +1,5 @@
 import { NextChatIcon } from '@nc-icons';
 import clsx from 'clsx';
-import classes from './Logo.module.sass';
 
 export interface LogoProps {
   color?: 'primary' | 'white';
@@ -17,15 +16,18 @@ export function Logo({
 }: LogoProps): JSX.Element {
   return (
     <div
-      className={clsx(classes.logo, {
-        [classes['logo--colorPrimary']]: color === 'primary',
-        [classes['logo--colorWhite']]: color === 'white',
+      className={clsx('flex items-center gap-1', {
+        'text-primary': color === 'primary',
       })}
       id={id}
     >
       <NextChatIcon id={`${id}-icon`} size={size === 'big' ? 120 : 45} />
       {!onlyIcon && (
-        <h1 id={`${id}-text`} style={{ fontSize: size === 'big' ? 108 : 36 }}>
+        <h1
+          className="font-bold"
+          id={id && `${id}-text`}
+          style={{ fontSize: size === 'big' ? 108 : 36 }}
+        >
           NextChat
         </h1>
       )}
