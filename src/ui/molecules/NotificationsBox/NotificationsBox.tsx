@@ -17,7 +17,7 @@ import {
   RemoveNotificationResponse,
 } from '@nc-core/interfaces/api';
 import { NotificationsFilledIcon, NotificationsOutlinedIcon } from '@nc-icons';
-import { Button, Content, Grid, IconButton, Loading, Typography } from '@nc-ui';
+import { Button, Content, Grid, Loading, Typography } from '@nc-ui';
 import clsx from 'clsx';
 import { compareDesc } from 'date-fns';
 import { useEffect, useState } from 'react';
@@ -26,10 +26,12 @@ import classes from './NotificationsBox.module.sass';
 import ServerMessageNotification from './ServerMessageNotification';
 
 export interface NotificationsBoxProps {
+  className?: string;
   direction?: 'right-bottom' | 'right-center';
 }
 
 export function NotificationsBox({
+  className,
   direction = 'right-bottom',
 }: NotificationsBoxProps): JSX.Element | null {
   const [notificationsEl, setNotificationsEl] =
@@ -123,19 +125,18 @@ export function NotificationsBox({
 
   return (
     <>
-      <IconButton
-        active={Boolean(notificationsEl)}
+      <Button
+        className={className}
         color="white"
-        counter={unreadNotifications.length}
         onClick={handleNotificationsClick}
-        variant="transparent"
+        variant="icon"
       >
         {notificationsEl ? (
           <NotificationsFilledIcon />
         ) : (
           <NotificationsOutlinedIcon />
         )}
-      </IconButton>
+      </Button>
       {notificationsEl && (
         <Content
           noPadding

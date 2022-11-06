@@ -1,9 +1,17 @@
-import { ButtonColors } from '@nc-core/interfaces/ui';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-type ButtonVariants = 'contained' | 'input-icon' | 'outlined' | 'text';
+export type ButtonColors =
+  | 'dark'
+  | 'error'
+  | 'primary'
+  | 'success'
+  | 'warning'
+  | 'white';
+
+export type ButtonVariants = 'contained' | 'icon' | 'outlined' | 'text';
+export type ButtonSizes = 'extra-small' | 'normal' | 'small';
 
 interface ButtonCommonProps {
   className?: string;
@@ -12,7 +20,7 @@ interface ButtonCommonProps {
   endIcon?: React.ReactNode;
   fullWidth?: boolean;
   loading?: boolean;
-  size?: 'extra-small' | 'normal' | 'small';
+  size?: ButtonSizes;
   startIcon?: React.ReactNode;
   style?: React.CSSProperties;
   type?: 'button' | 'submit' | 'reset';
@@ -34,16 +42,33 @@ export type ButtonProps = ButtonLinkProps | ButtonNormalProps;
 
 export type ButtonPropsWithMessage = ButtonProps & { message: string };
 
-const BUTTON_SIZES = {
-  'extra-small': '',
-  normal: 'px-3 py-1',
-  small: 'px-[18px] py-[6px]',
+const BUTTON_SIZES: {
+  [key in ButtonSizes]: { [key in ButtonVariants]: string };
+} = {
+  'extra-small': {
+    contained: '',
+    icon: '',
+    outlined: '',
+    text: '',
+  },
+  normal: {
+    contained: 'px-3 py-1',
+    icon: 'p-1',
+    outlined: 'px-3 py-1',
+    text: 'px-3 py-1',
+  },
+  small: {
+    contained: 'px-[18px] py-[6px]',
+    icon: '',
+    outlined: 'px-[18px] py-[6px]',
+    text: 'px-[18px] py-[6px]',
+  },
 };
 
-const BUTTON_VARIANTS = {
+const BUTTON_VARIANTS: { [key in ButtonVariants]: string } = {
   contained:
     'rounded-full disabled:bg-dark-500 disabled:text-white disabled:hover:bg-dark-500',
-  'input-icon': 'leading-[0.5] rounded-full !p-[0.5em]',
+  icon: 'leading-[0.5] rounded-full',
   outlined:
     'border rounded-full disabled:border-dark-500 disabled:text-dark-500 disabled:hover:bg-transparent',
   text: 'rounded-full disabled:text-dark-500 disabled:hover:bg-transparent',
@@ -53,13 +78,15 @@ const BUTTON_COLORS: {
   [key in ButtonVariants]: { [key in ButtonColors]: string };
 } = {
   contained: {
+    dark: '',
     error: 'bg-red-500 text-white hover:bg-red-400',
     primary: 'bg-primary text-white hover:bg-indigo-700',
     success: 'bg-green-500 text-white hover:bg-green-400',
     warning: 'bg-orange-500 text-white hover:bg-orange-400',
     white: '',
   },
-  'input-icon': {
+  icon: {
+    dark: '',
     error: 'text-red-500 hover:bg-red-500/5',
     primary: '',
     success: '',
@@ -67,6 +94,7 @@ const BUTTON_COLORS: {
     white: 'text-white hover:bg-white/5',
   },
   outlined: {
+    dark: '',
     error: '',
     primary:
       'border-[silver] text-primary hover:border-primary hover:bg-primary/5',
@@ -75,6 +103,7 @@ const BUTTON_COLORS: {
     white: 'border-white/60 text-white hover:border-white hover:bg-white/5',
   },
   text: {
+    dark: '',
     error: 'text-red-500 hover:bg-red-500/5',
     primary: 'text-primary hover:bg-primary/15',
     success: 'text-green-500 hover:bg-green-500/5',
@@ -87,13 +116,15 @@ const BUTTON_RIPPLE: {
   [key in ButtonVariants]: { [key in ButtonColors]: string };
 } = {
   contained: {
+    dark: '',
     error: 'bg-red-300',
     primary: 'bg-indigo-500',
     success: 'bg-green-300',
     warning: 'bg-orange-300',
     white: '',
   },
-  'input-icon': {
+  icon: {
+    dark: '',
     error: 'bg-red-500/25',
     primary: 'bg-primary/25',
     success: 'bg-green-500/25',
@@ -101,6 +132,7 @@ const BUTTON_RIPPLE: {
     white: 'bg-white/25',
   },
   outlined: {
+    dark: '',
     error: 'bg-red-500/25',
     primary: 'bg-primary/25',
     success: 'bg-green-500/25',
@@ -108,6 +140,7 @@ const BUTTON_RIPPLE: {
     white: 'bg-white/25',
   },
   text: {
+    dark: '',
     error: 'bg-red-500/25',
     primary: 'bg-primary/25',
     success: 'bg-green-500/25',
@@ -161,7 +194,7 @@ export function Button(
         props.className,
         'overflow-hidden relative flex items-center justify-center gap-text transition-colors text-center cursor-hover',
         'disabled:cursor-not-allowed',
-        BUTTON_SIZES[size],
+        BUTTON_SIZES[size][variant],
         BUTTON_VARIANTS[variant],
         BUTTON_COLORS[variant][color],
         { 'w-full': props.fullWidth },
@@ -176,7 +209,7 @@ export function Button(
           className={clsx(
             'animate-ripple h-[20px] w-[20px] absolute rounded-full opacity-100',
             BUTTON_RIPPLE[variant][color],
-            { 'h-[10px] w-[10px]': variant === 'input-icon' },
+            { 'h-[10px] w-[10px]': variant === 'icon' },
           )}
           style={{ left: ripplePos[0], top: ripplePos[1] }}
         />

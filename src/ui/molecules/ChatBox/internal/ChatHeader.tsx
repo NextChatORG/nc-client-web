@@ -1,6 +1,6 @@
 import { User } from '@nc-core/interfaces/api';
 import { MoreVertIcon } from '@nc-icons';
-import { Avatar, Grid, IconButton, Typography } from '@nc-ui';
+import { Avatar, Button, Grid, Typography } from '@nc-ui';
 
 interface ChatHeaderProps {
   classes: CSSModuleClasses;
@@ -29,14 +29,9 @@ export default function ChatHeader({
           </button>
         </Grid>
         <Grid item>
-          <IconButton
-            color="white"
-            onClick={onClick}
-            size="small"
-            variant="transparent"
-          >
+          <Button color="white" onClick={onClick} size="small" variant="icon">
             <MoreVertIcon />
-          </IconButton>
+          </Button>
         </Grid>
       </Grid>
     </div>

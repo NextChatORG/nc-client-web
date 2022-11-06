@@ -26,7 +26,6 @@ import {
   Dialog,
   Divider,
   Grid,
-  IconButton,
   TextField,
   TwoFactorCode,
   TwoFactorCodeStates,
@@ -235,34 +234,34 @@ export default function SettingsGeneralTab(): JSX.Element {
               <div
                 style={{ alignItems: 'center', display: 'flex', gap: '4px' }}
               >
-                <IconButton
+                <Button
                   color="success"
                   onClick={handleSubmit(() =>
                     setConfirmPasswordDialogStatus(true),
                   )}
                   size="small"
-                  variant="transparent"
+                  variant="icon"
                 >
                   <DoneIcon fontSize="1.5em" />
-                </IconButton>
-                <IconButton
+                </Button>
+                <Button
                   color="error"
                   onClick={handleCloseChangeUsername}
                   size="small"
-                  variant="transparent"
+                  variant="icon"
                 >
                   <CloseIcon fontSize="1.5em" />
-                </IconButton>
+                </Button>
               </div>
             ) : (
-              <IconButton
+              <Button
                 color="white"
                 onClick={() => setAction('change_username')}
                 size="small"
-                variant="transparent"
+                variant="icon"
               >
                 <EditIcon size="1.5em" />
-              </IconButton>
+              </Button>
             ))
           }
           helperText={

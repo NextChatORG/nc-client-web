@@ -106,11 +106,21 @@ export function TextField<TForm extends FieldValues>({
           >
             {label && <p>{label}</p>}
             <section
-              className={clsx('flex items-center rounded-full', {
-                [clsx('border-[1px] border-white/12 hover:border-white/25', {
-                  '!border-red-500': hasError,
-                  '!border-primary': focused && !hasError,
-                })]: variant === 'outlined',
+              className={clsx('flex items-center', {
+                [clsx(
+                  'rounded-full border-[1px] border-white/12 hover:border-white/25',
+                  {
+                    '!border-red-500': hasError,
+                    '!border-primary': focused && !hasError,
+                  },
+                )]: variant === 'outlined',
+                [clsx(
+                  'rounded-[26px] bg-black/30 border-1 border-black/50 hover:border-black',
+                  {
+                    '!border-red-500': hasError,
+                    '!border-primary': focused && !hasError,
+                  },
+                )]: variant === 'contained',
               })}
             >
               {hasStartAdorment && (
@@ -145,7 +155,7 @@ export function TextField<TForm extends FieldValues>({
                     <Button
                       color={hasError ? 'error' : 'white'}
                       onClick={handleToggleVisibility}
-                      variant="input-icon"
+                      variant="icon"
                     >
                       {inputType === 'text' ? (
                         <VisibilityOffIcon />
@@ -157,7 +167,7 @@ export function TextField<TForm extends FieldValues>({
                     <Button
                       color={hasError ? 'error' : 'white'}
                       onClick={handleClearValue}
-                      variant="input-icon"
+                      variant="icon"
                     >
                       <CloseIcon />
                     </Button>

@@ -2,6 +2,7 @@ import { NextChatIcon } from '@nc-icons';
 import clsx from 'clsx';
 
 export interface LogoProps {
+  className?: string;
   color?: 'primary' | 'white';
   id?: string;
   onlyIcon?: boolean;
@@ -9,6 +10,7 @@ export interface LogoProps {
 }
 
 export function Logo({
+  className,
   color = 'primary',
   id,
   onlyIcon = false,
@@ -16,7 +18,7 @@ export function Logo({
 }: LogoProps): JSX.Element {
   return (
     <div
-      className={clsx('flex items-center gap-1', {
+      className={clsx(className, 'flex items-center gap-1', {
         'text-primary': color === 'primary',
       })}
       id={id}

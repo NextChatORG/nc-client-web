@@ -1,7 +1,6 @@
 import { Logo } from '@nc-ui';
 import anime from 'animejs';
 import { useEffect } from 'react';
-import classes from './Loader.module.sass';
 
 export function Loader(): JSX.Element {
   useEffect(() => {
@@ -12,8 +11,8 @@ export function Loader(): JSX.Element {
   }, []);
 
   return (
-    <div className={classes.loader}>
-      <Logo id="loader-logo" />
+    <div className="h-[100vh] w-full flex items-center justify-center">
+      <Logo className="transform scale-0" id="loader-logo" />
     </div>
   );
 }

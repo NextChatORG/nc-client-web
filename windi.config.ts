@@ -2,6 +2,17 @@ import { defineConfig } from 'windicss/helpers';
 
 export default defineConfig({
   shortcuts: {
+    avatar: 'rounded-full overflow-hidden',
+    'avatar-big': 'avatar h-[120px] w-[120px]',
+    'avatar-normal': 'avatar h-[45px] w-[45px]',
+    'avatar-small': 'avatar h-[25px] w-[25px]',
+    badge:
+      'rounded-full flex items-center justify-center text-[10px] font-medium',
+    'badge-normal': 'badge h-[18px] w-[18px]',
+    content: 'rounded-lg bg-dark-700 p-2',
+    divider: 'w-full border-1 border-white/20',
+    'text-body': 'text-[14px]',
+    'text-subtitle': 'text-[16px]',
     'text-title': 'text-[20px] font-medium',
   },
   theme: {
@@ -75,6 +86,13 @@ export default defineConfig({
         ripple: 'ripple 0.9s ease 1 forwards',
         shake: 'shake 0.15s ease-in-out 0s 2',
       },
+      boxShadow: {
+        sidebar: '0 0 0 5px #131316',
+        sidebarLeftBottomCorner: '4px 4px 0 4px #1C1C21, 0 0 0 5px #131316',
+        sidebarLeftTopCorner: '4px -4px 0 4px #1C1C21, 0 0 0 5px #131316',
+        sidebarRightBottomCorner: '-4px 4px 0 4px #1C1C21, 0 0 0 5px #131316',
+        sidebarRightTopCorner: '-4px -4px 0 4px #1C1C21, 0 0 0 5px #131316',
+      },
       keyframes: {
         blinkCaret: {
           '50%': { 'background-color': 'transparent' },
@@ -95,6 +113,10 @@ export default defineConfig({
           '25%': { transform: 'translateX(10px)' },
           '75%': { transform: 'translateX(-10px)' },
         },
+      },
+      zIndex: {
+        header: 1000,
+        sidebar: 10000,
       },
     },
     fontFamily: {

@@ -9,6 +9,7 @@ export { default as EditIcon } from './Edit';
 export { default as ExpandLessIcon } from './ExpandLess';
 export { default as ExpandMoreIcon } from './ExpandMore';
 export { default as LogoutIcon } from './Logout';
+export { default as MenuIcon } from './Menu';
 export { default as MoreVertIcon } from './MoreVert';
 export { default as OpenInNewIcon } from './OpenInNew';
 export { default as PersonIcon } from './Person';
