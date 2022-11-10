@@ -7,6 +7,7 @@ export type TwoFactorCodeStates = 'input' | 'loading' | 'error' | 'success';
 export const TWO_FACTOR_CODE_INPUT_SPACING = '10px';
 
 export interface TwoFactorCodeProps {
+  className?: string;
   inputRef: React.RefObject<HTMLInputElement>;
   state: TwoFactorCodeStates;
   onSubmit(code: string): void;
@@ -21,6 +22,7 @@ const GENERAL_SEGMENT_STATE: { [key in TwoFactorCodeStates]: string } = {
 };
 
 export function TwoFactorCode({
+  className,
   inputRef,
   onSubmit,
   setState,
@@ -32,7 +34,7 @@ export function TwoFactorCode({
   return (
     <CodeInput
       autoComplete="one-time-code"
-      className={clsx({
+      className={clsx(className, {
         'animate-shake': state === 'error',
       })}
       disabled={state === 'loading'}

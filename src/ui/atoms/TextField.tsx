@@ -104,12 +104,17 @@ export function TextField<TForm extends FieldValues>({
             })}
             id={id}
           >
-            {label && <p>{label}</p>}
+            {label && (
+              <p className="ml-2 mb-[6px] text-body font-medium tracking-wide">
+                {label}
+              </p>
+            )}
             <section
               className={clsx('flex items-center', {
                 [clsx(
                   'rounded-full border-[1px] border-white/12 hover:border-white/25',
                   {
+                    'hover:border-white/12': disabled,
                     '!border-red-500': hasError,
                     '!border-primary': focused && !hasError,
                   },
@@ -138,7 +143,11 @@ export function TextField<TForm extends FieldValues>({
                 autoComplete="off"
                 className={clsx(
                   'flex-1 bg-transparent outline-0 w-full rounded-full p-[16px]',
-                  { 'pl-[6px]': hasStartAdorment, 'pr-[6px]': hasEndAdorment },
+                  {
+                    'pl-[6px]': hasStartAdorment,
+                    'pr-[6px]': hasEndAdorment,
+                    'cursor-not-allowed': disabled,
+                  },
                 )}
                 disabled={disabled}
                 id={`${id}-field`}
@@ -154,6 +163,7 @@ export function TextField<TForm extends FieldValues>({
                   {type === 'password' ? (
                     <Button
                       color={hasError ? 'error' : 'white'}
+                      disabled={disabled}
                       onClick={handleToggleVisibility}
                       variant="icon"
                     >
@@ -166,6 +176,7 @@ export function TextField<TForm extends FieldValues>({
                   ) : type === 'search' ? (
                     <Button
                       color={hasError ? 'error' : 'white'}
+                      disabled={disabled}
                       onClick={handleClearValue}
                       variant="icon"
                     >

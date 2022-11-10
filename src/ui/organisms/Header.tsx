@@ -47,7 +47,11 @@ export function Header({ auth, withOffset }: HeaderProps): JSX.Element {
 
   return (
     <header className="flex items-center gap-2" id="nc-header">
-      <div className={withOffset ? 'ml-1/3 ml-1/5' : undefined} />
+      <div
+        className={clsx('<lg:hidden', {
+          'lg:basis-1/3 xl:basis-1/5': withOffset,
+        })}
+      />
       <Search className="<sm:basis-full sm:flex-1" />
       <div className="<sm:hidden sm:flex sm:items-center sm:gap-1">
         {data && (

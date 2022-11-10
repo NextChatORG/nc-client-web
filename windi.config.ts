@@ -56,6 +56,7 @@ export default defineConfig({
         800: '#283593',
         900: '#1a237e',
       },
+      inherit: 'inherit',
       orange: {
         300: '#ffb74d',
         400: '#ffa726',
@@ -115,6 +116,7 @@ export default defineConfig({
         },
       },
       zIndex: {
+        dialog: 10001,
         header: 1000,
         sidebar: 10000,
       },

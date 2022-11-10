@@ -1,4 +1,3 @@
-import { Grid } from '@nc-ui';
 import { useOutlet } from 'react-router-dom';
 import SettingsNavigation from './SettingsNavigation';
 import SettingsGeneralTab from './tabs/SettingsGeneralTab';
@@ -8,12 +7,12 @@ export default function Settings(): JSX.Element {
 
   return (
     <>
-      <Grid item xs={3}>
+      <div className="basis-full lg:basis-1/3 xl:basis-1/5">
         <SettingsNavigation />
-      </Grid>
-      <Grid item xs={9}>
+      </div>
+      <div className="<sm:basis-full sm:flex-1">
         {outlet ?? <SettingsGeneralTab />}
-      </Grid>
+      </div>
     </>
   );
 }

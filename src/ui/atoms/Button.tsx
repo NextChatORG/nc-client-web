@@ -89,17 +89,17 @@ const BUTTON_COLORS: {
     dark: '',
     error: 'text-red-500 hover:bg-red-500/5',
     primary: '',
-    success: '',
-    warning: '',
+    success: 'text-green-500 hover:bg-green-500/5',
+    warning: 'text-orange-500 hover:bg-orange-500/5',
     white: 'text-white hover:bg-white/5',
   },
   outlined: {
     dark: '',
-    error: '',
+    error: 'border-red-500 text-red-500 hover:bg-red-500/5',
     primary:
       'border-[silver] text-primary hover:border-primary hover:bg-primary/5',
-    success: '',
-    warning: '',
+    success: 'border-green-500 text-green-500 hover:bg-green-500/5',
+    warning: 'border-orange-500 text-orange-500 hover:bg-orange-500/5',
     white: 'border-white/60 text-white hover:border-white hover:bg-white/5',
   },
   text: {
@@ -188,6 +188,8 @@ export function Button(
     if (!isRippling) setRipplePos(null);
   }, [isRippling]);
 
+  const disabled = props.disabled || props.loading;
+
   return (
     <button
       className={clsx(
@@ -197,9 +199,12 @@ export function Button(
         BUTTON_SIZES[size][variant],
         BUTTON_VARIANTS[variant],
         BUTTON_COLORS[variant][color],
-        { 'w-full': props.fullWidth },
+        {
+          'hover:bg-inherit hover:border-inherit': disabled,
+          'w-full': props.fullWidth,
+        },
       )}
-      disabled={props.disabled || props.loading}
+      disabled={disabled}
       onClick={handleClick}
       style={props.style}
       type={type}
