@@ -1,6 +1,7 @@
 import { defineConfig } from 'windicss/helpers';
 
 export default defineConfig({
+  plugins: [require('@windicss/plugin-scrollbar')],
   shortcuts: {
     avatar: 'rounded-full overflow-hidden',
     'avatar-big': 'avatar h-[120px] w-[120px]',

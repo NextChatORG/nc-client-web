@@ -84,7 +84,7 @@ export function Sidebar({ withHeader }: SidebarProps): JSX.Element {
     <>
       <Button
         className={clsx(
-          'sm:hidden !fixed bottom-1 right-1',
+          'sm:hidden !fixed bottom-1 right-1 z-sidebar',
           'bg-dark-600 border-2 border-dark-400',
           {
             hidden: open,

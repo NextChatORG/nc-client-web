@@ -1,73 +1,55 @@
 import { useMessages } from '@nc-core/hooks';
 import {
-  Badge,
   ChatBox,
-  Content,
-  Grid,
   MainTemplate,
   MessagePreview,
   NoChatSelected,
   Search,
-  Typography,
 } from '@nc-ui';
+import clsx from 'clsx';
 import { useParams } from 'react-router-dom';
 
 export default function Chat(): JSX.Element {
   const { recentChats, unreadChats } = useMessages();
   const { chatId } = useParams();
 
+  const height =
+    'h-[calc(100vh_-_82px)] sm:h-[calc(100vh_-_70px_-_48px)] lg:h-[calc(100vh_-_48px)]';
+
   return (
-    <MainTemplate>
-      <Grid item xs={12}>
-        <Grid container fullHeight spacing={12}>
-          <Grid item>
-            <div
-              style={{
-                height: 'calc(100vh - 48px)',
-                maxHeight: 'calc(100vh - 48px)',
-                width: 320,
-              }}
-            >
-              <Content fullHeight noPadding>
-                <Typography
-                  withLetterSpacing
-                  component="h3"
-                  style={{
-                    alignItems: 'center',
-                    display: 'flex',
-                    gap: 8,
-                    padding: '16px 24px',
-                  }}
-                  variant="title"
-                >
-                  Conversaciones
-                  <Badge counter={unreadChats} />
-                </Typography>
-                {recentChats.length > 0 ? (
-                  recentChats.map((recentChat, i) => (
-                    <MessagePreview
-                      data={recentChat}
-                      key={`chat_${recentChat.chat.id}_${i}`}
-                    />
-                  ))
-                ) : (
-                  <Grid container alignItems="center" direction="column">
-                    <Grid item>
-                      <Typography>No tienes conversaciones</Typography>
-                    </Grid>
-                  </Grid>
-                )}
-              </Content>
-            </div>
-          </Grid>
-          <Grid item xs="auto">
-            <Search />
-            <div style={{ marginTop: 12 }}>
-              {chatId ? <ChatBox chatId={chatId} /> : <NoChatSelected />}
-            </div>
-          </Grid>
-        </Grid>
-      </Grid>
+    <MainTemplate noPadding>
+      <div className="relative basis-full lg:(flex gap-2) sm:p-2">
+        <Search className="p-1 sm:(px-0 pt-0) lg:hidden" />
+        <section
+          className={clsx(
+            'bg-dark-700 sm:rounded-lg lg:basis-1/3 xl:basis-1/5',
+            height,
+            { '<lg:hidden': Boolean(chatId) },
+          )}
+        >
+          <h3 className="flex items-center gap-[8px] text-title py-[16px] px-2">
+            Conversaciones
+            {Boolean(unreadChats) && (
+              <span className="badge-normal bg-primary">{unreadChats}</span>
+            )}
+          </h3>
+          {recentChats.length > 0 ? (
+            recentChats.map((recentChat, i) => (
+              <MessagePreview
+                data={recentChat}
+                key={`chat_${recentChat.chat.id}_${i}`}
+              />
+            ))
+          ) : (
+            <p className="m-auto text-body">No tienes conversaciones</p>
+          )}
+        </section>
+        {chatId ? (
+          <ChatBox chatId={chatId} className={height} />
+        ) : (
+          <NoChatSelected />
+        )}
+      </div>
     </MainTemplate>
   );
 }

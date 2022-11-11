@@ -222,7 +222,7 @@ export function Button(
       {props.startIcon && (
         <div className="relative z-[2] leading-[0.5]">{props.startIcon}</div>
       )}
-      <span className="relative z-[2] text-left">{props.children}</span>
+      <span className="relative z-[2] text-center">{props.children}</span>
       {props.endIcon && (
         <div className="relative z-[2] leading-[0.5]">{props.endIcon}</div>
       )}

@@ -3,6 +3,7 @@ export * from './outlined';
 
 export { default as AddIcon } from './Add';
 export { default as AddCommentIcon } from './AddComment';
+export { default as ChevronLeftIcon } from './ChevronLeft';
 export { default as CloseIcon } from './Close';
 export { default as DoneIcon } from './Done';
 export { default as EditIcon } from './Edit';

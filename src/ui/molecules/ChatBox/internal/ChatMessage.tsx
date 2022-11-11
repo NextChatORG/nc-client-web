@@ -1,16 +1,13 @@
 import { useAuth } from '@nc-core/hooks';
 import { UserMessage } from '@nc-core/interfaces/api';
-import { Avatar, Typography } from '@nc-ui';
 import clsx from 'clsx';
 import { format } from 'date-fns';
 
 interface ChatMessageProps {
-  classes: CSSModuleClasses;
   data: UserMessage[];
 }
 
 export default function ChatMessage({
-  classes,
   data,
 }: ChatMessageProps): JSX.Element | null {
   const { data: meData } = useAuth();
@@ -22,44 +19,64 @@ export default function ChatMessage({
   const isMe = meData.id === data[0].senderId;
 
   return (
-    <div className={classes.chatMessage}>
+    <>
       {data.map((message, i) => (
         <div
-          className={clsx(classes.chatMessage__content, {
-            [classes['chatMessage__content--end']]: isMe,
-          })}
+          className={clsx(
+            'w-full flex flex-wrap items-start content-start justify-start gap-1 px-2',
+            { 'justify-end': isMe, 'mt-[4px]': i > 0 },
+          )}
           key={`chat_message_${message.id}_${i}`}
         >
           {!isMe && i === 0 && (
-            <Avatar url={senderUser.profileImage} size="small" />
+            <img
+              alt={`${senderUser.username}'s profile`}
+              className="avatar-small"
+              src={senderUser.profileImage}
+            />
           )}
           <div
-            className={clsx(classes.chatMessage__content__message, {
-              [classes['chatMessage__content__message--margin']]: i > 0,
-            })}
+            className={clsx(
+              'flex-1 flex flex-col items-start gap-[4px]',
+              i > 0 ? (isMe ? 'pr-[37px]' : 'pl-[37px]') : '',
+              { 'items-end': isMe },
+            )}
           >
-            <Typography
-              withLetterSpacing
-              className={classes.chatMessage__content__message__text}
-              fontSize={14}
+            <p
+              className={clsx(
+                'max-w-[70%] px-1 py-[6px] text-[14px] tracking-wide',
+                isMe ? 'bg-dark-500' : 'bg-dark-800',
+                isMe
+                  ? i === 0
+                    ? 'rounded-tl-md rounded-b-md'
+                    : 'rounded-md'
+                  : i === 0
+                  ? 'rounded-tr-md rounded-b-md'
+                  : 'rounded-md',
+              )}
             >
               {message.content}
-            </Typography>
+            </p>
             {i === data.length - 1 && (
-              <Typography
-                withLetterSpacing
-                className={classes.chatMessage__content__message__date}
-                fontSize={10}
+              <span
+                className={clsx(
+                  'text-[10px] tracking-wide',
+                  isMe ? 'mr-[4px]' : 'ml-[4px]',
+                )}
               >
                 {format(new Date(message.createdAt), 'hh:mm a')}
-              </Typography>
+              </span>
             )}
           </div>
           {isMe && i === 0 && (
-            <Avatar url={senderUser.profileImage} size="small" />
+            <img
+              alt={`${senderUser.username}'s profile`}
+              className="avatar-small"
+              src={senderUser.profileImage}
+            />
           )}
         </div>
       ))}
-    </div>
+    </>
   );
 }

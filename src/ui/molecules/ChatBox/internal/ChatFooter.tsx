@@ -6,18 +6,15 @@ import {
   SendPrivateMessageVariables,
   User,
 } from '@nc-core/interfaces/api';
-import { Grid } from '@nc-ui';
 import { useRef, useState } from 'react';
 
 interface ChatFooterProps {
   chatId: ObjectId;
-  classes: CSSModuleClasses;
   user: User;
 }
 
 export default function ChatFooter({
   chatId,
-  classes,
   user,
 }: ChatFooterProps): JSX.Element {
   const [messageContent, setMessageContent] = useState<string>('');
@@ -55,21 +52,17 @@ export default function ChatFooter({
   }
 
   return (
-    <div className={classes.chatBox__footer}>
-      <Grid container>
-        <Grid item xs="auto">
-          <input
-            autoComplete="off"
-            className={classes.chatBox__footer__input}
-            onChange={handleInputChange}
-            onFocus={handleInputFocus}
-            onKeyDown={handleInputKeyDown}
-            placeholder={`Mensaje para ${user.username}`}
-            ref={messagesInputRef}
-            value={messageContent}
-          />
-        </Grid>
-      </Grid>
-    </div>
+    <footer className="bg-dark-600 w-full px-2 py-1">
+      <input
+        autoComplete="off"
+        className="rounded-lg bg-dark-700 w-[85%] sm:w-full px-2 py-1"
+        onChange={handleInputChange}
+        onFocus={handleInputFocus}
+        onKeyDown={handleInputKeyDown}
+        placeholder={`Mensaje para ${user.username}`}
+        ref={messagesInputRef}
+        value={messageContent}
+      />
+    </footer>
   );
 }
