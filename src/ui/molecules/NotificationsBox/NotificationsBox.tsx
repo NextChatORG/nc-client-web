@@ -231,7 +231,9 @@ export function NotificationsBox({
                     }
                   })
               ) : (
-                <span>No tienes notificaciones</span>
+                <p className="pt-2 text-center tracking-wide">
+                  No tienes notificaciones
+                </p>
               )}
             </section>
           </section>
