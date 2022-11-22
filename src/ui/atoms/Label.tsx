@@ -1,10 +1,17 @@
-import { Grid, Typography } from '@nc-ui';
+import clsx from 'clsx';
+
+export type LabelLayouts = 'horizontal' | 'vertical';
 
 export interface LabelProps {
-  layout?: 'horizontal' | 'vertical';
+  layout?: LabelLayouts;
   name: string;
   value: string;
 }
+
+const LAYOUTS: { [key in LabelLayouts]: string } = {
+  horizontal: 'flex-row justify-between',
+  vertical: 'flex-col',
+};
 
 export function Label({
   layout = 'horizontal',
@@ -12,21 +19,9 @@ export function Label({
   value,
 }: LabelProps): JSX.Element {
   return (
-    <Grid
-      container
-      alignItems="center"
-      direction={layout === 'horizontal' ? 'row' : 'column'}
-      justifyContent={layout === 'horizontal' ? 'space-between' : undefined}
-      spacing={4}
-    >
-      <Grid item>
-        <Typography withLetterSpacing fontWeight={500}>
-          {name}
-        </Typography>
-      </Grid>
-      <Grid item>
-        <Typography fontSize={14}>{value}</Typography>
-      </Grid>
-    </Grid>
+    <div className={clsx('flex', LAYOUTS[layout])}>
+      <p className="font-medium tracking-wide">{name}</p>
+      <p className="text-[14px]">{value}</p>
+    </div>
   );
 }

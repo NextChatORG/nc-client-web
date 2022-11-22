@@ -3,68 +3,42 @@ import {
   PROFILE_SETTINGS_ROUTE,
 } from '@nc-core/constants/routes';
 import { useAuth } from '@nc-core/hooks';
-import { Content, Typography } from '@nc-ui';
 import clsx from 'clsx';
 import { Link, useLocation } from 'react-router-dom';
-import classes from './Settings.module.sass';
+
+const SETTINGS_ROUTES = [
+  { title: 'General', to: PROFILE_SETTINGS_ROUTE },
+  { title: 'Cambiar contraseña', to: PROFILE_SETTINGS_CHANGE_PASSWORD_ROUTE },
+];
 
 export default function SettingsNavigation(): JSX.Element {
   const { data: meData } = useAuth();
   const location = useLocation();
 
-  function getClasses(path: string): string {
-    return clsx(classes.settings__nav__ul__li, {
-      [classes['settings__nav__ul__li--active']]: location.pathname === path,
-    });
-  }
-
   return (
-    <Content>
-      <nav className={classes.settings__nav}>
-        <Typography
-          withLetterSpacing
-          className={classes.settings__nav__title}
-          component="h4"
-        >
-          Navegación
-        </Typography>
-        <ul className={classes.settings__nav__ul}>
-          <li
-            className={getClasses(
-              PROFILE_SETTINGS_ROUTE.replace(
-                ':username',
-                meData?.username ?? '',
-              ),
-            )}
-          >
-            <Link
-              to={PROFILE_SETTINGS_ROUTE.replace(
-                ':username',
-                meData?.username ?? '',
-              )}
+    <nav className="content">
+      <h4 className="border-b-1 border-white/50 pb-[20px] mb-2 text-title text-center tracking-wide">
+        Navegación
+      </h4>
+      <ul className="flex flex-col gap-[8px]">
+        {SETTINGS_ROUTES.map((route, i) => {
+          const path = route.to.replace(':username', meData?.username ?? '');
+          const enabled = location.pathname === path;
+
+          return (
+            <li
+              className={clsx('tracking-wide hover:pl-[4px]', {
+                'font-bold': enabled,
+              })}
+              key={`settings_nav_path_${i}`}
             >
-              General
-            </Link>
-          </li>
-          <li
-            className={getClasses(
-              PROFILE_SETTINGS_CHANGE_PASSWORD_ROUTE.replace(
-                ':username',
-                meData?.username ?? '',
-              ),
-            )}
-          >
-            <Link
-              to={PROFILE_SETTINGS_CHANGE_PASSWORD_ROUTE.replace(
-                ':username',
-                meData?.username ?? '',
-              )}
-            >
-              Cambiar contraseña
-            </Link>
-          </li>
-        </ul>
-      </nav>
-    </Content>
+              <Link className="block hover:no-underline" to={path}>
+                {enabled && '>'} {route.title}
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
   );
 }

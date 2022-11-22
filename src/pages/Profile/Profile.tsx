@@ -31,19 +31,11 @@ import {
   UserProfileActions,
 } from '@nc-core/utils';
 import { AddCommentIcon, CloseIcon, EditIcon, PersonAddIcon } from '@nc-icons';
-import {
-  Avatar,
-  Button,
-  Content,
-  Divider,
-  Grid,
-  Label,
-  MainTemplate,
-} from '@nc-ui';
+import { Button, Label, MainTemplate } from '@nc-ui';
+import clsx from 'clsx';
 import { format } from 'date-fns';
 import { useEffect, useState } from 'react';
 import { useOutlet, useParams } from 'react-router-dom';
-import classes from './Profile.module.sass';
 import ProfileFriends from './ProfileFriends';
 
 export default function Profile(): JSX.Element {
@@ -185,128 +177,111 @@ export default function Profile(): JSX.Element {
   }, []);
 
   return (
-    <MainTemplate withHeader>
+    <MainTemplate header={{ withOffset: true }}>
       {outlet}
       {profileData && !outlet && (
-        <>
-          <Grid item xs={3}>
-            <Content className={classes.profile__leftContent}>
-              <div className={classes.profile__leftContent__action}>
-                <Grid container justifyContent="center" spacing={12}>
-                  <Grid item>
-                    {actions?.canAcceptFriendRequest ? (
-                      <Button
-                        loading={
-                          acceptingFriendRequest || decliningFriendRequest
-                        }
-                        onClick={handleAcceptFriendRequest}
-                        size="small"
-                      >
-                        Aceptar solicitud
-                      </Button>
-                    ) : null}
-                  </Grid>
-                  <Grid item>
-                    {actions?.isMe ? (
-                      <Button
-                        link
-                        startIcon={<EditIcon />}
-                        to={PROFILE_SETTINGS_ROUTE.replace(
-                          ':username',
-                          profileData.username,
-                        )}
-                      >
-                        Editar perfil
-                      </Button>
-                    ) : actions?.canSendMessage && chatData?.getChat ? (
-                      <Button
-                        link
-                        startIcon={<AddCommentIcon />}
-                        to={USER_CHAT_ROUTE.replace(
-                          ':chatId',
-                          chatData.getChat.id.toString(),
-                        )}
-                      >
-                        Enviar mensaje
-                      </Button>
-                    ) : actions?.canSendFriendRequest ? (
-                      <Button
-                        loading={sendingFriendRequest}
-                        onClick={handleSendFriendRequest}
-                        startIcon={<PersonAddIcon />}
-                      >
-                        Enviar solicitud
-                      </Button>
-                    ) : actions?.canUnSendFriendRequest ? (
-                      <Button
-                        color="error"
-                        loading={cancelingFriendRequest}
-                        onClick={handleUnSendFriendRequest}
-                        startIcon={<CloseIcon />}
-                      >
-                        Cancelar solicitud
-                      </Button>
-                    ) : actions?.canDeclineFriendRequest ? (
-                      <Button
-                        color="error"
-                        loading={
-                          acceptingFriendRequest || decliningFriendRequest
-                        }
-                        onClick={handleDeclineFriendRequest}
-                        size="small"
-                      >
-                        Rechazar solicitud
-                      </Button>
-                    ) : null}
-                  </Grid>
-                </Grid>
+        <div className="basis-full flex flex-wrap gap-2 pt-2">
+          <div className="basis-full lg:basis-1/3 xl:basis-1/5">
+            <div className="relative content pt-5">
+              <div
+                className={clsx(
+                  'w-full absolute left-0 top-0 transform -translate-y-1/2',
+                  'px-2 flex items-center justify-center gap-1',
+                )}
+              >
+                <div>
+                  {actions?.canAcceptFriendRequest ? (
+                    <Button
+                      loading={acceptingFriendRequest || decliningFriendRequest}
+                      onClick={handleAcceptFriendRequest}
+                      size="small"
+                    >
+                      Aceptar solicitud
+                    </Button>
+                  ) : null}
+                </div>
+                <div>
+                  {actions?.isMe ? (
+                    <Button
+                      link
+                      startIcon={<EditIcon />}
+                      to={PROFILE_SETTINGS_ROUTE.replace(
+                        ':username',
+                        profileData.username,
+                      )}
+                    >
+                      Editar perfil
+                    </Button>
+                  ) : actions?.canSendMessage && chatData?.getChat ? (
+                    <Button
+                      link
+                      startIcon={<AddCommentIcon />}
+                      to={USER_CHAT_ROUTE.replace(
+                        ':chatId',
+                        chatData.getChat.id.toString(),
+                      )}
+                    >
+                      Enviar mensaje
+                    </Button>
+                  ) : actions?.canSendFriendRequest ? (
+                    <Button
+                      loading={sendingFriendRequest}
+                      onClick={handleSendFriendRequest}
+                      startIcon={<PersonAddIcon />}
+                    >
+                      Enviar solicitud
+                    </Button>
+                  ) : actions?.canUnSendFriendRequest ? (
+                    <Button
+                      color="error"
+                      loading={cancelingFriendRequest}
+                      onClick={handleUnSendFriendRequest}
+                      startIcon={<CloseIcon />}
+                    >
+                      Cancelar solicitud
+                    </Button>
+                  ) : actions?.canDeclineFriendRequest ? (
+                    <Button
+                      color="error"
+                      loading={acceptingFriendRequest || decliningFriendRequest}
+                      onClick={handleDeclineFriendRequest}
+                      size="small"
+                    >
+                      Rechazar solicitud
+                    </Button>
+                  ) : null}
+                </div>
               </div>
-              <Grid container justifyContent="center" spacing={24}>
-                <Grid item xs={12}>
-                  <Grid
-                    container
-                    alignItems="center"
-                    direction="column"
-                    spacing={12}
-                  >
-                    <Grid item>
-                      <Avatar size="big" url={profileData.profileImage} />
-                    </Grid>
-                    <Grid item>
-                      <span className={classes.profile__leftContent__username}>
-                        {profileData.username}
-                      </span>
-                    </Grid>
-                  </Grid>
-                </Grid>
-                <Grid item xs={12}>
-                  <Divider />
-                </Grid>
-                <Grid item xs={12}>
-                  <Grid container spacing={12}>
-                    {profileData.createdAt && (
-                      <Grid item xs={12}>
-                        <Label
-                          name="Registro"
-                          value={format(
-                            new Date(profileData.createdAt),
-                            'MMMM yyyy',
-                          )}
-                        />
-                      </Grid>
-                    )}
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Content>
-          </Grid>
-          <Grid item xs={9}>
-            <ProfileFriends
-              total={profileData.counters?.friends ?? 0}
-              userId={isMe ? undefined : profileData.id}
-            />
-          </Grid>
-        </>
+              <div className="flex flex-wrap justify-center gap-2">
+                <div className="basis-full flex flex-col items-center gap-1">
+                  <img
+                    alt="Profile avatar"
+                    className="avatar-big"
+                    src={profileData.profileImage}
+                  />
+                  <span className="text-[20px] font-medium tracking-wide">
+                    {profileData.username}
+                  </span>
+                </div>
+                <div className="basis-full divider" />
+                <div className="basis-full">
+                  {profileData.createdAt && (
+                    <Label
+                      name="Registro"
+                      value={format(
+                        new Date(profileData.createdAt),
+                        'MMMM yyyy',
+                      )}
+                    />
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="<lg:basis-full lg:flex-1">
+            <ProfileFriends total={profileData.counters?.friends ?? 0} />
+          </div>
+        </div>
       )}
     </MainTemplate>
   );

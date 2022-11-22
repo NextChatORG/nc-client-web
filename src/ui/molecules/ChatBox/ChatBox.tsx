@@ -1,14 +1,17 @@
 import { useAuth, useMessages } from '@nc-core/hooks';
-import { Content, Grid } from '@nc-ui';
+import clsx from 'clsx';
 import { useEffect, useRef, useState } from 'react';
-import classes from './ChatBox.module.sass';
 import { ChatContent, ChatDetails, ChatFooter, ChatHeader } from './internal';
 
 export interface ChatBoxProps {
   chatId: string;
+  className?: string;
 }
 
-export function ChatBox({ chatId }: ChatBoxProps): JSX.Element | null {
+export function ChatBox({
+  chatId,
+  className,
+}: ChatBoxProps): JSX.Element | null {
   const [detailsOpened, setDetailsStatus] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -46,34 +49,39 @@ export function ChatBox({ chatId }: ChatBoxProps): JSX.Element | null {
   if (!user) return null;
 
   return (
-    <Grid container spacing={12}>
-      <Grid
-        item
-        style={{ height: 'calc(100vh - 48px - 50px)' }}
-        xs={detailsOpened ? 9 : 12}
-      >
-        <Content fullHeight noPadding className={classes.chatBox}>
-          <ChatHeader
-            classes={classes}
-            onClick={() => setDetailsStatus(!detailsOpened)}
-            user={user}
-          />
-          <div className={classes.chatBox__content} ref={messagesContentRef}>
-            <ChatContent
-              chatId={chatId}
-              classes={classes}
-              loading={loading}
-              messages={currentChat.messages}
-            />
-          </div>
-          <ChatFooter chatId={chatId} classes={classes} user={user} />
-        </Content>
-      </Grid>
-      {detailsOpened && (
-        <Grid item xs={3}>
-          <ChatDetails classes={classes} user={user} />
-        </Grid>
+    <div
+      className={clsx(
+        className,
+        'flex gap-2 lg:(flex-1 max-h-[calc(100vh_-_58px_-_72px)])',
       )}
-    </Grid>
+    >
+      <section
+        className={clsx('flex-1 bg-dark-700 sm:(rounded-lg overflow-hidden) ', {
+          '<lg:hidden': detailsOpened,
+        })}
+      >
+        <ChatHeader
+          onOpenDetailsClick={() => setDetailsStatus(!detailsOpened)}
+          user={user}
+        />
+        <div
+          className={clsx(
+            'overflow-y-auto max-h-[calc(100%_-_69px_-_72px)] pb-1',
+            'scrollbar-thin scrollbar-thumb-dark-800 hover:scrollbar-thumb-dark-900',
+          )}
+          ref={messagesContentRef}
+        >
+          <ChatContent
+            chatId={chatId}
+            loading={loading}
+            messages={currentChat.messages}
+          />
+        </div>
+        <ChatFooter chatId={chatId} user={user} />
+      </section>
+      {detailsOpened && (
+        <ChatDetails onBackClick={() => setDetailsStatus(false)} user={user} />
+      )}
+    </div>
   );
 }

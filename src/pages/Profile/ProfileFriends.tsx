@@ -7,7 +7,7 @@ import {
   ObjectId,
   User,
 } from '@nc-core/interfaces/api';
-import { Avatar, Button, Content, Grid, Loading, Typography } from '@nc-ui';
+import { Button, Loading } from '@nc-ui';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -79,32 +79,25 @@ export default function ProfileFriends({
   }, [userId]);
 
   return (
-    <Content>
-      <Grid container style={{ marginBottom: 24 }}>
-        <Typography variant="subtitle">Amigos ({total})</Typography>
-      </Grid>
-      <Grid container spacing={24}>
+    <div className="content">
+      <h2 className="text-subtitle mb-2">Amigos ({total})</h2>
+      <div className="flex flex-wrap gap-2">
         {friends.map((friend, i) => (
-          <Grid item key={`profile_friend_${friend.id}_${i}`}>
-            <Link to={USER_PROFILE_ROUTE.replace(':username', friend.username)}>
-              <Grid
-                container
-                alignItems="center"
-                direction="column"
-                spacing={6}
-              >
-                <Grid item>
-                  <Avatar url={friend.profileImage} />
-                </Grid>
-                <Grid item>
-                  <Typography withLetterSpacing>{friend.username}</Typography>
-                </Grid>
-              </Grid>
-            </Link>
-          </Grid>
+          <Link
+            className="flex flex-col items-center gap-1 hover:no-underline"
+            key={`profile_friend_${friend.id}_${i}`}
+            to={USER_PROFILE_ROUTE.replace(':username', friend.username)}
+          >
+            <img
+              alt={`${friend.username}'s profile`}
+              className="avatar-normal"
+              src={friend.profileImage}
+            />
+            <p className="text-body tracking-wide">{friend.username}</p>
+          </Link>
         ))}
-      </Grid>
-      <Grid container justifyContent="center">
+      </div>
+      <div className="flex justify-center">
         {loading && (
           <Loading id={`profile-friends-${userId}`} text="Cargando..." />
         )}
@@ -118,7 +111,7 @@ export default function ProfileFriends({
             Cargar más
           </Button>
         )}
-      </Grid>
-    </Content>
+      </div>
+    </div>
   );
 }

@@ -1,4 +1,5 @@
-import { Button, ButtonProps, Grid, Typography } from '@nc-ui';
+import { Button, ButtonProps } from '@nc-ui';
+import clsx from 'clsx';
 
 export interface LandingFeatureProps {
   action?: ButtonProps & { message: string };
@@ -16,34 +17,26 @@ export function LandingFeature({
   title,
 }: LandingFeatureProps): JSX.Element {
   return (
-    <Grid
-      container
-      alignItems="flex-start"
-      direction={position === 'right' ? 'row-reverse' : 'row'}
-      spacing={36}
-      style={{ width: '53%' }}
+    <div
+      className={clsx(
+        'flex flex-col items-center max-w-[90%]',
+        'sm:flex-row sm:gap-3 sm:max-w-[80%]',
+        'lg:max-w-[70%] xl:max-w-[53%]',
+        { 'sm:flex-row-reverse': position === 'right' },
+      )}
     >
-      <Grid item>
-        <div style={{ width: 200 }}>{icon}</div>
-      </Grid>
-      <Grid item xs="auto">
-        <Typography
-          component="h2"
-          fontSize={24}
-          fontWeight={500}
-          style={{ marginTop: 24 }}
-        >
+      <div className="w-[60%] sm:w-[500px]">{icon}</div>
+      <div className="flex flex-col items-center sm:items-start">
+        <h2 className="text-[24px] text-center font-medium sm:text-left">
           {title}
-        </Typography>
-        <Typography fontSize={14} lineHeight="19px" style={{ marginTop: 12 }}>
-          {description}
-        </Typography>
+        </h2>
+        <p className="text-center mt-1 sm:text-left">{description}</p>
         {action && (
-          <Button {...action} style={{ ...action.style, marginTop: 24 }}>
+          <Button {...action} className={clsx(action.className, 'mt-2')}>
             {action.message}
           </Button>
         )}
-      </Grid>
-    </Grid>
+      </div>
+    </div>
   );
 }

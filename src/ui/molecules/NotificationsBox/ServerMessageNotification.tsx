@@ -1,7 +1,8 @@
-import { Link } from 'react-router-dom';
-import { Grid, Logo, Typography } from '@nc-ui';
+import { Logo } from '@nc-ui';
+import clsx from 'clsx';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
+import { Link } from 'react-router-dom';
 
 export interface ServerMessageNotificationData {
   message: string;
@@ -21,34 +22,21 @@ export default function ServerMessageNotification({
   onClick,
 }: ServerMessageNotificationProps): JSX.Element {
   return (
-    <Link className={className} onClick={onClick} to="#">
-      <Grid container alignItems="center" spacing={12}>
-        <Grid item>
-          <Logo onlyIcon />
-        </Grid>
-        <Grid item xs={10}>
-          <Typography
-            withLetterSpacing
-            component="p"
-            fontWeight="bold"
-            style={{ marginBottom: 4 }}
-          >
-            Mensaje de NextChat:
-          </Typography>
-          <Typography fontSize={13}>{data.message}</Typography>
-        </Grid>
-        <Grid item xs={12}>
-          <Typography
-            withLetterSpacing
-            component="p"
-            fontSize={11}
-            fontWeight="bold"
-            style={{ paddingLeft: 'calc(45px + 12px)' }}
-          >
-            {format(createdAt, 'dd MMMM/yyyy hh:mm', { locale: es })}
-          </Typography>
-        </Grid>
-      </Grid>
+    <Link
+      className={clsx(className, 'flex flex-wrap items-center gap-2')}
+      onClick={onClick}
+      to="#"
+    >
+      <Logo onlyIcon />
+      <div className="flex-1">
+        <h6 className="text-lg font-bold tracking-wide">
+          Mensaje de NextChat:
+        </h6>
+        <p className="text-sm tracking-wide my-1">{data.message}</p>
+        <span className="text-xs font-bold tracking-wide">
+          {format(createdAt, 'dd MMMM/yyyy hh:mm', { locale: es })}
+        </span>
+      </div>
     </Link>
   );
 }

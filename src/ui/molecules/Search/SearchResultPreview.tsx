@@ -1,8 +1,6 @@
 import { SearchResult, SearchResultType } from '@nc-core/interfaces/api';
 import { parseUserProfileActions } from '@nc-core/utils';
-import { Avatar, Grid, Typography } from '@nc-ui';
 import { Link } from 'react-router-dom';
-import classes from './SearchResultPreview.module.sass';
 
 export interface SearchResultPreviewProps {
   data: SearchResult;
@@ -22,7 +20,7 @@ export function SearchResultPreview({
 
   return (
     <Link
-      className={classes.searchResultPreview}
+      className="px-2 py-1 flex items-center gap-2 hover:bg-white/2 hover:no-underline"
       onClick={onClick}
       to={
         data.type === SearchResultType.USER
@@ -32,35 +30,33 @@ export function SearchResultPreview({
           : '/'
       }
     >
-      <Grid container alignItems="center" spacing={24}>
-        <Grid item>
-          <Avatar
-            url={
-              data.type === SearchResultType.USER
-                ? data.userData?.profileImage
-                : undefined
-            }
-          />
-        </Grid>
-        <Grid item xs="auto">
-          {data.type === SearchResultType.USER && data.userData && (
-            <div className={classes.searchResultPreview__user}>
-              <Typography withLetterSpacing>
-                {data.userData.username.split(searchText).map((text, i) => {
-                  if (i === 0) return text;
+      <img
+        alt={`${
+          data.type === SearchResultType.USER
+            ? data.userData?.username
+            : undefined
+        }'s profile`}
+        className="avatar-normal"
+        src={
+          data.type === SearchResultType.USER
+            ? data.userData?.profileImage
+            : undefined
+        }
+      />
+      {data.type === SearchResultType.USER && data.userData && (
+        <p className="text-body tracking-wide">
+          {data.userData.username.split(searchText).map((text, i) => {
+            if (i === 0) return text;
 
-                  return (
-                    <>
-                      <b key={`search_text_match_${i}`}>{searchText}</b>
-                      {text}
-                    </>
-                  );
-                })}
-              </Typography>
-            </div>
-          )}
-        </Grid>
-      </Grid>
+            return (
+              <>
+                <b key={`search_text_match_${i}`}>{searchText}</b>
+                {text}
+              </>
+            );
+          })}
+        </p>
+      )}
     </Link>
   );
 }
