@@ -1,4 +1,3 @@
-import { Typography } from '@nc-ui';
 import anime from 'animejs';
 import { useEffect } from 'react';
 
@@ -31,17 +30,17 @@ export function Loading({ id, text }: LoadingProps): JSX.Element {
   }, []);
 
   return (
-    <Typography component="div" id={id} style={{ letterSpacing: '0.5em' }}>
+    <div className="tracking-[0.5em]" id={id}>
       {text &&
         text.split('').map((letter, i) => (
-          <Typography
+          <span
+            className="tracking-[0.5em]"
             id={`${id}-letter`}
             key={`loading_letter_${letter}_${i}`}
-            style={{ display: 'inline-block', letterSpacing: '0.5em' }}
           >
             {letter}
-          </Typography>
+          </span>
         ))}
-    </Typography>
+    </div>
   );
 }

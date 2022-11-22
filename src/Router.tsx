@@ -3,7 +3,7 @@ import { lazy } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import Error404 from './pages/Error404';
 
-const Landing = lazy(() => import('./pages/auth/Landing/index'));
+const Landing = lazy(() => import('./pages/auth/Landing'));
 const LogIn = lazy(() => import('./pages/auth/LogIn'));
 const RecoverAccount = lazy(() => import('./pages/auth/RecoverAccount'));
 const SignUp = lazy(() => import('./pages/auth/SignUp'));

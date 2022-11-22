@@ -22,21 +22,15 @@ import { CloseIcon, DoneIcon, EditIcon } from '@nc-icons';
 import {
   Button,
   ConfirmPasswordDialog,
-  Content,
   Dialog,
-  Divider,
-  Grid,
-  IconButton,
   TextField,
   TwoFactorCode,
   TwoFactorCodeStates,
-  Typography,
 } from '@nc-ui';
 import { differenceInDays } from 'date-fns';
 import { useContext, useRef, useState } from 'react';
 import { Path, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import classes from '../Settings.module.sass';
 
 interface SettingsGeneralForm {
   username: string;
@@ -216,14 +210,8 @@ export default function SettingsGeneralTab(): JSX.Element {
 
   return (
     <>
-      <Content>
-        <Typography
-          withLetterSpacing
-          className={classes.settings__subtitle}
-          variant="subtitle"
-        >
-          Información general
-        </Typography>
+      <div className="content">
+        <h3 className="mb-2 text-title tracking-wide">Información general</h3>
         <TextField
           fullWidth
           control={control}
@@ -232,37 +220,32 @@ export default function SettingsGeneralTab(): JSX.Element {
           endAdorment={
             canChangeUsername &&
             (currentAction === 'change_username' ? (
-              <div
-                style={{ alignItems: 'center', display: 'flex', gap: '4px' }}
-              >
-                <IconButton
+              <div className="flex items-center gap-[4px]">
+                <Button
                   color="success"
                   onClick={handleSubmit(() =>
                     setConfirmPasswordDialogStatus(true),
                   )}
-                  size="small"
-                  variant="transparent"
+                  variant="icon"
                 >
-                  <DoneIcon fontSize="1.5em" />
-                </IconButton>
-                <IconButton
+                  <DoneIcon size="1.25em" />
+                </Button>
+                <Button
                   color="error"
                   onClick={handleCloseChangeUsername}
-                  size="small"
-                  variant="transparent"
+                  variant="icon"
                 >
-                  <CloseIcon fontSize="1.5em" />
-                </IconButton>
+                  <CloseIcon size="1.25em" />
+                </Button>
               </div>
             ) : (
-              <IconButton
+              <Button
                 color="white"
                 onClick={() => setAction('change_username')}
-                size="small"
-                variant="transparent"
+                variant="icon"
               >
-                <EditIcon size="1.5em" />
-              </IconButton>
+                <EditIcon size="1.25em" />
+              </Button>
             ))
           }
           helperText={
@@ -276,81 +259,57 @@ export default function SettingsGeneralTab(): JSX.Element {
           name="username"
           validations={canChangeUsername && USERNAME_FIELD_VALIDATIONS}
         />
-        <Divider className={classes.settings__divider} />
-        <Typography
-          withLetterSpacing
-          className={classes.settings__subtitle}
-          variant="subtitle"
-        >
+        <div className="divider mt-2 mb-[18px]" />
+        <h3 className="mb-2 text-title tracking-wide">
           Autenticación en dos factores (2AF)
-        </Typography>
-        <Grid container alignItems="center" justifyContent="space-between">
-          <Grid item xs={8}>
-            <Typography withLetterSpacing fontSize={12}>
-              La autenticación en dos factores (2FA) es una buena forma de
-              añadir una capa extra de seguridad a tu cuenta de NextChat, para
-              asegurarte que solo tú puedes ingresar a tu cuenta.
-            </Typography>
-          </Grid>
-          <Grid item>
-            {meData?.settings?.twoFactorEnabled ? (
-              <Button
-                color="error"
-                onClick={handleDisableTwoFactor}
-                size="small"
-                variant="outlined"
-              >
-                Desactivar 2FA
-              </Button>
-            ) : (
-              <Button
-                color="success"
-                onClick={handleEnableTwoFactor}
-                size="small"
-                variant="outlined"
-              >
-                Activar 2FA
-              </Button>
-            )}
-          </Grid>
-        </Grid>
-      </Content>
+        </h3>
+        <div className="flex flex-wrap items-center justify-center lg:justify-between gap-1">
+          <p className="basis-full lg:basis-4/6 xl:basis-3/6 text-[14px] !leading-relaxed tracking-wide">
+            La autenticación en dos factores (2FA) es una buena forma de añadir
+            una capa extra de seguridad a tu cuenta de NextChat, para asegurarte
+            que solo tú puedes ingresar a tu cuenta.
+          </p>
+          {meData?.settings?.twoFactorEnabled ? (
+            <Button
+              color="error"
+              onClick={handleDisableTwoFactor}
+              size="small"
+              variant="outlined"
+            >
+              Desactivar 2FA
+            </Button>
+          ) : (
+            <Button
+              color="success"
+              onClick={handleEnableTwoFactor}
+              size="small"
+              variant="outlined"
+            >
+              Activar 2FA
+            </Button>
+          )}
+        </div>
+      </div>
       {currentAction === 'scan_two_factor' && (
         <Dialog onClose={() => undefined} title="Autenticación en dos factores">
-          <Grid container alignItems="center" direction="column" spacing={12}>
-            <Grid item>
-              <Typography withLetterSpacing fontSize={12}>
-                Escanea el siguiente código QR con tu aplicación
-              </Typography>
-            </Grid>
-            <Grid item>
-              <img
-                alt="Two Factor QR Code"
-                src={twoFactorCodeImage}
-                style={{ borderRadius: 12, overflow: 'hidden' }}
-              />
-            </Grid>
-            <Grid item>
-              <Typography
-                withLetterSpacing
-                component="p"
-                fontSize={12}
-                style={{ marginTop: 20 }}
-              >
-                Ingresa el código de 6 digitos generado en la aplicación
-              </Typography>
-            </Grid>
-            <Grid item>
-              <TwoFactorCode
-                inputRef={twoFactorCodeInputRef}
-                onSubmit={(code) =>
-                  verifyTwoFactorCode({ variables: { code } })
-                }
-                setState={setTwoFactorCodeState}
-                state={twoFactorCodeState}
-              />
-            </Grid>
-          </Grid>
+          <h4 className="text-center text-[12px] tracking-wide">
+            Escanea el siguiente código QR con tu aplicación
+          </h4>
+          <img
+            alt="Two Factor QR Code"
+            className="mt-2 rounded-lg mx-auto overflow-hidden"
+            src={twoFactorCodeImage}
+          />
+          <p className="mt-2 text-center text-[12px] tracking-wide">
+            Ingresa el código de 6 digitos generado en la aplicación
+          </p>
+          <TwoFactorCode
+            className="mt-1 mx-auto"
+            inputRef={twoFactorCodeInputRef}
+            onSubmit={(code) => verifyTwoFactorCode({ variables: { code } })}
+            setState={setTwoFactorCodeState}
+            state={twoFactorCodeState}
+          />
         </Dialog>
       )}
       {openConfirmPasswordDialog && currentAction && (

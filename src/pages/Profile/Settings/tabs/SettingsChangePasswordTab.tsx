@@ -8,20 +8,15 @@ import {
 } from '@nc-core/interfaces/api';
 import {
   Button,
-  Content,
   Dialog,
-  Grid,
   TextField,
   TwoFactorCode,
   TwoFactorCodeStates,
-  Typography,
 } from '@nc-ui';
-import clsx from 'clsx';
 import { differenceInDays } from 'date-fns';
 import { useContext, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import classes from '../Settings.module.sass';
 
 export default function SettingsChangePasswordTab(): JSX.Element {
   const [requestingTwoFactorCode, setRequestingTwoFactorCode] =
@@ -85,29 +80,16 @@ export default function SettingsChangePasswordTab(): JSX.Element {
 
   return (
     <>
-      <Content
-        className={clsx(
-          classes.settings__content,
-          classes['settings__content--changePassword'],
-        )}
-      >
-        <Typography
-          withLetterSpacing
-          className={classes.settings__subtitle}
-          variant="subtitle"
-        >
+      <div className="content flex flex-col items-end content-end justify-end gap-2">
+        <h3 className="block w-full mb-2 text-title tracking-wide">
           Cambiar contraseña
-        </Typography>
+        </h3>
         {!canChangePassword && (
-          <Typography
-            withLetterSpacing
-            className={classes.settings__information}
-            fontSize={13}
-          >
+          <p className="block w-full -mt-2 text-[13px] tracking-wide">
             Debes esperar {16 - changePasswordDiff} día
             {16 - changePasswordDiff === 1 ? '' : 's'} para volver a cambiar tu
             contraseña.
-          </Typography>
+          </p>
         )}
         <TextField
           fullWidth
@@ -151,31 +133,21 @@ export default function SettingsChangePasswordTab(): JSX.Element {
         >
           Cambiar
         </Button>
-      </Content>
+      </div>
       {requestingTwoFactorCode && (
         <Dialog onClose={() => undefined} title="Autenticación en dos factores">
-          <Grid container alignItems="center" direction="column" spacing={12}>
-            <Grid item>
-              <Typography
-                withLetterSpacing
-                component="p"
-                fontSize={12}
-                style={{ marginTop: 20 }}
-              >
-                Ingresa el código de 6 digitos generado en la aplicación
-              </Typography>
-            </Grid>
-            <Grid item>
-              <TwoFactorCode
-                inputRef={twoFactorCodeInputRef}
-                onSubmit={(code) =>
-                  changePassword({ variables: { ...getValues(), code } })
-                }
-                setState={setTwoFactorCodeState}
-                state={twoFactorCodeState}
-              />
-            </Grid>
-          </Grid>
+          <p className="text-center text-[12px] tracking-wide">
+            Ingresa el código de 6 digitos generado en la aplicación
+          </p>
+          <TwoFactorCode
+            className="mt-1 mx-auto"
+            inputRef={twoFactorCodeInputRef}
+            onSubmit={(code) =>
+              changePassword({ variables: { ...getValues(), code } })
+            }
+            setState={setTwoFactorCodeState}
+            state={twoFactorCodeState}
+          />
         </Dialog>
       )}
     </>

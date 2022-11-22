@@ -1,16 +1,8 @@
 import { useAuth } from '@nc-core/hooks';
 import { LogoutIcon } from '@nc-icons';
-import {
-  Button,
-  Grid,
-  Logo,
-  TwoFactorCode,
-  TwoFactorCodeStates,
-  Typography,
-} from '@nc-ui';
+import { Button, Logo, TwoFactorCode, TwoFactorCodeStates } from '@nc-ui';
+import clsx from 'clsx';
 import { useRef, useState } from 'react';
-
-const spacing = 20;
 
 export default function TwoFactor(): JSX.Element {
   const [state, setState] = useState<TwoFactorCodeStates>('input');
@@ -37,62 +29,47 @@ export default function TwoFactor(): JSX.Element {
   });
 
   return (
-    <Grid
-      container
-      alignItems="center"
-      alignContent="center"
-      justifyContent="center"
-      spacing={spacing}
-      style={{
-        color: 'var(--color-text)',
-        height: `calc(100vh + ${spacing / 2}px)`,
-        width: `calc(100% + ${spacing / 2}px)`,
-      }}
+    <div
+      className={clsx(
+        'flex flex-row flex-wrap content-center justify-center h-[100vh] w-full',
+        'px-2 sm:px-5',
+      )}
     >
-      <Grid item>
-        <Logo color="white" />
-      </Grid>
-      <Grid item xs={12} />
-      <Grid item xs={11} sm={6} md={4} lg={3} xl={2}>
-        <Grid container alignItems="center" justifyContent="center" spacing={4}>
-          <Grid item>
-            <Typography withLetterSpacing component="h1" variant="title">
-              Autenticación en dos factores
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography
-              withLetterSpacing
-              component="p"
-              fontSize={13}
-              style={{ textAlign: 'center' }}
-            >
-              Ingresa el código de 6 digitos generado en la aplicación.
-            </Typography>
-          </Grid>
-        </Grid>
-      </Grid>
-      <Grid item xs={12} />
-      <Grid item>
+      <Logo color="white" />
+      <div className="basis-full" />
+      <section
+        className={clsx(
+          'mt-4 flex flex-col items-center gap-[6px]',
+          'basis-full sm:basis-2/3 lg:basis-1/2 xl:basis-1/3',
+        )}
+      >
+        <h2 className="text-title tracking-wide">
+          Autenticación en dos factores
+        </h2>
+        <p className="tracking-wide text-center text-[13px] leading-relaxed">
+          Ingresa el código de 6 dígitos generado en la aplicación.
+        </p>
+      </section>
+      <div className="basis-full" />
+      <section className="mt-1">
         <TwoFactorCode
           inputRef={inputRef}
           onSubmit={(code) => logInTwoFactor({ code })}
           setState={setState}
           state={state}
         />
-      </Grid>
-      <Grid item xs={12} />
-      <Grid item>
+      </section>
+      <div className="basis-full" />
+      <section className="mt-4">
         <Button
           color="error"
           onClick={logOut}
-          size="small"
           startIcon={<LogoutIcon />}
           variant="text"
         >
           Cerrar sesión
         </Button>
-      </Grid>
-    </Grid>
+      </section>
+    </div>
   );
 }

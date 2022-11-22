@@ -2,12 +2,16 @@ import { SEARCH_QUERY } from '@nc-core/api';
 import { useLazyQuery } from '@nc-core/hooks';
 import { SearchResponse, SearchVariables } from '@nc-core/interfaces/api';
 import { Loading, TextField } from '@nc-ui';
+import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import classes from './Search.module.sass';
 import { SearchResultPreview } from './SearchResultPreview';
 
-export function Search(): JSX.Element {
+export interface SearchProps {
+  className?: string;
+}
+
+export function Search({ className }: SearchProps): JSX.Element {
   const [typing, setTyping] = useState<boolean>(false);
 
   const { control, getValues, setValue, watch } = useForm<SearchVariables>();
@@ -44,8 +48,8 @@ export function Search(): JSX.Element {
   }, [typing]);
 
   return (
-    <div className={classes.search}>
-      <div className={classes.search__input}>
+    <div className={clsx(className, 'relative z-header')}>
+      <div className="relative z-2">
         <TextField
           fullWidth
           control={control}
@@ -58,9 +62,14 @@ export function Search(): JSX.Element {
         />
       </div>
       {searchText.length >= 3 && (
-        <div className={classes.search__results}>
+        <div
+          className={clsx(
+            'absolute top-0 z-0 shadow-md shadow-black/75 rounded-t-[26px] rounded-b-[12px]',
+            'maz-h-[500px] w-full pt-6 pb-1 bg-dark-600 overflow-auto',
+          )}
+        >
           {searching || typing ? (
-            <div className={classes.search__results__text}>
+            <div className="py-[6px] text-[14px] text-center tracking-wide">
               <Loading id="search-loading-text" text="Buscando" />
             </div>
           ) : searchData && searchData.search.length > 0 ? (
@@ -73,7 +82,9 @@ export function Search(): JSX.Element {
               />
             ))
           ) : (
-            <div className={classes.search__results__text}>Sin resultados</div>
+            <div className="py-[6px] text-[14px] text-center tracking-wide">
+              Sin resultados
+            </div>
           )}
         </div>
       )}

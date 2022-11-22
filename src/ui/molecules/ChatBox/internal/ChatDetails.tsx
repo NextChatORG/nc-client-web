@@ -1,49 +1,54 @@
 import { USER_PROFILE_ROUTE } from '@nc-core/constants/routes';
 import { User } from '@nc-core/interfaces/api';
-import { Avatar, Button, Content, Grid, Typography } from '@nc-ui';
+import { ChevronLeftIcon } from '@nc-icons';
+import { Button } from '@nc-ui';
 
 interface ChatDetailsProps {
-  classes: CSSModuleClasses;
   user: User;
+  onBackClick(): void;
 }
 
-export default function ChatDetails({ user }: ChatDetailsProps): JSX.Element {
+export default function ChatDetails({
+  onBackClick,
+  user,
+}: ChatDetailsProps): JSX.Element {
   return (
-    <Content fullHeight>
-      <Grid
-        container
-        alignItems="center"
-        direction="column"
-        justifyContent="center"
-        spacing={12}
+    <section className="basis-full bg-dark-700 p-2 sm:rounded-lg lg:basis-1/3 xl:(basis-1/4 py-3)">
+      <Button
+        className="mb-2 lg:hidden"
+        color="white"
+        onClick={onBackClick}
+        size="extra-small"
+        startIcon={<ChevronLeftIcon size="1.25em" />}
       >
-        <Grid item>
-          <Avatar size="big" url={user.profileImage} />
-        </Grid>
-        <Grid item>
-          <Typography variant="title">{user.username}</Typography>
-        </Grid>
-        <Grid item>
-          <Button
-            fullWidth
-            link
-            color="white"
-            size="small"
-            to={USER_PROFILE_ROUTE.replace(':username', user.username)}
-            variant="outlined"
-          >
-            Ver perfil
-          </Button>
-          <Button
-            color="error"
-            onClick={() => undefined}
-            size="small"
-            style={{ marginTop: 12 }}
-          >
-            Borrar conversación
-          </Button>
-        </Grid>
-      </Grid>
-    </Content>
+        Volver
+      </Button>
+      <img
+        alt={`${user.username}'s profile`}
+        className="avatar-big mx-auto"
+        src={user.profileImage}
+      />
+      <h4 className="mt-1 text-center text-title">{user.username}</h4>
+      <Button
+        fullWidth
+        link
+        className="mt-2 xl:mt-3"
+        color="white"
+        size="small"
+        to={USER_PROFILE_ROUTE.replace(':username', user.username)}
+        variant="outlined"
+      >
+        Ver perfil
+      </Button>
+      <Button
+        fullWidth
+        className="mt-1"
+        color="error"
+        onClick={() => undefined}
+        size="small"
+      >
+        Eliminar amistad
+      </Button>
+    </section>
   );
 }
