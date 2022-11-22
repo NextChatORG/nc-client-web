@@ -49,12 +49,16 @@ export function ChatBox({
   if (!user) return null;
 
   return (
-    <div className={clsx(className, 'lg:flex-1 flex gap-2')}>
+    <div
+      className={clsx(
+        className,
+        'flex gap-2 lg:(flex-1 max-h-[calc(100vh_-_58px_-_72px)])',
+      )}
+    >
       <section
-        className={clsx(
-          'flex-1 h-full bg-dark-700 sm:(rounded-lg overflow-hidden)',
-          { '<lg:hidden': detailsOpened },
-        )}
+        className={clsx('flex-1 bg-dark-700 sm:(rounded-lg overflow-hidden) ', {
+          '<lg:hidden': detailsOpened,
+        })}
       >
         <ChatHeader
           onOpenDetailsClick={() => setDetailsStatus(!detailsOpened)}
@@ -62,7 +66,7 @@ export function ChatBox({
         />
         <div
           className={clsx(
-            'overflow-y-auto h-full max-h-[calc(100%_-_69px_-_72px)] pb-1',
+            'overflow-y-auto max-h-[calc(100%_-_69px_-_72px)] pb-1',
             'scrollbar-thin scrollbar-thumb-dark-800 hover:scrollbar-thumb-dark-900',
           )}
           ref={messagesContentRef}

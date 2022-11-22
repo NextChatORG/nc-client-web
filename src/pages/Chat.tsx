@@ -46,11 +46,14 @@ export default function Chat(): JSX.Element {
             </p>
           )}
         </section>
-        {chatId ? (
-          <ChatBox chatId={chatId} className={height} />
-        ) : (
-          <NoChatSelected />
-        )}
+        <div className="lg:(flex-1 flex flex-col gap-2)">
+          <Search className="<lg:hidden" />
+          {chatId ? (
+            <ChatBox chatId={chatId} className={height} />
+          ) : (
+            <NoChatSelected />
+          )}
+        </div>
       </div>
     </MainTemplate>
   );
