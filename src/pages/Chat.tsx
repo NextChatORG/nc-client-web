@@ -22,7 +22,7 @@ export default function Chat(): JSX.Element {
         <Search className="p-1 sm:(px-0 pt-0) lg:hidden" />
         <section
           className={clsx(
-            'bg-dark-700 sm:rounded-lg lg:basis-1/3 xl:basis-1/5',
+            'bg-dark-700 sm:rounded-lg lg:basis-1/3 xl:(basis-1/5 min-w-[320px])',
             height,
             { '<lg:hidden': Boolean(chatId) },
           )}
