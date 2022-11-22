@@ -14,6 +14,7 @@ export type ButtonVariants = 'contained' | 'icon' | 'outlined' | 'text';
 export type ButtonSizes = 'extra-small' | 'normal' | 'small';
 
 interface ButtonCommonProps {
+  active?: boolean;
   className?: string;
   color?: ButtonColors;
   disabled?: boolean;
@@ -46,10 +47,10 @@ const BUTTON_SIZES: {
   [key in ButtonSizes]: { [key in ButtonVariants]: string };
 } = {
   'extra-small': {
-    contained: '',
+    contained: 'text-sm px-[12px] py-[3px]',
     icon: '',
-    outlined: '',
-    text: '',
+    outlined: 'text-sm px-[12px] py-[3px]',
+    text: 'text-sm px-[12px] py-[3px]',
   },
   normal: {
     contained: 'px-3 py-1',
@@ -58,10 +59,10 @@ const BUTTON_SIZES: {
     text: 'px-3 py-1',
   },
   small: {
-    contained: 'px-[18px] py-[6px]',
+    contained: 'text-sm px-[18px] py-[6px]',
     icon: '',
-    outlined: 'px-[18px] py-[6px]',
-    text: 'px-[18px] py-[6px]',
+    outlined: 'text-sm px-[18px] py-[6px]',
+    text: 'text-sm px-[18px] py-[6px]',
   },
 };
 
@@ -109,6 +110,43 @@ const BUTTON_COLORS: {
     success: 'text-green-500 hover:bg-green-500/5',
     warning: 'text-orange-500 hover:bg-orange-500/5',
     white: 'text-white hover:bg-white/5',
+  },
+};
+
+const BUTTON_COLORS_ACTIVE: {
+  [key in ButtonVariants]: { [key in ButtonColors]: string };
+} = {
+  contained: {
+    dark: '',
+    error: 'bg-red-400 text-white',
+    primary: 'bg-indigo-700 text-white',
+    success: 'bg-green-400 text-white',
+    warning: 'bg-orange-400 text-white',
+    white: '',
+  },
+  icon: {
+    dark: '',
+    error: 'bg-red-500/5 text-red-500',
+    primary: '',
+    success: 'bg-green-500/5 text-green-500',
+    warning: 'bg-orange-500/5 text-orange-500',
+    white: 'bg-white/5 text-white',
+  },
+  outlined: {
+    dark: '',
+    error: 'bg-red-500/5 border-red-500/5 text-red-500',
+    primary: 'bg-primary/5 border-primary text-primary',
+    success: 'bg-green-500/5 border-green-500 text-green-500',
+    warning: 'bg-orange-500/5 border-orange-500 text-orange-500',
+    white: 'bg-white/5 border-white text-white',
+  },
+  text: {
+    dark: '',
+    error: 'bg-red-500/5 text-red-500',
+    primary: 'bg-primary/15 text-primary',
+    success: 'bg-green-500/5 text-green-500',
+    warning: 'bg-orange-500/5 text-orange-500',
+    white: 'bg-white/5 text-white',
   },
 };
 
@@ -198,7 +236,7 @@ export function Button(
         'disabled:cursor-not-allowed',
         BUTTON_SIZES[size][variant],
         BUTTON_VARIANTS[variant],
-        BUTTON_COLORS[variant][color],
+        (props.active ? BUTTON_COLORS_ACTIVE : BUTTON_COLORS)[variant][color],
         {
           'hover:bg-inherit hover:border-inherit': disabled,
           'w-full': props.fullWidth,
@@ -222,7 +260,9 @@ export function Button(
       {props.startIcon && (
         <div className="relative z-[2] leading-[0.5]">{props.startIcon}</div>
       )}
-      <span className="relative z-[2] text-center">{props.children}</span>
+      <span className="relative z-[2] text-center tracking-wide">
+        {props.children}
+      </span>
       {props.endIcon && (
         <div className="relative z-[2] leading-[0.5]">{props.endIcon}</div>
       )}

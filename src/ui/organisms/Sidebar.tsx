@@ -171,12 +171,11 @@ export function Sidebar({ withHeader }: SidebarProps): JSX.Element {
             );
           })}
         </ul>
-        <div className="flex flex-col items-center gap-1">
+        <div className="flex flex-col items-center gap-1" id="sidebar-bottom">
           {meData && (
             <>
               <NotificationsBox
                 className={withHeader ? 'sm:hidden' : undefined}
-                direction="right-center"
               />
               <Link
                 className={withHeader ? 'sm:hidden' : undefined}

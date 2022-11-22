@@ -9,27 +9,28 @@ import {
   FriendRequestVariables,
   User,
 } from '@nc-core/interfaces/api';
-import { Avatar, Button, Grid, Typography } from '@nc-ui';
+import { Button } from '@nc-ui';
+import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 export interface FriendRequestNotificationProps {
   className: string;
   onClick: React.MouseEventHandler<HTMLAnchorElement>;
-  user: Pick<User, 'id' | 'profileImage' | 'username'>;
+  user?: Pick<User, 'id' | 'profileImage' | 'username'> | null;
 }
 
 export function FriendRequestNotification({
   className,
   onClick,
   user,
-}: FriendRequestNotificationProps): JSX.Element {
+}: FriendRequestNotificationProps): JSX.Element | null {
   const [acceptFriendRequest, { loading: acceptingFriendRequest }] =
     useMutation<AcceptFriendRequestResponse, FriendRequestVariables>(
       ACCEPT_FRIEND_REQUEST_MUTATION,
       {
         onCompleted({ acceptFriendRequest }) {
-          if (!acceptFriendRequest) return;
+          if (!acceptFriendRequest || !user) return;
 
           toast.success(
             `Has aceptado la solicitud de amistad de ${user.username}`,
@@ -43,7 +44,7 @@ export function FriendRequestNotification({
       DECLINE_FRIEND_REQUEST_MUTATION,
       {
         onCompleted({ declineFriendRequest }) {
-          if (!declineFriendRequest) return;
+          if (!declineFriendRequest || !user) return;
 
           toast.success(
             `Has rechazado la solicitud de amistad de ${user.username}`,
@@ -52,9 +53,13 @@ export function FriendRequestNotification({
       },
     );
 
+  if (!user) return null;
+
   function handleAcceptFriendRequest(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     e.stopPropagation();
+
+    if (!user) return;
 
     return acceptFriendRequest({ variables: { userId: user.id } });
   }
@@ -63,53 +68,45 @@ export function FriendRequestNotification({
     e.preventDefault();
     e.stopPropagation();
 
+    if (!user) return;
+
     return declineFriendRequest({ variables: { userId: user.id } });
   }
 
   return (
     <Link
-      className={className}
+      className={clsx(className, 'flex flex-wrap items-start gap-2')}
       onClick={onClick}
       to={`/profile/${user.username}`}
     >
-      <Grid container alignItems="center" spacing={12}>
-        <Grid item>
-          <Avatar url={user.profileImage} />
-        </Grid>
-        <Grid item>
-          <Grid container direction="column" spacing={4}>
-            <Grid item>
-              <Typography>
-                <strong>{user.username}</strong> te ha enviado una solicitud de
-                amistad
-              </Typography>
-            </Grid>
-            <Grid item>
-              <Grid container spacing={8} justifyContent="flex-end">
-                <Grid item>
-                  <Button
-                    loading={acceptingFriendRequest || decliningFriendRequest}
-                    onClick={handleAcceptFriendRequest}
-                    size="extra-small"
-                  >
-                    Aceptar
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button
-                    color="error"
-                    loading={acceptingFriendRequest || decliningFriendRequest}
-                    onClick={handleDeclineFriendRequest}
-                    size="extra-small"
-                  >
-                    Rechazar
-                  </Button>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
+      <img
+        alt={`${user.username}'s profile`}
+        className="avatar-normal"
+        src={user.profileImage}
+      />
+      <div className="flex-1">
+        <p className="tracking-wide">
+          <strong>{user.username}</strong> te ha enviado una solicitud de
+          amistad
+        </p>
+        <div className="flex items-center justify-end gap-1">
+          <Button
+            loading={acceptingFriendRequest || decliningFriendRequest}
+            onClick={handleAcceptFriendRequest}
+            size="extra-small"
+          >
+            Aceptar
+          </Button>
+          <Button
+            color="error"
+            loading={acceptingFriendRequest || decliningFriendRequest}
+            onClick={handleDeclineFriendRequest}
+            size="extra-small"
+          >
+            Rechazar
+          </Button>
+        </div>
+      </div>
     </Link>
   );
 }
