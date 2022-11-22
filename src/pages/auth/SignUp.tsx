@@ -79,7 +79,7 @@ export default function SignUp(): JSX.Element {
           label: (
             <>
               Acepto los{' '}
-              <Link target="_blank" to={TERMS_ROUTE}>
+              <Link className="underline" target="_blank" to={TERMS_ROUTE}>
                 Términos y Condiciones
               </Link>
             </>

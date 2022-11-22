@@ -9,8 +9,10 @@ import {
 } from 'react-hook-form';
 
 export interface CheckboxProps<TForm extends FieldValues> {
+  className?: string;
   control: Control<TForm>;
   defaultValue?: PathValue<TForm, Path<TForm>>;
+  fullWidth?: boolean;
   id: string;
   label: React.ReactNode;
   name: Path<TForm>;
@@ -20,8 +22,10 @@ export interface CheckboxProps<TForm extends FieldValues> {
 }
 
 export function Checkbox<TForm extends FieldValues>({
+  className,
   control,
   defaultValue,
+  fullWidth = false,
   id,
   label,
   name,
@@ -48,7 +52,13 @@ export function Checkbox<TForm extends FieldValues>({
         required: { message: 'Campo requerido', value: required },
       }}
       render={({ field: { onChange, value }, fieldState: { error } }) => (
-        <div className="flex items-center gap-[8px]" id={id} style={style}>
+        <div
+          className={clsx(className, 'flex items-center gap-[8px]', {
+            'w-full': fullWidth,
+          })}
+          id={id}
+          style={style}
+        >
           <input
             readOnly
             checked={value}

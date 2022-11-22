@@ -53,7 +53,13 @@ export function AuthTemplate<TForm extends FieldValues>({
 
             if (props.type === 'checkbox') {
               return (
-                <Checkbox {...props} key={key} style={{ marginLeft: 16 }} />
+                <Checkbox
+                  {...props}
+                  fullWidth
+                  className="pl-[18px]"
+                  key={key}
+                  style={{ marginLeft: 16 }}
+                />
               );
             }
 
