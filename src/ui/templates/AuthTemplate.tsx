@@ -35,11 +35,11 @@ export function AuthTemplate<TForm extends FieldValues>({
   title,
 }: AuthTemplateProps<TForm>) {
   return (
-    <>
+    <div className="min-h-[100vh] flex flex-col">
       <Header auth={{ navButtons }} />
       <section
         className={clsx(
-          'flex flex-row flex-wrap items-center justify-evenly gap-3 lg:gap-5',
+          'flex-1 flex flex-row flex-wrap items-center justify-evenly gap-3 lg:gap-5',
           'px-2 sm:px-5 pb-3 sm:pb-8 pt-2 sm:pt-3',
         )}
       >
@@ -76,6 +76,6 @@ export function AuthTemplate<TForm extends FieldValues>({
         </figure>
       </section>
       <Footer />
-    </>
+    </div>
   );
 }
