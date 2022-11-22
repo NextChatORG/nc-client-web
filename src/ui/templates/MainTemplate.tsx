@@ -17,7 +17,9 @@ export function MainTemplate({
   return (
     <div className="flex">
       <Sidebar
-        withHeader={typeof header === 'object' || typeof header === 'boolean'}
+        withHeader={
+          typeof header === 'object' || (typeof header === 'boolean' && header)
+        }
       />
       <section
         className={clsx('h-[100vh] flex-1 flex flex-wrap content-start gap-2', {
