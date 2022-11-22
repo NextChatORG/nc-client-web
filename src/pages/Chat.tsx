@@ -41,7 +41,9 @@ export default function Chat(): JSX.Element {
               />
             ))
           ) : (
-            <p className="m-auto text-body">No tienes conversaciones</p>
+            <p className="pt-1 text-body text-center">
+              No tienes conversaciones
+            </p>
           )}
         </section>
         {chatId ? (
