@@ -41,28 +41,30 @@ export function MessagePreview({
         className="avatar-normal"
         src={user.profileImage}
       />
-      <div className="flex-1 flex flex-wrap items-center justify-between gap-y-[2px]">
-        <h6 className="text-[18px] font-medium tracking-wide">
-          {user.username}
-        </h6>
-        <span className="text-[12px]">
-          {messageDateDaysDiff === 1
-            ? 'Ayer'
-            : format(
-                new Date(data.lastMessage.createdAt),
-                messageDateDaysDiff === 0
-                  ? 'hh:mm a'
-                  : `dd/MM${messageDateYearsDiff === 0 ? '' : '/yy'}`,
-              )}
-        </span>
-        <div className="basis-full" />
-        <p className="basis-10/12 text-body">
-          {data.lastMessage.senderId === meData.id ? 'Tú: ' : null}
-          {data.lastMessage.content}
-        </p>
-        {Boolean(data.unread) && (
-          <span className="badge-normal bg-primary">{data.unread}</span>
-        )}
+      <div className="flex-1">
+        <div className="flex items-center justify-between">
+          <h6 className="text-lg font-medium tracking-wide">{user.username}</h6>
+          <span className="text-xs tracking-wide">
+            {messageDateDaysDiff === 1
+              ? 'Ayer'
+              : format(
+                  new Date(data.lastMessage.createdAt),
+                  messageDateDaysDiff === 0
+                    ? 'hh:mm a'
+                    : `dd/MM${messageDateYearsDiff === 0 ? '' : '/yy'}`,
+                )}
+          </span>
+        </div>
+        <div className="flex items-start justify-between gap-x-1">
+          <p className="flex-1 text-sm break-all tracking-wide">
+            {data.lastMessage.senderId === meData.id ? 'Tú: ' : null}
+            {data.lastMessage.content.slice(0, 80)}
+            {data.lastMessage.content.length > 80 && '...'}
+          </p>
+          {Boolean(data.unread) && (
+            <span className="badge-normal bg-primary">{data.unread}</span>
+          )}
+        </div>
       </div>
     </Link>
   );
