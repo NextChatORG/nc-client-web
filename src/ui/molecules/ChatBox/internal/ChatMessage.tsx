@@ -44,7 +44,7 @@ export default function ChatMessage({
           >
             <p
               className={clsx(
-                'max-w-[70%] px-1 py-[6px] text-[14px] tracking-wide',
+                'max-w-[70%] px-1 py-[6px] text-sm tracking-wide',
                 isMe ? 'bg-dark-500' : 'bg-dark-800',
                 isMe
                   ? i === 0
@@ -60,7 +60,7 @@ export default function ChatMessage({
             {i === data.length - 1 && (
               <span
                 className={clsx(
-                  'text-[10px] tracking-wide',
+                  'text-xs tracking-wide',
                   isMe ? 'mr-[4px]' : 'ml-[4px]',
                 )}
               >

@@ -28,7 +28,9 @@ export default function ChatDetails({
         className="avatar-big mx-auto"
         src={user.profileImage}
       />
-      <h4 className="mt-1 text-center text-title">{user.username}</h4>
+      <h4 className="mt-1 text-center text-xl font-medium tracking-wide xl:mt-2">
+        {user.username}
+      </h4>
       <Button
         fullWidth
         link

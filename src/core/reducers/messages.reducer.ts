@@ -122,7 +122,7 @@ export function messagesReducer(
           if (chatId === currentChatId) {
             messages = messages.map((message) => {
               if (!message.read && message.senderId !== action.payload.userId) {
-                message.read = true;
+                return { ...message, read: true };
               }
 
               return message;

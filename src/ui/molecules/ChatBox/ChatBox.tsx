@@ -66,7 +66,7 @@ export function ChatBox({
         />
         <div
           className={clsx(
-            'overflow-y-auto max-h-[calc(100%_-_69px_-_72px)] pb-1',
+            'overflow-y-auto h-full max-h-[calc(100%_-_69px_-_72px)] pb-1',
             'scrollbar-thin scrollbar-thumb-dark-800 hover:scrollbar-thumb-dark-900',
           )}
           ref={messagesContentRef}
