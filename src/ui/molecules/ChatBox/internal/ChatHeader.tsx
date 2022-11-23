@@ -33,7 +33,7 @@ export default function ChatHeader({
             className="avatar-normal"
             src={user.profileImage}
           />
-          <p className="text-subtitle">{user.username}</p>
+          <p className="text-lg font-medium tracking-wide">{user.username}</p>
         </button>
         <Button color="white" onClick={onOpenDetailsClick} variant="icon">
           <MoreVertIcon size="1.25em" />
